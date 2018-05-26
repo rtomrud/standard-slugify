@@ -1,7 +1,7 @@
 # standard-slugify
 
 [![npm version](https://img.shields.io/npm/v/standard-slugify.svg?style=flat-square)](https://www.npmjs.com/package/standard-slugify)
-[![Build Status](https://img.shields.io/travis/rtomrud/standard-slugify/master.svg?style=flat-square)](https://travis-ci.org/rtomrud/standard-slugify)
+[![Build Status](https://travis-ci.com/rtomrud/standard-slugify.svg?branch=master)](https://travis-ci.com/rtomrud/standard-slugify)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 Converts a string into a slug safe for URIs or filenames
