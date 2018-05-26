@@ -46,7 +46,6 @@
     "prettier": "1.12.1",
     "tape": "^4.9.0"
   },
-  "private": true,
   "eslintConfig": {
     "extends": [
       "./node_modules/eslint-config-pretty-strict/index.js"
