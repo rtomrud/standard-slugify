@@ -13,7 +13,7 @@ Converts a string into a slug safe for URIs or filenames
 ## Installing
 
 ```bash
-npm install --save standard-slugify
+npm install standard-slugify
 ```
 
 ## Using
