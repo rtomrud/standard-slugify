@@ -247,14 +247,6 @@ test("standard-slugify with Cyrillic characters from WGL4", ({
   end();
 });
 
-test("standard-slugify with Cyrillic Ukrainian characters", ({
-  equal,
-  end
-}) => {
-  equal(slugify("Європе́йський"), "ievropeiskyi", "transliterates `и` as `y`");
-  end();
-});
-
 test("standard-slugify with Latin Extended Additional characters from ISO-8859-14", ({
   equal,
   end

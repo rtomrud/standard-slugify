@@ -392,9 +392,6 @@ const replacements = {
   ﬂ: "fl" // LATIN SMALL LIGATURE FL
 };
 
-const adaptIfUkrainian = string =>
-  /і|ї|є|ґ/i.test(string) ? string.replace(/и/gi, "y") : string;
-
 // Hack to make TypeScript's type inference work properly
 const initReplacements = {};
 
@@ -421,7 +418,7 @@ export default function(string = "", customReplacements = initReplacements) {
           : customReplacement;
       };
 
-  return adaptIfUkrainian(string)
+  return string
     .toLowerCase()
     .replace(/[\s\S]/g, replacer)
     .replace(/-+/g, "-")
