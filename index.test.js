@@ -107,8 +107,8 @@ test("standard-slugify with rfc3986 unreserved US-ASCII characters", ({
     "lowercases the uppercase alphabetic characters"
   );
   equal(slugify("0123456789"), "0123456789", "keeps digit characters");
-  equal(slugify("a-b"), "a-b", "keeps `-`");
-  equal(slugify("a_b"), "a_b", "keeps `_`");
+  equal(slugify("a-b"), "a-b", "keeps `-` when it isn't leading or trailing");
+  equal(slugify("a_b"), "a_b", "keeps `_` when it isn't leading or trailing");
   equal(slugify("."), "", "removes `.` as it's not safe for file systems");
   equal(slugify("~"), "", "removes `~` as it's not safe for file systems");
   end();
