@@ -254,7 +254,42 @@ test("standard-slugify with Greek and Coptic alphabetic characters from ISO-8859
   equal,
   end
 }) => {
-  equal(slugify("δημοκρατία"), "dimokratia", "transliterates Greek");
+  equal(slugify("ΐ"), "i", "transliterates `ΐ` as `i`");
+  equal(slugify("ά"), "a", "transliterates `ά` as `a`");
+  equal(slugify("έ"), "e", "transliterates `έ` as `e`");
+  equal(slugify("ή"), "i", "transliterates `ή` as `i`");
+  equal(slugify("ί"), "i", "transliterates `ί` as `i`");
+  equal(slugify("ΰ"), "y", "transliterates `ΰ` as `y`");
+  equal(slugify("α"), "a", "transliterates `α` as `a`");
+  equal(slugify("β"), "v", "transliterates `β` as `v`");
+  equal(slugify("γ"), "g", "transliterates `γ` as `g`");
+  equal(slugify("δ"), "d", "transliterates `δ` as `d`");
+  equal(slugify("ε"), "e", "transliterates `ε` as `e`");
+  equal(slugify("ζ"), "z", "transliterates `ζ` as `z`");
+  equal(slugify("η"), "i", "transliterates `η` as `i`");
+  equal(slugify("θ"), "th", "transliterates `θ` as `th`");
+  equal(slugify("ι"), "i", "transliterates `ι` as `i`");
+  equal(slugify("κ"), "k", "transliterates `κ` as `k`");
+  equal(slugify("λ"), "l", "transliterates `λ` as `l`");
+  equal(slugify("μ"), "m", "transliterates `μ` as `m`");
+  equal(slugify("ν"), "n", "transliterates `ν` as `n`");
+  equal(slugify("ξ"), "x", "transliterates `ξ` as `x`");
+  equal(slugify("ο"), "o", "transliterates `ο` as `o`");
+  equal(slugify("π"), "p", "transliterates `π` as `p`");
+  equal(slugify("ρ"), "r", "transliterates `ρ` as `r`");
+  equal(slugify("ς"), "s", "transliterates `ς` as `s`");
+  equal(slugify("σ"), "s", "transliterates `σ` as `s`");
+  equal(slugify("τ"), "t", "transliterates `τ` as `t`");
+  equal(slugify("υ"), "y", "transliterates `υ` as `y`");
+  equal(slugify("φ"), "f", "transliterates `φ` as `f`");
+  equal(slugify("χ"), "ch", "transliterates `χ` as `ch`");
+  equal(slugify("ψ"), "ps", "transliterates `ψ` as `ps`");
+  equal(slugify("ω"), "o", "transliterates `ω` as `o`");
+  equal(slugify("ϊ"), "i", "transliterates `ϊ` as `i`");
+  equal(slugify("ϋ"), "y", "transliterates `ϋ` as `y`");
+  equal(slugify("ό"), "o", "transliterates `ό` as `o`");
+  equal(slugify("ύ"), "y", "transliterates `ύ` as `y`");
+  equal(slugify("ώ"), "o", "transliterates `ώ` as `o`");
   end();
 });
 
