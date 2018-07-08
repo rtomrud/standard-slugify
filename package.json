@@ -27,8 +27,7 @@
     "url": "https://github.com/rtomrud/standard-slugify.git"
   },
   "scripts": {
-    "cov": "nyc --reporter html tape -r esm index.test.js",
-    "test": "nyc --silent tape -r esm index.test.js | faucet && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
+    "test": "nyc --reporter html -r esm index.test.js | faucet && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
     "posttest": "eslint *.js"
   },
   "devDependencies": {
