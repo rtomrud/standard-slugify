@@ -243,7 +243,7 @@ test("standard-slugify with non-leading or non-trailing joiners", ({
   equal(
     slugify("a__b"),
     "a_b",
-    "converts multiple sequential LOW LINE characters to 1"
+    "converts multiple sequential LOW LINE characters to 1 LOW LINE"
   );
   equal(slugify("a⁠b"), "a_b", "converts WORD JOINER to LOW LINE");
   end();
