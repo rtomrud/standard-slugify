@@ -24,16 +24,15 @@ test("standard-slugify with first argument of wrong type", ({
 });
 
 test("standard-slugify with optional argument of wrong type", ({
-  equal,
+  throws,
   end
 }) => {
-  equal(slugify("", true), "");
-  equal(slugify("", false), "");
-  equal(slugify("", null), "");
-  equal(slugify("", 0), "");
-  equal(slugify("", ""), "");
-  equal(slugify("", []), "");
-  equal(slugify("", () => {}), "");
+  throws(() => slugify("", true), TypeError);
+  throws(() => slugify("", false), TypeError);
+  throws(() => slugify("", null), TypeError);
+  throws(() => slugify("", 0), TypeError);
+  throws(() => slugify("", ""), TypeError);
+  throws(() => slugify("", () => {}), TypeError);
   end();
 });
 

@@ -408,6 +408,10 @@ const initReplacements = {};
  * MES-1 and WGL4. Non-supported characters are removed by default.
  */
 export default function(string = "", customReplacements = initReplacements) {
+  if (typeof customReplacements !== "object" || customReplacements == null) {
+    throw TypeError();
+  }
+
   const shouldUseDefaultReplacer = customReplacements === initReplacements;
   const replacer = shouldUseDefaultReplacer
     ? match => replacements[match] || ""
