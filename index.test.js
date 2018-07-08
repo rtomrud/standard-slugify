@@ -37,6 +37,14 @@ test("standard-slugify with optional argument of wrong type", ({
   end();
 });
 
+test("standard-slugify with rfc3986 percent-encoding US-ASCII character", ({
+  equal,
+  end
+}) => {
+  equal(slugify("%"), "", "removes percent-encoding character `%`");
+  end();
+});
+
 test("standard-slugify with rfc3986 reserved gen-delims US-ASCII characters", ({
   equal,
   end
@@ -103,14 +111,6 @@ test("standard-slugify with rfc3986 unreserved US-ASCII characters", ({
   equal(slugify("a_b"), "a_b", "keeps `_`");
   equal(slugify("."), "", "removes `.` as it's not safe for file systems");
   equal(slugify("~"), "", "removes `~` as it's not safe for file systems");
-  end();
-});
-
-test("standard-slugify with rfc3986 percent encoding character", ({
-  equal,
-  end
-}) => {
-  equal(slugify("%"), "", "removes `%` characters");
   end();
 });
 
