@@ -258,11 +258,58 @@ test("standard-slugify with Greek and Coptic alphabetic characters from ISO-8859
   end();
 });
 
+// eslint-disable-next-line max-lines-per-function
 test("standard-slugify with Cyrillic alphabetic characters from ISO-8859-5", ({
   equal,
   end
 }) => {
-  equal(slugify("артіст"), "artist", "transliterates Cyrillic");
+  equal(slugify("а"), "a", "transliterates `а` as `a`");
+  equal(slugify("б"), "b", "transliterates `б` as `b`");
+  equal(slugify("в"), "v", "transliterates `в` as `v`");
+  equal(slugify("г"), "g", "transliterates `г` as `g`");
+  equal(slugify("е"), "e", "transliterates `е` as `e`");
+  equal(slugify("ж"), "zh", "transliterates `ж` as `zh`");
+  equal(slugify("з"), "z", "transliterates `з` as `z`");
+  equal(slugify("и"), "i", "transliterates `и` as `i`");
+  equal(slugify("й"), "i", "transliterates `й` as `i`");
+  equal(slugify("к"), "k", "transliterates `к` as `k`");
+  equal(slugify("л"), "l", "transliterates `л` as `l`");
+  equal(slugify("м"), "m", "transliterates `м` as `m`");
+  equal(slugify("н"), "n", "transliterates `н` as `n`");
+  equal(slugify("о"), "o", "transliterates `о` as `o`");
+  equal(slugify("п"), "p", "transliterates `п` as `p`");
+  equal(slugify("р"), "r", "transliterates `р` as `r`");
+  equal(slugify("с"), "s", "transliterates `с` as `s`");
+  equal(slugify("т"), "t", "transliterates `т` as `t`");
+  equal(slugify("у"), "u", "transliterates `у` as `u`");
+  equal(slugify("ф"), "f", "transliterates `ф` as `f`");
+  equal(slugify("х"), "kh", "transliterates `х` as `kh`");
+  equal(slugify("ц"), "ts", "transliterates `ц` as `ts`");
+  equal(slugify("ч"), "ch", "transliterates `ч` as `ch`");
+  equal(slugify("ш"), "sh", "transliterates `ш` as `sh`");
+  equal(slugify("щ"), "shch", "transliterates `щ` as `shch`");
+  equal(slugify("ъ"), "ie", "transliterates `ъ` as `ie`");
+  equal(slugify("ы"), "y", "transliterates `ы` as `y`");
+  equal(slugify("ь"), "", "transliterates `ь` as ``");
+  equal(slugify("э"), "e", "transliterates `э` as `e`");
+  equal(slugify("ю"), "iu", "transliterates `ю` as `iu`");
+  equal(slugify("я"), "ia", "transliterates `я` as `ia`");
+  equal(slugify("ѐ"), "e", "transliterates `ѐ` as `e`");
+  equal(slugify("ё"), "e", "transliterates `ё` as `e`");
+  equal(slugify("ђ"), "d", "transliterates `ђ` as `d`");
+  equal(slugify("ѓ"), "g", "transliterates `ѓ` as `g`");
+  equal(slugify("є"), "ie", "transliterates `є` as `ie`");
+  equal(slugify("ѕ"), "dz", "transliterates `ѕ` as `dz`");
+  equal(slugify("і"), "i", "transliterates `і` as `i`");
+  equal(slugify("ї"), "i", "transliterates `ї` as `i`");
+  equal(slugify("ј"), "j", "transliterates `ј` as `j`");
+  equal(slugify("љ"), "lj", "transliterates `љ` as `lj`");
+  equal(slugify("њ"), "nj", "transliterates `њ` as `nj`");
+  equal(slugify("ћ"), "c", "transliterates `ћ` as `c`");
+  equal(slugify("ќ"), "k", "transliterates `ќ` as `k`");
+  equal(slugify("ѝ"), "i", "transliterates `ѝ` as `i`");
+  equal(slugify("ў"), "u", "transliterates `ў` as `u`");
+  equal(slugify("џ"), "dz", "transliterates `џ` as `dz`");
   end();
 });
 
