@@ -84,11 +84,12 @@ test("standard-slugify with rfc3986 forbidden US-ASCII characters", ({
   equal(slugify('"'), "", 'removes rfc3986 forbidden character `"`');
   equal(slugify("<"), "", "removes rfc3986 forbidden character `<`");
   equal(slugify(">"), "", "removes rfc3986 forbidden character `>`");
+  equal(slugify("\\"), "", "removes rfc3986 forbidden character `\\`");
   equal(slugify("^"), "", "removes rfc3986 forbidden character `^`");
   equal(slugify("`"), "", "removes rfc3986 forbidden character ```");
   equal(slugify("{"), "", "removes rfc3986 forbidden character `{`");
+  equal(slugify("|"), "", "removes rfc3986 forbidden character `|`");
   equal(slugify("}"), "", "removes rfc3986 forbidden character `}`");
-  equal(slugify("\\"), "", "removes rfc3986 forbidden character `\\`");
   end();
 });
 
