@@ -270,7 +270,7 @@ test("standard-slugify with Cyrillic characters from WGL4", ({
   equal,
   end
 }) => {
-  equal(slugify("ґава"), "gava", "transliterates `ґ` to `g`");
+  equal(slugify("ґава"), "gava", "transliterates `ґ` as `g`");
   end();
 });
 
