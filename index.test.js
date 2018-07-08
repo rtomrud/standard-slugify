@@ -114,7 +114,10 @@ test("standard-slugify with rfc3986 unreserved US-ASCII characters", ({
   end();
 });
 
-test("standard-slugify with separators", ({ equal, end }) => {
+test("standard-slugify with non-leading or non-trailing separators", ({
+  equal,
+  end
+}) => {
   equal(slugify("a-b"), "a-b", "keeps HYPHEN-MINUS character");
   equal(
     slugify("a---b"),
@@ -160,7 +163,10 @@ test("standard-slugify with separators", ({ equal, end }) => {
   end();
 });
 
-test("standard-slugify with joiners", ({ equal, end }) => {
+test("standard-slugify with non-leading or non-trailing joiners", ({
+  equal,
+  end
+}) => {
   equal(slugify("a_b"), "a_b", "keeps LOW LINE character");
   equal(
     slugify("a__b"),
@@ -171,7 +177,7 @@ test("standard-slugify with joiners", ({ equal, end }) => {
   end();
 });
 
-test("standard-slugify with leading or trailing non-alphanumeric characters", ({
+test("standard-slugify with leading or trailing separators and joiners", ({
   equal,
   end
 }) => {
