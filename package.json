@@ -12,9 +12,9 @@
     "url",
     "urlify"
   ],
-  "homepage": "https:github.com/rtomrud/standard-slugify#readme",
+  "homepage": "https://github.com/rtomrud/standard-slugify#readme",
   "bugs": {
-    "url": "https:github.com/rtomrud/standard-slugify/issues"
+    "url": "https://github.com/rtomrud/standard-slugify/issues"
   },
   "license": "MIT",
   "author": "Artem Rudenko <rtomrud@gmail.com>",
