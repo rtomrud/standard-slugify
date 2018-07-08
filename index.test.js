@@ -209,10 +209,10 @@ test("standard-slugify with Latin-1 Supplement alphabetic characters", ({
     "aaaaaaceeeeiiiidnooooouuuuyy",
     "transliterates Latin-1 Supplement alphabetic characters with diacritics"
   );
-  equal(slugify("straße"), "strasse", "transliterates `ß` as `ss`");
-  equal(slugify("vitæ"), "vitae", "transliterates `æ` as `ae`");
-  equal(slugify("Grø̈nland"), "groenland", "transliterates `ø` as `oe`");
-  equal(slugify("þorn"), "thorn", "transliterates `þ` as `th`");
+  equal(slugify("ß"), "ss", "transliterates `ß` as `ss`");
+  equal(slugify("æ"), "ae", "transliterates `æ` as `ae`");
+  equal(slugify("ø̈"), "oe", "transliterates `ø` as `oe`");
+  equal(slugify("þ"), "th", "transliterates `þ` as `th`");
   end();
 });
 
@@ -225,8 +225,8 @@ test("standard-slugify with Latin Extended-A alphabetic characters", ({
     "aaaccccddeeeeegggghhiiiiijkklllllnnnnnooorrrsssstttuuuuuuwyzzzs",
     "transliterates Latin Extended-A alphabetic non-ligature characters"
   );
-  equal(slugify("Snĳder"), "snijder", "transliterates `ĳ` as `ij`");
-  equal(slugify("phœnix"), "phoenix", "transliterates `œ` as `oe`");
+  equal(slugify("ĳ"), "ij", "transliterates `ĳ` as `ij`");
+  equal(slugify("œ"), "oe", "transliterates `œ` as `oe`");
   end();
 });
 
