@@ -92,21 +92,93 @@ test("standard-slugify with rfc3986 forbidden US-ASCII characters", ({
   end();
 });
 
-test("standard-slugify with rfc3986 unreserved US-ASCII characters", ({
+test("standard-slugify with rfc3986 unreserved US-ASCII uppercase letters", ({
   equal,
   end
 }) => {
-  equal(
-    slugify("abcdefghijklmnopqrstuvwxyz"),
-    "abcdefghijklmnopqrstuvwxyz",
-    "keeps lowercase alphabetic characters"
-  );
-  equal(
-    slugify("ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
-    "abcdefghijklmnopqrstuvwxyz",
-    "lowercases the uppercase alphabetic characters"
-  );
-  equal(slugify("0123456789"), "0123456789", "keeps digit characters");
+  equal(slugify("A"), "a", "lowercases uppercase letter `A`");
+  equal(slugify("B"), "b", "lowercases uppercase letter `B`");
+  equal(slugify("C"), "c", "lowercases uppercase letter `C`");
+  equal(slugify("D"), "d", "lowercases uppercase letter `D`");
+  equal(slugify("E"), "e", "lowercases uppercase letter `E`");
+  equal(slugify("F"), "f", "lowercases uppercase letter `F`");
+  equal(slugify("G"), "g", "lowercases uppercase letter `G`");
+  equal(slugify("H"), "h", "lowercases uppercase letter `H`");
+  equal(slugify("I"), "i", "lowercases uppercase letter `I`");
+  equal(slugify("J"), "j", "lowercases uppercase letter `J`");
+  equal(slugify("K"), "k", "lowercases uppercase letter `K`");
+  equal(slugify("L"), "l", "lowercases uppercase letter `L`");
+  equal(slugify("M"), "m", "lowercases uppercase letter `M`");
+  equal(slugify("N"), "n", "lowercases uppercase letter `N`");
+  equal(slugify("O"), "o", "lowercases uppercase letter `O`");
+  equal(slugify("P"), "p", "lowercases uppercase letter `P`");
+  equal(slugify("Q"), "q", "lowercases uppercase letter `Q`");
+  equal(slugify("R"), "r", "lowercases uppercase letter `R`");
+  equal(slugify("S"), "s", "lowercases uppercase letter `S`");
+  equal(slugify("T"), "t", "lowercases uppercase letter `T`");
+  equal(slugify("U"), "u", "lowercases uppercase letter `U`");
+  equal(slugify("V"), "v", "lowercases uppercase letter `V`");
+  equal(slugify("W"), "w", "lowercases uppercase letter `W`");
+  equal(slugify("X"), "x", "lowercases uppercase letter `X`");
+  equal(slugify("Y"), "y", "lowercases uppercase letter `Y`");
+  equal(slugify("Z"), "z", "lowercases uppercase letter `Z`");
+  end();
+});
+
+test("standard-slugify with rfc3986 unreserved US-ASCII lowercase letters", ({
+  equal,
+  end
+}) => {
+  equal(slugify("a"), "a", "keeps lowercase letter `a`");
+  equal(slugify("b"), "b", "keeps lowercase letter `b`");
+  equal(slugify("c"), "c", "keeps lowercase letter `c`");
+  equal(slugify("d"), "d", "keeps lowercase letter `d`");
+  equal(slugify("e"), "e", "keeps lowercase letter `e`");
+  equal(slugify("f"), "f", "keeps lowercase letter `f`");
+  equal(slugify("g"), "g", "keeps lowercase letter `g`");
+  equal(slugify("h"), "h", "keeps lowercase letter `h`");
+  equal(slugify("i"), "i", "keeps lowercase letter `i`");
+  equal(slugify("j"), "j", "keeps lowercase letter `j`");
+  equal(slugify("k"), "k", "keeps lowercase letter `k`");
+  equal(slugify("l"), "l", "keeps lowercase letter `l`");
+  equal(slugify("m"), "m", "keeps lowercase letter `m`");
+  equal(slugify("n"), "n", "keeps lowercase letter `n`");
+  equal(slugify("o"), "o", "keeps lowercase letter `o`");
+  equal(slugify("p"), "p", "keeps lowercase letter `p`");
+  equal(slugify("q"), "q", "keeps lowercase letter `q`");
+  equal(slugify("r"), "r", "keeps lowercase letter `r`");
+  equal(slugify("s"), "s", "keeps lowercase letter `s`");
+  equal(slugify("t"), "t", "keeps lowercase letter `t`");
+  equal(slugify("u"), "u", "keeps lowercase letter `u`");
+  equal(slugify("v"), "v", "keeps lowercase letter `v`");
+  equal(slugify("w"), "w", "keeps lowercase letter `w`");
+  equal(slugify("x"), "x", "keeps lowercase letter `x`");
+  equal(slugify("y"), "y", "keeps lowercase letter `y`");
+  equal(slugify("z"), "z", "keeps lowercase letter `z`");
+  end();
+});
+
+test("standard-slugify with rfc3986 unreserved US-ASCII decimal digits", ({
+  equal,
+  end
+}) => {
+  equal(slugify("0"), "0", "keeps decimal digit `0`");
+  equal(slugify("1"), "1", "keeps decimal digit `1`");
+  equal(slugify("2"), "2", "keeps decimal digit `2`");
+  equal(slugify("3"), "3", "keeps decimal digit `3`");
+  equal(slugify("4"), "4", "keeps decimal digit `4`");
+  equal(slugify("5"), "5", "keeps decimal digit `5`");
+  equal(slugify("6"), "6", "keeps decimal digit `6`");
+  equal(slugify("7"), "7", "keeps decimal digit `7`");
+  equal(slugify("8"), "8", "keeps decimal digit `8`");
+  equal(slugify("9"), "9", "keeps decimal digit `9`");
+  end();
+});
+
+test("standard-slugify with rfc3986 unreserved US-ASCII non-alphanumeric characters", ({
+  equal,
+  end
+}) => {
   equal(slugify("a-b"), "a-b", "keeps `-` when it isn't leading or trailing");
   equal(slugify("a_b"), "a_b", "keeps `_` when it isn't leading or trailing");
   equal(slugify("."), "", "removes `.` as it's not safe for file systems");
