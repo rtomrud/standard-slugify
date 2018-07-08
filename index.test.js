@@ -101,6 +101,8 @@ test("standard-slugify with rfc3986 unreserved US-ASCII characters", ({
   equal(slugify("0123456789"), "0123456789", "keeps digit characters");
   equal(slugify("a-b"), "a-b", "keeps `-`");
   equal(slugify("a_b"), "a_b", "keeps `_`");
+  equal(slugify("."), "", "removes `.` as it's not safe for file systems");
+  equal(slugify("~"), "", "removes `~` as it's not safe for file systems");
   end();
 });
 
