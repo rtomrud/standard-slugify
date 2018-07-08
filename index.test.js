@@ -37,12 +37,35 @@ test("standard-slugify with optional argument of wrong type", ({
   end();
 });
 
-test("standard-slugify with rfc3986 reserved US-ASCII characters", ({
+test("standard-slugify with rfc3986 reserved gen-delims US-ASCII characters", ({
   equal,
   end
 }) => {
-  equal(slugify(":/?#[]@"), "", "removes rfc3986 gen-delims");
-  equal(slugify("!$&'()*+,;="), "", "removes rfc3986 sub-delims");
+  equal(slugify(":"), "", "removes rfc3986 gen-delim `:`");
+  equal(slugify("/"), "", "removes rfc3986 gen-delim `/`");
+  equal(slugify("?"), "", "removes rfc3986 gen-delim `?`");
+  equal(slugify("#"), "", "removes rfc3986 gen-delim `#`");
+  equal(slugify("["), "", "removes rfc3986 gen-delim `[`");
+  equal(slugify("]"), "", "removes rfc3986 gen-delim `]`");
+  equal(slugify("@"), "", "removes rfc3986 gen-delim `@`");
+  end();
+});
+
+test("standard-slugify with rfc3986 reserved sub-delims US-ASCII characters", ({
+  equal,
+  end
+}) => {
+  equal(slugify("!"), "", "removes rfc3986 sub-delim `!`");
+  equal(slugify("$"), "", "removes rfc3986 sub-delim `$`");
+  equal(slugify("&"), "", "removes rfc3986 sub-delim `&`");
+  equal(slugify("'"), "", "removes rfc3986 sub-delim `'`");
+  equal(slugify("("), "", "removes rfc3986 sub-delim `(`");
+  equal(slugify(")"), "", "removes rfc3986 sub-delim `)`");
+  equal(slugify("*"), "", "removes rfc3986 sub-delim `*`");
+  equal(slugify("+"), "", "removes rfc3986 sub-delim `+`");
+  equal(slugify(","), "", "removes rfc3986 sub-delim `,`");
+  equal(slugify(";"), "", "removes rfc3986 sub-delim `;`");
+  equal(slugify("="), "", "removes rfc3986 sub-delim `=`");
   end();
 });
 
@@ -50,7 +73,14 @@ test("standard-slugify with rfc3986 forbidden US-ASCII characters", ({
   equal,
   end
 }) => {
-  equal(slugify('"<>^`{}\\'), "", "removes forbidden rfc3986 characters");
+  equal(slugify('"'), "", 'removes rfc3986 forbidden character `"`');
+  equal(slugify("<"), "", "removes rfc3986 forbidden character `<`");
+  equal(slugify(">"), "", "removes rfc3986 forbidden character `>`");
+  equal(slugify("^"), "", "removes rfc3986 forbidden character `^`");
+  equal(slugify("`"), "", "removes rfc3986 forbidden character ```");
+  equal(slugify("{"), "", "removes rfc3986 forbidden character `{`");
+  equal(slugify("}"), "", "removes rfc3986 forbidden character `}`");
+  equal(slugify("\\"), "", "removes rfc3986 forbidden character `\\`");
   end();
 });
 
