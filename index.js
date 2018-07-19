@@ -424,7 +424,5 @@ export default function(string = "", customReplacements = initReplacements) {
   return string
     .toLowerCase()
     .replace(/[\s\S]/g, replacer)
-    .replace(/-+/g, "-")
-    .replace(/_+/g, "_")
-    .replace(/^[-_]+|[-_]+$/g, "");
+    .replace(/^-+|-+$/g, "");
 }

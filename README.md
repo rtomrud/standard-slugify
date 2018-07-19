@@ -54,9 +54,7 @@ The keys of the custom replacements object must be one character long, but the v
 
 * Converts uppercase characters to lowercase
 * Converts all separators to `-` (HYPHEN-MINUS), including the [C0 Controls and ASCII Punctuation](https://www.unicode.org/charts/PDF/U0000.pdf), [C1 Controls and Latin-1 Punctuation](https://www.unicode.org/charts/PDF/U0080.pdf), and [General Punctuation](https://www.unicode.org/charts/PDF/U2000.pdf) subsets of Unicode
-* Merges multiple sequential separators (e.g., `--`) into a single `-` (HYPHEN-MINUS)
-* Removes leading and trailing whitespace (e.g., ` `)
-* Removes leading and trailing separators (e.g., `-`)
+* Removes leading and trailing separators, e.g., `-` (HYPHEN-MINUS) or ` ` (SPACE)
 * Removes non-alphanumeric characters other than `-` (HYPHEN-MINUS) and `_` (LOW LINE)
 * Transliterates to US-ASCII the non-US-ASCII alphabetic characters included in the subsets of Unicode [Latin-1 Supplement](https://www.unicode.org/charts/PDF/U0080.pdf), [Latin Extended-A](https://www.unicode.org/charts/PDF/U0100.pdf), [Latin Extended-B](https://www.unicode.org/charts/PDF/U0180.pdf), [Greek and Coptic](https://www.unicode.org/charts/PDF/U0370.pdf), [Cyrillic](https://www.unicode.org/charts/PDF/U0400.pdf), [Latin Extended Additional](https://www.unicode.org/charts/PDF/U1E00.pdf) and [Alphabetic Presentation Forms](https://www.unicode.org/charts/PDF/UFB00.pdf)  that are also in ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1 or WGL4, transliterating according to [ISO/IEC 7501-3](https://www.icao.int/publications/Documents/9303_p3_cons_en.pdf) (Latin and Cyrillic) and [ISO 843](https://en.wikipedia.org/wiki/ISO_843) (Greek)
 * Allows specifying custom replacements, which override the default replacement in case of collision, and allow replacing one-to-any characters
