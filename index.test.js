@@ -231,11 +231,10 @@ test("standard-slugify with non-leading or non-trailing separators", ({
     "a-b",
     "converts MEDIUM MATHEMATICAL SPACE to HYPHEN-MINUS"
   );
-  equal(slugify("a⁠b"), "a_b", "converts WORD JOINER to HYPHEN-MINUS");
   end();
 });
 
-test("standard-slugify with non-leading or non-trailing joiners", ({
+test("standard-slugify with non-leading or non-trailing connectors", ({
   equal,
   end
 }) => {
@@ -245,11 +244,10 @@ test("standard-slugify with non-leading or non-trailing joiners", ({
     "a_b",
     "converts multiple sequential LOW LINE characters to 1 LOW LINE"
   );
-  equal(slugify("a⁠b"), "a_b", "converts WORD JOINER to LOW LINE");
   end();
 });
 
-test("standard-slugify with leading or trailing separators and joiners", ({
+test("standard-slugify with leading or trailing separators and connectors", ({
   equal,
   end
 }) => {
@@ -259,15 +257,15 @@ test("standard-slugify with leading or trailing separators and joiners", ({
   equal(slugify("--a⁠"), "a", "removes leading separators");
   equal(slugify("a--⁠"), "a", "removes trailing separators");
   equal(slugify("--a--⁠"), "a", "removes leading and trailing separators");
-  equal(slugify("__a⁠"), "a", "removes leading joiners");
-  equal(slugify("a__⁠"), "a", "removes trailing joiners");
-  equal(slugify("__a__⁠"), "a", "removes leading and trailing joiners");
-  equal(slugify("_-a⁠"), "a", "removes leading separators and joiners");
-  equal(slugify("a-_⁠"), "a", "removes trailing separators and joiners");
+  equal(slugify("__a⁠"), "a", "removes leading connectors");
+  equal(slugify("a__⁠"), "a", "removes trailing connectors");
+  equal(slugify("__a__⁠"), "a", "removes leading and trailing connectors");
+  equal(slugify("_-a⁠"), "a", "removes leading separators and connectors");
+  equal(slugify("a-_⁠"), "a", "removes trailing separators and connectors");
   equal(
     slugify("_-a-_⁠"),
     "a",
-    "removes leading and trailing separators and joiners"
+    "removes leading and trailing separators and connectors"
   );
   end();
 });

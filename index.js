@@ -379,7 +379,6 @@ const replacements = {
   "\u2029": "-", // PSEP: PARAGRAPH SEPARATOR
   " ": "-", // NNBSP: NARROW NO-BREAK SPACE (nnbsp)
   " ": "-", // MMSP: MEDIUM MATHEMATICAL SPACE (mmsp)
-  "⁠": "_", // WJ: WORD JOINER (wj)
 
   /**
    * Alphabetic Presentation Forms
@@ -397,10 +396,10 @@ const initReplacements = {};
 
 /**
  * Returns a slugified version of the specified string, where non-alphanumeric
- * characters are removed, separators are replaced with `-`, joiners are
- * replaced with `_`, alphabetic characters are lowercased, and non-US-ASCII
- * alphabetic characters are transliterated to US-ASCII. You can specify custom
- * replacements by passing an object as the second argument.
+ * characters are removed, separators are replaced with `-`, alphabetic
+ * characters are lowercased, and non-US-ASCII alphabetic characters are
+ * transliterated to US-ASCII. You can specify custom replacements by passing
+ * an object as the second argument.
  *
  * The returned string is safe for use in URIs and filenames.
  *
