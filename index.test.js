@@ -179,10 +179,10 @@ test("standard-slugify with rfc3986 unreserved US-ASCII non-alphanumeric charact
   equal,
   end
 }) => {
-  equal(slugify("a-b"), "a-b", "keeps `-` when it isn't leading or trailing");
-  equal(slugify("a_b"), "a_b", "keeps `_` when it isn't leading or trailing");
-  equal(slugify("."), "", "removes `.` as it's not safe for file systems");
-  equal(slugify("~"), "", "removes `~` as it's not safe for file systems");
+  equal(slugify("a-b"), "a-b", "keeps `-` when it is not leading or trailing");
+  equal(slugify("_"), "_", "keeps `_`");
+  equal(slugify("."), "", "removes `.`");
+  equal(slugify("~"), "", "removes `~`");
   end();
 });
 
@@ -500,49 +500,6 @@ test("standard-slugify with leading or trailing separators", ({
 }) => {
   equal(slugify("--a⁠"), "a", "removes leading `-` characters");
   equal(slugify("a--⁠"), "a", "removes trailing `-` characters");
-  end();
-});
-
-test("standard-slugify with non-leading or non-trailing connectors", ({
-  equal,
-  end
-}) => {
-  equal(slugify("a_b"), "a_b", "keeps LOW LINE character");
-  equal(
-    slugify("a__b"),
-    "a__b",
-    "keeps multiple sequential LOW LINE characters"
-  );
-  end();
-});
-
-test("standard-slugify with leading or trailing connectors", ({
-  equal,
-  end
-}) => {
-  equal(slugify("__a⁠"), "__a", "keeps leading LOW LINE characters");
-  equal(slugify("a__⁠"), "a__", "keeps trailing LOW LINE characters");
-  end();
-});
-
-test("standard-slugify with inner separators next to connectors", ({
-  equal,
-  end
-}) => {
-  equal(slugify("_-a⁠"), "_-a", "keeps `-` after leading LOW LINE");
-  equal(slugify("a-_⁠"), "a-_", "keeps `-` before trailing LOW LINE");
-  equal(slugify("a_-a⁠"), "a_-a", "keeps `-` after inner LOW LINE");
-  equal(slugify("a-_a⁠"), "a-_a", "keeps `-` before inner LOW LINE");
-  equal(
-    slugify("a⁠_-_a"),
-    "a_-_a",
-    "keeps `-` between inner LOW LINE characters"
-  );
-  equal(
-    slugify("a⁠-_-a"),
-    "a-_-a",
-    "keeps LOW LINE between inner `-` characters"
-  );
   end();
 });
 
