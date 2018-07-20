@@ -385,12 +385,34 @@ const replacements = {
   " ": "-", // MMSP: MEDIUM MATHEMATICAL SPACE (mmsp)
   "　": "-", // IDEOGRAPHIC SPACE
 
+  /**
+   * Other Dash_Punctuation (Pd) characters
+   *
+   * https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
+   */
+  "֊": "-", // ARMENIAN HYPHEN
+  "־": "-", // HEBREW PUNCTUATION MAQAF
+  "᐀": "-", // CANADIAN SYLLABICS HYPHEN
+  "᠆": "-", // MONGOLIAN TODO SOFT HYPHEN
   "‐": "-", // HYPHEN
   "‑": "-", // NON-BREAKING HYPHEN
   "‒": "-", // FIGURE DASH
   "–": "-", // EN DASH
   "—": "-", // EM DASH
-  "―": "-" // HORIZONTAL BAR, quotation dash
+  "―": "-", // HORIZONTAL BAR, quotation dash
+  "⸗": "-", // DOUBLE OBLIQUE HYPHEN
+  "⸚": "-", // HYPHEN WITH DIAERESIS
+  "⸺": "-", // TWO-EM DASH, omission dash
+  "⸻": "-", // THREE-EM DASH
+  "⹀": "-", // DOUBLE HYPHEN
+  "〜": "-", // WAVE DASH
+  "〰": "-", // WAVY DASH
+  "゠": "-", // KATAKANA-HIRAGANA DOUBLE HYPHEN
+  "︱": "-", // PRESENTATION FORM FOR VERTICAL EM DASH
+  "︲": "-", // PRESENTATION FORM FOR VERTICAL EN DASH
+  "﹘": "-", // SMALL EM DASH
+  "﹣": "-", // SMALL HYPHEN-MINUS
+  "－": "-" // FULLWIDTH HYPHEN-MINUS
 };
 
 // Hack to make TypeScript's type inference work properly

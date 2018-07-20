@@ -445,15 +445,52 @@ test("standard-slugify with leading and trailing white space characters", ({
   end();
 });
 
-test("standard-slugify with inner separators", ({ equal, end }) => {
+// See # Pd in https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
+test("standard-slugify with dash punctuation marks", ({ equal, end }) => {
   equal(slugify("a-b"), "a-b", "keeps `-` character");
-  equal(slugify("a--b"), "a--b", "keeps multiple sequential `-` characters");
-  equal(slugify("a‐b"), "a-b", "converts HYPHEN to `-`");
-  equal(slugify("a‑b"), "a-b", "converts NON-BREAKING HYPHEN to `-`");
-  equal(slugify("a‒b"), "a-b", "converts FIGURE DASH to `-`");
-  equal(slugify("a–b"), "a-b", "converts EN DASH to `-`");
-  equal(slugify("a—b"), "a-b", "converts EM DASH to `-`");
-  equal(slugify("a―b"), "a-b", "converts HORIZONTAL BAR to `-`");
+  equal(slugify("a\u058Ab"), "a-b", "converts ARMENIAN HYPHEN to `-`");
+  equal(slugify("a\u05BEb"), "a-b", "converts HEBREW PUNCTUATION MAQAF to `-`");
+  equal(
+    slugify("a\u1400b"),
+    "a-b",
+    "converts CANADIAN SYLLABICS HYPHEN to `-`"
+  );
+  equal(
+    slugify("a\u1806b"),
+    "a-b",
+    "converts MONGOLIAN TODO SOFT HYPHEN to `-`"
+  );
+  equal(slugify("a\u2010b"), "a-b", "converts HYPHEN to `-`");
+  equal(slugify("a\u2011b"), "a-b", "converts NON-BREAKING HYPHEN to `-`");
+  equal(slugify("a\u2012b"), "a-b", "converts FIGURE DASH to `-`");
+  equal(slugify("a\u2013b"), "a-b", "converts EN DASH to `-`");
+  equal(slugify("a\u2014b"), "a-b", "converts EM DASH to `-`");
+  equal(slugify("a\u2015b"), "a-b", "converts HORIZONTAL BAR to `-`");
+  equal(slugify("a\u2E17b"), "a-b", "converts DOUBLE OBLIQUE HYPHEN to `-`");
+  equal(slugify("a\u2E1Ab"), "a-b", "converts HYPHEN WITH DIAERESIS to `-`");
+  equal(slugify("a\u2E3Ab"), "a-b", "converts TWO-EM DASH to `-`");
+  equal(slugify("a\u2E3Bb"), "a-b", "converts THREE-EM DASH to `-`");
+  equal(slugify("a\u2E40b"), "a-b", "converts DOUBLE HYPHEN to `-`");
+  equal(slugify("a\u301Cb"), "a-b", "converts WAVE DASH to `-`");
+  equal(slugify("a\u3030b"), "a-b", "converts WAVY DASH to `-`");
+  equal(
+    slugify("a\u30A0b"),
+    "a-b",
+    "converts KATAKANA-HIRAGANA DOUBLE HYPHEN to `-`"
+  );
+  equal(
+    slugify("a\uFE31b"),
+    "a-b",
+    "converts PRESENTATION FORM FOR VERTICAL EM DASH to `-`"
+  );
+  equal(
+    slugify("a\uFE32b"),
+    "a-b",
+    "converts PRESENTATION FORM FOR VERTICAL EN DASH to `-`"
+  );
+  equal(slugify("a\uFE58b"), "a-b", "converts SMALL EM DASH to `-`");
+  equal(slugify("a\uFE63b"), "a-b", "converts SMALL HYPHEN-MINUS to `-`");
+  equal(slugify("a\uFF0Db"), "a-b", "converts FULLWIDTH HYPHEN-MINUS to `-`");
   end();
 });
 
