@@ -353,10 +353,21 @@ const replacements = {
   ỳ: "y",
 
   /**
-   * General Punctuation (subset)
+   * Alphabetic Presentation Forms
    *
-   * https://www.unicode.org/charts/PDF/U2000.pdf
+   * - WGL4
+   *
+   * https://www.unicode.org/charts/PDF/UFB00.pdf
    */
+  ﬁ: "fi", // LATIN SMALL LIGATURE FI
+  ﬂ: "fl", // LATIN SMALL LIGATURE FL
+
+  /**
+   * Other White_Space characters
+   *
+   * https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
+   */
+  " ": "-", // OGHAM SPACE MARK
   " ": "-", // EN QUAD
   " ": "-", // EM QUAD, mutton quad
   " ": "-", // EN SPACE, nut
@@ -368,27 +379,18 @@ const replacements = {
   " ": "-", // PUNCTUATION SPACE
   " ": "-", // THIN SPACE
   " ": "-", // HAIR SPACE
-  "​": "-", // ZERO WIDTH SPACE (zwsp)
+  "\u2028": "-", // LSEP: LINE SEPARATOR
+  "\u2029": "-", // PSEP: PARAGRAPH SEPARATOR
+  " ": "-", // NNBSP: NARROW NO-BREAK SPACE (nnbsp)
+  " ": "-", // MMSP: MEDIUM MATHEMATICAL SPACE (mmsp)
+  "　": "-", // IDEOGRAPHIC SPACE
+
   "‐": "-", // HYPHEN
   "‑": "-", // NON-BREAKING HYPHEN
   "‒": "-", // FIGURE DASH
   "–": "-", // EN DASH
   "—": "-", // EM DASH
-  "―": "-", // HORIZONTAL BAR, quotation dash
-  "\u2028": "-", // LSEP: LINE SEPARATOR
-  "\u2029": "-", // PSEP: PARAGRAPH SEPARATOR
-  " ": "-", // NNBSP: NARROW NO-BREAK SPACE (nnbsp)
-  " ": "-", // MMSP: MEDIUM MATHEMATICAL SPACE (mmsp)
-
-  /**
-   * Alphabetic Presentation Forms
-   *
-   * - WGL4
-   *
-   * https://www.unicode.org/charts/PDF/UFB00.pdf
-   */
-  ﬁ: "fi", // LATIN SMALL LIGATURE FI
-  ﬂ: "fl" // LATIN SMALL LIGATURE FL
+  "―": "-" // HORIZONTAL BAR, quotation dash
 };
 
 // Hack to make TypeScript's type inference work properly

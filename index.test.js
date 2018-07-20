@@ -186,105 +186,6 @@ test("standard-slugify with rfc3986 unreserved US-ASCII non-alphanumeric charact
   end();
 });
 
-test("standard-slugify with inner separators", ({ equal, end }) => {
-  equal(slugify("a-b"), "a-b", "keeps HYPHEN-MINUS character");
-  equal(
-    slugify("a--b"),
-    "a--b",
-    "keeps multiple sequential HYPHEN-MINUS characters"
-  );
-  equal(slugify("a b"), "a-b", "converts SPACE to HYPHEN-MINUS");
-  equal(slugify("a b"), "a-b", "converts EN QUAD to HYPHEN-MINUS");
-  equal(slugify("a b"), "a-b", "converts EM QUAD to HYPHEN-MINUS");
-  equal(slugify("a b"), "a-b", "converts EN SPACE to HYPHEN-MINUS");
-  equal(slugify("a b"), "a-b", "converts EM SPACE to HYPHEN-MINUS");
-  equal(slugify("a b"), "a-b", "converts THREE-PER-EM SPACE to HYPHEN-MINUS");
-  equal(slugify("a b"), "a-b", "converts FOUR-PER-EM SPACE to HYPHEN-MINUS");
-  equal(slugify("a b"), "a-b", "converts SIX-PER-EM SPACE to HYPHEN-MINUS");
-  equal(slugify("a b"), "a-b", "converts FIGURE SPACE to HYPHEN-MINUS");
-  equal(slugify("a b"), "a-b", "converts PUNCTUATION SPACE to HYPHEN-MINUS");
-  equal(slugify("a b"), "a-b", "converts THIN SPACE to HYPHEN-MINUS");
-  equal(slugify("a b"), "a-b", "converts HAIR SPACE to HYPHEN-MINUS");
-  equal(slugify("a​b"), "a-b", "converts ZERO WIDTH SPACE HYPHEN-MINUS");
-  equal(slugify("a‐b"), "a-b", "converts HYPHEN to HYPHEN-MINUS");
-  equal(slugify("a‑b"), "a-b", "converts NON-BREAKING HYPHEN to HYPHEN-MINUS");
-  equal(slugify("a‒b"), "a-b", "converts FIGURE DASH to HYPHEN-MINUS");
-  equal(slugify("a–b"), "a-b", "converts EN DASH to HYPHEN-MINUS");
-  equal(slugify("a—b"), "a-b", "converts EM DASH to HYPHEN-MINUS");
-  equal(slugify("a―b"), "a-b", "converts HORIZONTAL BAR to HYPHEN-MINUS");
-  equal(slugify("a\u2028b"), "a-b", "converts LINE SEPARATOR to HYPHEN-MINUS");
-  equal(
-    slugify("a\u2029b"),
-    "a-b",
-    "converts PARAGRAPH SEPARATOR to HYPHEN-MINUS"
-  );
-  equal(
-    slugify("a b"),
-    "a-b",
-    "converts NARROW NO-BREAK SPACE to HYPHEN-MINUS"
-  );
-  equal(
-    slugify("a b"),
-    "a-b",
-    "converts MEDIUM MATHEMATICAL SPACE to HYPHEN-MINUS"
-  );
-  end();
-});
-
-test("standard-slugify with leading or trailing separators", ({
-  equal,
-  end
-}) => {
-  equal(slugify("  a⁠"), "a", "removes leading SPACE characters");
-  equal(slugify("a  "), "a", "removes trailing SPACE characters");
-  equal(slugify("--a⁠"), "a", "removes leading HYPHEN-MINUS characters");
-  equal(slugify("a--⁠"), "a", "removes trailing HYPHEN-MINUS characters");
-  end();
-});
-
-test("standard-slugify with non-leading or non-trailing connectors", ({
-  equal,
-  end
-}) => {
-  equal(slugify("a_b"), "a_b", "keeps LOW LINE character");
-  equal(
-    slugify("a__b"),
-    "a__b",
-    "keeps multiple sequential LOW LINE characters"
-  );
-  end();
-});
-
-test("standard-slugify with leading or trailing connectors", ({
-  equal,
-  end
-}) => {
-  equal(slugify("__a⁠"), "__a", "keeps leading LOW LINE characters");
-  equal(slugify("a__⁠"), "a__", "keeps trailing LOW LINE characters");
-  end();
-});
-
-test("standard-slugify with inner separators next to connectors", ({
-  equal,
-  end
-}) => {
-  equal(slugify("_-a⁠"), "_-a", "keeps HYPHEN-MINUS after leading LOW LINE");
-  equal(slugify("a-_⁠"), "a-_", "keeps HYPHEN-MINUS before trailing LOW LINE");
-  equal(slugify("a_-a⁠"), "a_-a", "keeps HYPHEN-MINUS after inner LOW LINE");
-  equal(slugify("a-_a⁠"), "a-_a", "keeps HYPHEN-MINUS before inner LOW LINE");
-  equal(
-    slugify("a⁠_-_a"),
-    "a_-_a",
-    "keeps HYPHEN-MINUS between inner LOW LINE characters"
-  );
-  equal(
-    slugify("a⁠-_-a"),
-    "a-_-a",
-    "keeps LOW LINE between inner HYPHEN-MINUS characters"
-  );
-  end();
-});
-
 test("standard-slugify with Latin-1 Supplement alphabetic characters", ({
   equal,
   end
@@ -465,6 +366,146 @@ test("standard-slugify with Alphabetic Presentation Forms characters from WGL4",
 }) => {
   equal(slugify("ﬁ"), "fi", "transliterates `ﬁ` as `fi`");
   equal(slugify("ﬂ"), "fl", "transliterates `ﬂ` as `fl`");
+  end();
+});
+
+// See Table 23-1 in https://www.unicode.org/versions/Unicode11.0.0/ch23.pdf
+test("standard-slugify with control characters that are separators", ({
+  equal,
+  end
+}) => {
+  equal(slugify("a\u0009b"), "a-b", "converts CHARACTER TABULATION to `-`");
+  equal(slugify("a\u000Ab"), "a-b", "converts LINE FEED to `-`");
+  equal(slugify("a\u000Bb"), "a-b", "converts LINE TABULATION to `-`");
+  equal(slugify("a\u000Cb"), "a-b", "converts FORM FEED to `-`");
+  equal(slugify("a\u000Db"), "a-b", "converts CARRIAGE RETURN to `-`");
+  equal(
+    slugify("a\u001Cb"),
+    "a-b",
+    "converts INFORMATION SEPARATOR FOUR to `-`"
+  );
+  equal(
+    slugify("a\u001Db"),
+    "a-b",
+    "converts INFORMATION SEPARATOR THREE to `-`"
+  );
+  equal(
+    slugify("a\u001Eb"),
+    "a-b",
+    "converts INFORMATION SEPARATOR TWO to `-`"
+  );
+  equal(
+    slugify("a\u001Fb"),
+    "a-b",
+    "converts INFORMATION SEPARATOR ONE to `-`"
+  );
+  equal(slugify("a\u0085b"), "a-b", "converts NEXT LINE to `-`");
+  end();
+});
+
+// See White_Space in https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
+test("standard-slugify with non-control white space characters", ({
+  equal,
+  end
+}) => {
+  equal(slugify("a\u0020b"), "a-b", "converts SPACE to `-`");
+  equal(slugify("a\u00A0b"), "a-b", "converts NO-BREAK SPACE to `-`");
+  equal(slugify("a\u1680b"), "a-b", "converts OGHAM SPACE MARK to `-`");
+  equal(slugify("a\u2000b"), "a-b", "converts EN QUAD to `-`");
+  equal(slugify("a\u2001b"), "a-b", "converts EM QUAD to `-`");
+  equal(slugify("a\u2002b"), "a-b", "converts EN SPACE to `-`");
+  equal(slugify("a\u2003b"), "a-b", "converts EM SPACE to `-`");
+  equal(slugify("a\u2004b"), "a-b", "converts THREE-PER-EM SPACE to `-`");
+  equal(slugify("a\u2005b"), "a-b", "converts FOUR-PER-EM SPACE to `-`");
+  equal(slugify("a\u2006b"), "a-b", "converts SIX-PER-EM SPACE to `-`");
+  equal(slugify("a\u2007b"), "a-b", "converts FIGURE SPACE to `-`");
+  equal(slugify("a\u2008b"), "a-b", "converts PUNCTUATION SPACE to `-`");
+  equal(slugify("a\u2009b"), "a-b", "converts THIN SPACE to `-`");
+  equal(slugify("a\u200Ab"), "a-b", "converts HAIR SPACE to `-`");
+  equal(slugify("a\u2028b"), "a-b", "converts LINE SEPARATOR to `-`");
+  equal(slugify("a\u2029b"), "a-b", "converts PARAGRAPH SEPARATOR to `-`");
+  equal(slugify("a\u202Fb"), "a-b", "converts NARROW NO-BREAK SPACE to `-`");
+  equal(
+    slugify("a\u205Fb"),
+    "a-b",
+    "converts MEDIUM MATHEMATICAL SPACE to `-`"
+  );
+  equal(slugify("a\u3000b"), "a-b", "converts IDEOGRAPHIC SPACE to `-`");
+  end();
+});
+
+test("standard-slugify with leading and trailing white space characters", ({
+  equal,
+  end
+}) => {
+  equal(slugify("\u0020a⁠"), "a", "removes leading SPACE");
+  equal(slugify("a\u0020⁠"), "a", "removes trailing SPACE");
+  equal(slugify("\u0020\u0020a⁠"), "a", "removes leading SPACE characters");
+  equal(slugify("a\u0020\u0020⁠"), "a", "removes trailing SPACE characters");
+  end();
+});
+
+test("standard-slugify with inner separators", ({ equal, end }) => {
+  equal(slugify("a-b"), "a-b", "keeps `-` character");
+  equal(slugify("a--b"), "a--b", "keeps multiple sequential `-` characters");
+  equal(slugify("a‐b"), "a-b", "converts HYPHEN to `-`");
+  equal(slugify("a‑b"), "a-b", "converts NON-BREAKING HYPHEN to `-`");
+  equal(slugify("a‒b"), "a-b", "converts FIGURE DASH to `-`");
+  equal(slugify("a–b"), "a-b", "converts EN DASH to `-`");
+  equal(slugify("a—b"), "a-b", "converts EM DASH to `-`");
+  equal(slugify("a―b"), "a-b", "converts HORIZONTAL BAR to `-`");
+  end();
+});
+
+test("standard-slugify with leading or trailing separators", ({
+  equal,
+  end
+}) => {
+  equal(slugify("--a⁠"), "a", "removes leading `-` characters");
+  equal(slugify("a--⁠"), "a", "removes trailing `-` characters");
+  end();
+});
+
+test("standard-slugify with non-leading or non-trailing connectors", ({
+  equal,
+  end
+}) => {
+  equal(slugify("a_b"), "a_b", "keeps LOW LINE character");
+  equal(
+    slugify("a__b"),
+    "a__b",
+    "keeps multiple sequential LOW LINE characters"
+  );
+  end();
+});
+
+test("standard-slugify with leading or trailing connectors", ({
+  equal,
+  end
+}) => {
+  equal(slugify("__a⁠"), "__a", "keeps leading LOW LINE characters");
+  equal(slugify("a__⁠"), "a__", "keeps trailing LOW LINE characters");
+  end();
+});
+
+test("standard-slugify with inner separators next to connectors", ({
+  equal,
+  end
+}) => {
+  equal(slugify("_-a⁠"), "_-a", "keeps `-` after leading LOW LINE");
+  equal(slugify("a-_⁠"), "a-_", "keeps `-` before trailing LOW LINE");
+  equal(slugify("a_-a⁠"), "a_-a", "keeps `-` after inner LOW LINE");
+  equal(slugify("a-_a⁠"), "a-_a", "keeps `-` before inner LOW LINE");
+  equal(
+    slugify("a⁠_-_a"),
+    "a_-_a",
+    "keeps `-` between inner LOW LINE characters"
+  );
+  equal(
+    slugify("a⁠-_-a"),
+    "a-_-a",
+    "keeps LOW LINE between inner `-` characters"
+  );
   end();
 });
 
