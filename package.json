@@ -32,10 +32,10 @@
     "posttest": "npm run lint"
   },
   "devDependencies": {
-    "eslint": "^5.0.1",
-    "eslint-config-pretty-strict": "^1.0.0-rc.9",
+    "eslint": "^5.1.0",
+    "eslint-config-pretty-strict": "^1.0.0-rc.10",
     "eslint-plugin-prettier": "^2.6.2",
-    "esm": "^3.0.64",
+    "esm": "^3.0.72",
     "faucet": "0.0.1",
     "husky": "^1.0.0-rc.12",
     "nyc": "^12.0.2",
