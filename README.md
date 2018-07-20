@@ -20,11 +20,11 @@ npm install standard-slugify
 
 ### `standardSlugify(string, customReplacements)`
 
-Returns a slugified version of the specified string, where non-alphanumeric characters are removed, separators are replaced with `-`, alphabetic characters are lowercased, and non-US-ASCII alphabetic characters are transliterated to US-ASCII. You can specify custom replacements by passing an object as the second argument.
+Returns a slug of the given `string`, where white space, control codes that are separators, and hyphen and dash marks are converted to `-`, letters are lowercased, non-US-ASCII letters are transliterated to US-ASCII, `_` is kept, the rest of characters are removed, and leading and trailing `-` are removed.
 
-The returned string is safe for use in URIs and filenames.
+You can pass an object with `customReplacements`. The mappings are one character to any. In case of collision the custom replacements override the default replacements.
 
-Supports all characters from US-ASCII, ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1 and WGL4. Non-supported characters are removed by default.
+Supports all characters from US-ASCII, ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1, WGL4, all characters with the White_Space property in Unicode and all characters from the Dash_Punctuation category of Unicode. Non-supported characters are removed by default.
 
 ```js
 import standardSlugify from "standard-slugify";
@@ -40,15 +40,13 @@ You can pass an object with custom replacements as the second argument:
 import standardSlugify from "standard-slugify";
 
 standardSlugify("$ and ₿ raising, € falling", {
-  $: "usd", // DOLLAR SIGN, United States of America
+  "$": "usd", // DOLLAR SIGN, United States of America
   "€": "eur", // EURO SIGN, European Monetary Union
   "₿": "xbt" // BITCOIN SIGN, Bitcoin
 });
 // ->
 "usd-and-xbt-raising-eur-falling"
 ```
-
-The keys of the custom replacements object must be one character long, but the values can have any amount of characters. That is, mappings are one-to-any.
 
 ## Details
 
