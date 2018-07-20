@@ -30,8 +30,7 @@ Supports all characters from US-ASCII, ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, ME
 import standardSlugify from "standard-slugify";
 
 standardSlugify("What is this $ symbol?");
-// ->
-"what-is-this-symbol"
+// => "what-is-this-symbol"
 ```
 
 You can pass an object with custom replacements as the second argument:
@@ -39,13 +38,11 @@ You can pass an object with custom replacements as the second argument:
 ```js
 import standardSlugify from "standard-slugify";
 
-standardSlugify("$ and ₿ raising, € falling", {
-  "$": "usd", // DOLLAR SIGN, United States of America
+standardSlugify("₿ raising, € falling", {
   "€": "eur", // EURO SIGN, European Monetary Union
   "₿": "xbt" // BITCOIN SIGN, Bitcoin
 });
-// ->
-"usd-and-xbt-raising-eur-falling"
+// => "xbt-raising-eur-falling"
 ```
 
 ## Details

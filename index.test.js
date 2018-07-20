@@ -548,12 +548,11 @@ test("standard-slugify with inner separators next to connectors", ({
 
 test("standard-slugify with custom replacements", ({ equal, end }) => {
   equal(
-    slugify("$ and ₿ raising, € falling", {
-      $: "usd", // DOLLAR SIGN, United States of America
+    slugify("₿ raising, € falling", {
       "€": "eur", // EURO SIGN, European Monetary Union
       "₿": "xbt" // BITCOIN SIGN, Bitcoin
     }),
-    "usd-and-xbt-raising-eur-falling",
+    "xbt-raising-eur-falling",
     "uses custom replacements"
   );
   end();
