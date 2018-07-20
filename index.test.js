@@ -494,10 +494,9 @@ test("standard-slugify with dash punctuation marks", ({ equal, end }) => {
   end();
 });
 
-test("standard-slugify with leading or trailing separators", ({
-  equal,
-  end
-}) => {
+test("standard-slugify with leading or trailing `-`", ({ equal, end }) => {
+  equal(slugify("-a⁠"), "a", "removes leading `-`");
+  equal(slugify("a-⁠"), "a", "removes trailing `-`");
   equal(slugify("--a⁠"), "a", "removes leading `-` characters");
   equal(slugify("a--⁠"), "a", "removes trailing `-` characters");
   end();
