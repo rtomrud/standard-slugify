@@ -3,9 +3,9 @@
  * Non-alphanumeric characters that are removed are also omited.
  *
  * Transliterated according to ISO/IEC 7501-3, except Greek, which is
- * transiletated according to ISO 843.
+ * transliterated according to ISO 843.
  *
- * Transliteration map of Latin and Cyrillic on pages 38 to 42 of
+ * See transliteration map of Latin and Cyrillic on pages 38 to 42 of
  * https://www.icao.int/publications/Documents/9303_p3_cons_en.pdf
  */
 const replacements = {
@@ -213,7 +213,7 @@ const replacements = {
   ț: "t",
 
   /**
-   * Greek and Coptic (Greek subset)
+   * Greek and Coptic (subset)
    *
    * - ISO-8859-7: Latin/Greek
    *
@@ -353,7 +353,7 @@ const replacements = {
   ỳ: "y",
 
   /**
-   * Alphabetic Presentation Forms
+   * Alphabetic Presentation Forms (subset)
    *
    * - WGL4
    *
@@ -363,7 +363,7 @@ const replacements = {
   ﬂ: "fl", // LATIN SMALL LIGATURE FL
 
   /**
-   * Other White_Space characters
+   * The rest of characters with the White_Space property
    *
    * https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
    */
@@ -386,7 +386,7 @@ const replacements = {
   "　": "-", // IDEOGRAPHIC SPACE
 
   /**
-   * Other Dash_Punctuation (Pd) characters
+   * The rest of characters from the Dash_Punctuation (Pd) General Category
    *
    * https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
    */
