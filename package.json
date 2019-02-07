@@ -19,15 +19,18 @@
   "license": "MIT",
   "author": "Artem Rudenko <rtomrud@gmail.com>",
   "files": [
+    "dist",
     "index.js"
   ],
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/rtomrud/standard-slugify.git"
   },
   "scripts": {
+    "build": "rollup -i index.js -o dist/index.js -f cjs",
     "lint": "eslint *.js",
+    "prepare": "npm run build",
     "test": "nyc --reporter html tape -r esm index.test.js | faucet && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
     "posttest": "npm run lint"
   },
@@ -40,6 +43,7 @@
     "husky": "^1.0.0-rc.12",
     "nyc": "^12.0.2",
     "prettier": "1.13.7",
+    "rollup": "^1.1.2",
     "tape": "^4.9.1"
   },
   "eslintConfig": {
@@ -55,6 +59,9 @@
       "no-inline-comments": "off"
     }
   },
+  "eslintIgnore": [
+    "dist"
+  ],
   "esm": {
     "cjs": true,
     "mode": "auto"
