@@ -415,7 +415,6 @@ const replacements = {
   "－": "-" // FULLWIDTH HYPHEN-MINUS
 };
 
-// Hack to make TypeScript's type inference work properly
 const initReplacements = {};
 
 /**
