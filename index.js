@@ -450,6 +450,6 @@ export default function(string = "", customReplacements = initReplacements) {
 
   return string
     .toLowerCase()
-    .replace(/[\s\S]/g, replacer)
-    .replace(/^-+|-+$/g, "");
+    .replace(/[\s\S]/gu, replacer)
+    .replace(/^-+|-+$/gu, "");
 }
