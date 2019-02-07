@@ -1,6 +1,6 @@
 {
   "name": "standard-slugify",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "description": "Converts a string into a slug safe for URLs and filenames",
   "keywords": [
     "filename",
