@@ -429,7 +429,7 @@ const initReplacements = {};
  * default replacements.
  *
  * Supports all characters from US-ASCII, ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16,
- * MES-1, WGL4, all characters with the White_Space property in Unicode and all
+ * MES-1, WGL4, all characters with the White_Space property in Unicode, and all
  * characters from the Dash_Punctuation category of Unicode. Non-supported
  * characters are removed by default.
  */

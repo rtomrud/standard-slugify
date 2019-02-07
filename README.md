@@ -24,7 +24,7 @@ Returns a slug of the given `string`, where white space, control codes that are 
 
 You can pass an object with `customReplacements`. The mappings are one character to any. In case of collision the custom replacements override the default replacements.
 
-Supports all characters from US-ASCII, ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1, WGL4, all characters with the White_Space property in Unicode and all characters from the Dash_Punctuation category of Unicode. Non-supported characters are removed by default.
+Supports all characters from US-ASCII, ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1, WGL4, all characters with the White_Space property in Unicode, and all characters from the Dash_Punctuation category of Unicode. Non-supported characters are removed by default.
 
 ```js
 import standardSlugify from "standard-slugify";
