@@ -5,8 +5,8 @@
 
 Converts a string into a slug safe for URLs and filenames
 
-* Supports [US-ASCII](https://en.wikipedia.org/wiki/ASCII), [ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16](https://en.wikipedia.org/wiki/ISO/IEC_8859), [MES-1](http://www.evertype.com/standards/iso10646/pdf/cwa13873.pdf) and [WGL4](https://en.wikipedia.org/wiki/Windows_Glyph_List_4), transliterating to US-ASCII
 * Standards compliant; no arbitrary and surprising substitutions, but allows custom replacements
+* Transliterates to [US-ASCII](https://en.wikipedia.org/wiki/ASCII) every letter from [ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16](https://en.wikipedia.org/wiki/ISO/IEC_8859), [MES-1](http://www.evertype.com/standards/iso10646/pdf/cwa13873.pdf), and [WGL4](https://en.wikipedia.org/wiki/Windows_Glyph_List_4)
 * Converts all white space and separators, e.g., HT, LF, VT, FF, CR, FS, GS, RS, US, SP, NEL, NBPS, LSEP, PSEP
 * Converts all dash punctuation characters, e.g., HYPHEN, FIGURE DASH, EN DASH, EM DASH, HORIZONTAL BAR
 
@@ -24,7 +24,7 @@ Returns a slug of the given `string`, where white space, control codes that are 
 
 You can pass an object with `customReplacements`. The mappings are one character to any. In case of collision the custom replacements override the default replacements.
 
-Supports all characters from US-ASCII, ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1, WGL4, all characters with the White_Space property in Unicode, and all characters from the Dash_Punctuation category of Unicode. Non-supported characters are removed by default.
+Transliterates all characters from US-ASCII, ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1, WGL4, all characters with the White_Space property in Unicode, and all characters from the Dash_Punctuation category of Unicode. Every other character is removed by default.
 
 ```js
 import standardSlugify from "standard-slugify";

@@ -427,10 +427,10 @@ const initReplacements = {};
  * character to any. In case of collision the custom replacements override the
  * default replacements.
  *
- * Supports all characters from US-ASCII, ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16,
- * MES-1, WGL4, all characters with the White_Space property in Unicode, and all
- * characters from the Dash_Punctuation category of Unicode. Non-supported
- * characters are removed by default.
+ * Transliterates all characters from US-ASCII,
+ * ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1, WGL4, all characters with the
+ * White_Space property in Unicode, and all characters from the Dash_Punctuation
+ * category of Unicode. Every other character is removed by default.
  */
 export default function(string = "", customReplacements = initReplacements) {
   if (typeof customReplacements !== "object" || customReplacements == null) {
