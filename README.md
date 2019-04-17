@@ -18,11 +18,11 @@ npm install standard-slugify
 
 ## API
 
-### `standardSlugify(string, customReplacements)`
+### `standardSlugify(string, { replacements })`
 
 Returns a slug of the given `string`, where white space, control codes that are separators, and hyphen and dash marks are converted to `-`, letters are lowercased, non-US-ASCII letters are transliterated to US-ASCII, `_` is kept, the rest of characters are removed, and leading and trailing `-` are removed.
 
-You can pass an object with `customReplacements`. The mappings are one character to any. In case of collision the custom replacements override the default replacements.
+You can specify custom replacements by passing an object that maps characters to strings as the `replacements` option. The custom replacements take precedence over the default replacements in case of collision.
 
 Transliterates all characters from US-ASCII, ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1, WGL4, all characters with the White_Space property in Unicode, and all characters from the Dash_Punctuation category of Unicode. Every other character is removed by default.
 
@@ -31,16 +31,12 @@ import standardSlugify from "standard-slugify";
 
 standardSlugify("What is this $ symbol?");
 // => "what-is-this-symbol"
-```
-
-You can pass an object with custom replacements as the second argument:
-
-```js
-import standardSlugify from "standard-slugify";
 
 standardSlugify("₿ raising, € falling", {
-  "€": "eur", // EURO SIGN, European Monetary Union
-  "₿": "xbt" // BITCOIN SIGN, Bitcoin
+  replacements: {
+    "€": "eur", // EURO SIGN, European Monetary Union
+    "₿": "xbt" // BITCOIN SIGN, Bitcoin
+  }
 });
 // => "xbt-raising-eur-falling"
 ```

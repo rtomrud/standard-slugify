@@ -23,16 +23,17 @@ test("standard-slugify with first argument of wrong type", ({
   end();
 });
 
-test("standard-slugify with optional argument of wrong type", ({
+test("standard-slugify with options argument of wrong type", ({
+  equal,
   throws,
   end
 }) => {
-  throws(() => slugify("", true), TypeError);
-  throws(() => slugify("", false), TypeError);
+  equal(slugify("", true), "");
+  equal(slugify("", false), "");
+  equal(slugify("", 0), "");
+  equal(slugify("", ""), "");
+  equal(slugify("", () => {}), "");
   throws(() => slugify("", null), TypeError);
-  throws(() => slugify("", 0), TypeError);
-  throws(() => slugify("", ""), TypeError);
-  throws(() => slugify("", () => {}), TypeError);
   end();
 });
 
@@ -913,11 +914,13 @@ test("standard-slugify with leading or trailing `-`", ({ equal, end }) => {
 test("standard-slugify with custom replacements", ({ equal, end }) => {
   equal(
     slugify("₿ raising, € falling", {
-      "€": "eur", // EURO SIGN, European Monetary Union
-      "₿": "xbt" // BITCOIN SIGN, Bitcoin
+      replacements: {
+        "€": "eur", // EURO SIGN, European Monetary Union
+        "₿": "xbt" // BITCOIN SIGN, Bitcoin
+      }
     }),
     "xbt-raising-eur-falling",
-    "uses custom replacements"
+    "uses the given custom replacements"
   );
   end();
 });

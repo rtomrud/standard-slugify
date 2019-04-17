@@ -8,7 +8,7 @@
  * See transliteration map of Latin and Cyrillic on pages 38 to 42 of
  * https://www.icao.int/publications/Documents/9303_p3_cons_en.pdf
  */
-const replacements = {
+const defaultReplacements = {
   /**
    * C0 Controls and Basic Latin
    *
@@ -423,27 +423,23 @@ const initReplacements = {};
  * lowercased, non-US-ASCII letters are transliterated to US-ASCII, `_` is kept,
  * the rest of characters are removed, and leading and trailing `-` are removed.
  *
- * You can pass an object with `customReplacements`. The mappings are one
- * character to any. In case of collision the custom replacements override the
- * default replacements.
+ * You can specify custom replacements by passing an object that maps characters
+ * to strings as the `replacements` option. The custom replacements take
+ * precedence over the default replacements in case of collision.
  *
  * Transliterates all characters from US-ASCII,
  * ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1, WGL4, all characters with the
  * White_Space property in Unicode, and all characters from the Dash_Punctuation
  * category of Unicode. Every other character is removed by default.
  */
-export default function(string = "", customReplacements = initReplacements) {
-  if (typeof customReplacements !== "object" || customReplacements == null) {
-    throw TypeError();
-  }
-
-  const shouldUseDefaultReplacer = customReplacements === initReplacements;
+export default function(string = "", { replacements = initReplacements } = {}) {
+  const shouldUseDefaultReplacer = replacements === initReplacements;
   const replacer = shouldUseDefaultReplacer
-    ? match => replacements[match] || ""
+    ? match => defaultReplacements[match] || ""
     : match => {
-        const customReplacement = customReplacements[match];
+        const customReplacement = replacements[match];
         return customReplacement == null
-          ? replacements[match] || ""
+          ? defaultReplacements[match] || ""
           : customReplacement;
       };
 
