@@ -426,11 +426,6 @@ const initReplacements = {};
  * You can specify custom replacements by passing an object that maps characters
  * to strings as the `replacements` option. The custom replacements take
  * precedence over the default replacements in case of collision.
- *
- * Transliterates all characters from US-ASCII,
- * ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1, WGL4, all characters with the
- * White_Space property in Unicode, and all characters from the Dash_Punctuation
- * category of Unicode. Every other character is removed by default.
  */
 export default function(string = "", { replacements = initReplacements } = {}) {
   const shouldUseDefaultReplacer = replacements === initReplacements;
