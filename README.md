@@ -32,8 +32,8 @@ standardSlugify("What is this $ symbol?");
 
 standardSlugify("₿ raising, € falling", {
   replacements: {
-    "€": "eur", // EURO SIGN, European Monetary Union
-    "₿": "xbt" // BITCOIN SIGN, Bitcoin
+    "€": "eur", // EURO SIGN
+    "₿": "xbt" // BITCOIN SIGN
   }
 });
 // => "xbt-raising-eur-falling"

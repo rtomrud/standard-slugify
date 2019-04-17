@@ -915,8 +915,8 @@ test("standard-slugify with custom replacements", ({ equal, end }) => {
   equal(
     slugify("₿ raising, € falling", {
       replacements: {
-        "€": "eur", // EURO SIGN, European Monetary Union
-        "₿": "xbt" // BITCOIN SIGN, Bitcoin
+        "€": "eur", // EURO SIGN
+        "₿": "xbt" // BITCOIN SIGN
       }
     }),
     "xbt-raising-eur-falling",
