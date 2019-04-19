@@ -53,7 +53,7 @@ standardSlugify("₿ raising, € falling", {
 // => "xbt-raising-eur-falling"
 ```
 
-## Details
+### Details
 
 * Leading and trailing whitespace characters and line terminators are removed
 * By default, characters are replaced as follows:
