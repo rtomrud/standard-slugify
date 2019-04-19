@@ -59,6 +59,7 @@
     }
   },
   "eslintIgnore": [
+    "coverage",
     "dist"
   ],
   "esm": {
