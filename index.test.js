@@ -911,7 +911,49 @@ test("standard-slugify with leading or trailing `-`", ({ equal, end }) => {
   end();
 });
 
-test("standard-slugify with custom replacements", ({ equal, end }) => {
+test("standard-slugify with keepCase and single-character replacements", ({
+  equal,
+  end
+}) => {
+  equal(slugify("A", { keepCase: true }), "A");
+  equal(slugify("A_", { keepCase: true }), "A_");
+  equal(slugify("AA", { keepCase: true }), "AA");
+  equal(slugify("Aa", { keepCase: true }), "Aa");
+  equal(slugify("aa", { keepCase: true }), "aa");
+  equal(slugify("aA", { keepCase: true }), "aA");
+  equal(slugify("AaA", { keepCase: true }), "AaA");
+  equal(slugify("aAa", { keepCase: true }), "aAa");
+  end();
+});
+
+test("standard-slugify with keepCase and multi-character replacements", ({
+  equal,
+  end
+}) => {
+  equal(slugify("Æ", { keepCase: true }), "AE");
+  equal(slugify("Æ_", { keepCase: true }), "AE_");
+  equal(slugify("ÆA", { keepCase: true }), "AEA");
+  equal(slugify("Æa", { keepCase: true }), "Aea");
+  equal(slugify("Ĳ", { keepCase: true }), "IJ");
+  equal(slugify("Ĳ_", { keepCase: true }), "IJ_");
+  equal(slugify("ĲA", { keepCase: true }), "IJA");
+  equal(slugify("Ĳa", { keepCase: true }), "Ija");
+  equal(slugify("Ǽ", { keepCase: true }), "AE");
+  equal(slugify("Ǽ_", { keepCase: true }), "AE_");
+  equal(slugify("ǼA", { keepCase: true }), "AEA");
+  equal(slugify("Ǽa", { keepCase: true }), "Aea");
+  equal(slugify("Θ", { keepCase: true }), "TH");
+  equal(slugify("Θ_", { keepCase: true }), "TH_");
+  equal(slugify("ΘA", { keepCase: true }), "THA");
+  equal(slugify("Θa", { keepCase: true }), "Tha");
+  equal(slugify("Ж", { keepCase: true }), "ZH");
+  equal(slugify("Ж_", { keepCase: true }), "ZH_");
+  equal(slugify("ЖA", { keepCase: true }), "ZHA");
+  equal(slugify("Жa", { keepCase: true }), "Zha");
+  end();
+});
+
+test("standard-slugify with replacements", ({ equal, end }) => {
   equal(
     slugify("₿ raising, € falling", {
       replacements: {
@@ -921,6 +963,28 @@ test("standard-slugify with custom replacements", ({ equal, end }) => {
     }),
     "xbt-raising-eur-falling",
     "uses the given custom replacements"
+  );
+  end();
+});
+
+test("standard-slugify with keepCase and replacements", ({ equal, end }) => {
+  equal(
+    slugify("ȜET", {
+      keepCase: true,
+      replacements: {
+        Ȝ: "Y" // LATIN SMALL LETTER YOGH
+      }
+    }),
+    "YET"
+  );
+  equal(
+    slugify("ȜET", {
+      keepCase: false,
+      replacements: {
+        Ȝ: "Y" // LATIN SMALL LETTER YOGH
+      }
+    }),
+    "yet"
   );
   end();
 });

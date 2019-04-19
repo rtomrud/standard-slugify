@@ -415,31 +415,45 @@ const defaultReplacements = {
   "－": "-" // FULLWIDTH HYPHEN-MINUS
 };
 
-const initReplacements = {};
-
 /**
  * Returns a slug of the given `string`, where white space, control codes that
  * are separators, and hyphen and dash marks are converted to `-`, letters are
  * lowercased, non-US-ASCII letters are transliterated to US-ASCII, `_` is kept,
  * the rest of characters are removed, and leading and trailing `-` are removed.
  *
+ * By default, the resulting slug is in lowercase. To keep the original case of
+ * the given string, set the `keepCase` option to `true`.
+ *
  * You can specify custom replacements by passing an object that maps characters
  * to strings as the `replacements` option. The custom replacements take
  * precedence over the default replacements in case of collision.
  */
-export default function(string = "", { replacements = initReplacements } = {}) {
-  const shouldUseDefaultReplacer = replacements === initReplacements;
-  const replacer = shouldUseDefaultReplacer
-    ? match => defaultReplacements[match] || ""
-    : match => {
-        const customReplacement = replacements[match];
-        return customReplacement == null
-          ? defaultReplacements[match] || ""
-          : customReplacement;
-      };
-
+export default function(
+  string = "",
+  { keepCase = false, replacements = {} } = {}
+) {
   return string
-    .toLowerCase()
-    .replace(/[\s\S]/gu, replacer)
+    .replace(/[\s\S]/gu, (match, offset) => {
+      const replacement = replacements[match];
+      if (replacement != null) {
+        return keepCase ? replacement : replacement.toLowerCase();
+      }
+
+      const lowerCaseMatch = match.toLowerCase();
+      const defaultReplacement = defaultReplacements[lowerCaseMatch];
+      if (defaultReplacement == null) {
+        return "";
+      }
+
+      if (!keepCase || lowerCaseMatch === match) {
+        return defaultReplacement;
+      }
+
+      const nextChar = string.charAt(offset + 1);
+      return !nextChar || nextChar.toUpperCase() === nextChar
+        ? defaultReplacement.toUpperCase()
+        : defaultReplacement.charAt().toUpperCase() +
+            defaultReplacement.substring(1);
+    })
     .replace(/^-+|-+$/gu, "");
 }
