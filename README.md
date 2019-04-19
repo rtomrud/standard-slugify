@@ -64,7 +64,7 @@ standardSlugify("₿ raising, € falling", {
     * LOW LINE (`_`) characters are kept as is
     * The rest of characters are removed
 * When specified, characters are replaced with their respective mappings in the given custom `replacements`, if any
-* Letters are lowercased by default, or kept as is if `keepCase` is `true`
+* Letters are lowercased by default, or kept in their original case if `keepCase` is `true`
 
 ## License
 
