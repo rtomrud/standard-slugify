@@ -55,6 +55,7 @@ standardSlugify("₿ raising, € falling", {
 
 ## Details
 
+* Leading and trailing whitespace characters and line terminators are removed
 * By default, characters are replaced as follows:
     * Letters from ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1 or WGL4 are transliterated:
         * Latin or Cyrillic letters are transliterated according to [ISO/IEC 7501-3](https://www.icao.int/publications/Documents/9303_p3_cons_en.pdf)
@@ -64,7 +65,6 @@ standardSlugify("₿ raising, € falling", {
     * The rest of characters are removed
 * When specified, characters are replaced with their respective mappings in the given custom `replacements`, if any
 * Letters are lowercased by default, or kept as is if `keepCase` is `true`
-* Leading and trailing HYPHEN-MINUS (`-`) characters are removed after applying the replacements
 
 ## License
 

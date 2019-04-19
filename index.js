@@ -432,28 +432,26 @@ export default function(
   string = "",
   { keepCase = false, replacements = {} } = {}
 ) {
-  return string
-    .replace(/[\s\S]/gu, (match, offset) => {
-      const replacement = replacements[match];
-      if (replacement != null) {
-        return keepCase ? replacement : replacement.toLowerCase();
-      }
+  return string.trim().replace(/[\s\S]/gu, (match, offset) => {
+    const replacement = replacements[match];
+    if (replacement != null) {
+      return keepCase ? replacement : replacement.toLowerCase();
+    }
 
-      const lowerCaseMatch = match.toLowerCase();
-      const defaultReplacement = defaultReplacements[lowerCaseMatch];
-      if (defaultReplacement == null) {
-        return "";
-      }
+    const lowerCaseMatch = match.toLowerCase();
+    const defaultReplacement = defaultReplacements[lowerCaseMatch];
+    if (defaultReplacement == null) {
+      return "";
+    }
 
-      if (!keepCase || lowerCaseMatch === match) {
-        return defaultReplacement;
-      }
+    if (!keepCase || lowerCaseMatch === match) {
+      return defaultReplacement;
+    }
 
-      const nextChar = string.charAt(offset + 1);
-      return !nextChar || nextChar.toUpperCase() === nextChar
-        ? defaultReplacement.toUpperCase()
-        : defaultReplacement.charAt().toUpperCase() +
-            defaultReplacement.substring(1);
-    })
-    .replace(/^-+|-+$/gu, "");
+    const nextChar = string.charAt(offset + 1);
+    return !nextChar || nextChar.toUpperCase() === nextChar
+      ? defaultReplacement.toUpperCase()
+      : defaultReplacement.charAt().toUpperCase() +
+          defaultReplacement.substring(1);
+  });
 }

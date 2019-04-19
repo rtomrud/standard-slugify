@@ -233,7 +233,7 @@ test("standard-slugify with C1 Controls", ({ equal, plan }) => {
   equal(slugify("\u0082"), "", "removes C1 Control `\u0082`");
   equal(slugify("\u0083"), "", "removes C1 Control `\u0083`");
   equal(slugify("\u0084"), "", "removes C1 Control `\u0084`");
-  equal(slugify("\u0085"), "", "removes C1 Control `\u0085`");
+  equal(slugify("\u0085"), "-", "converts NEXT LINE (NEL) to `-`");
   equal(slugify("\u0086"), "", "removes C1 Control `\u0086`");
   equal(slugify("\u0087"), "", "removes C1 Control `\u0087`");
   equal(slugify("\u0088"), "", "removes C1 Control `\u0088`");
@@ -847,10 +847,18 @@ test("standard-slugify with leading and trailing white space characters", ({
   equal,
   end
 }) => {
-  equal(slugify("\u0020a⁠"), "a", "removes leading SPACE");
-  equal(slugify("a\u0020⁠"), "a", "removes trailing SPACE");
-  equal(slugify("\u0020\u0020a⁠"), "a", "removes leading SPACE characters");
-  equal(slugify("a\u0020\u0020⁠"), "a", "removes trailing SPACE characters");
+  equal(slugify("\u0020a"), "a", "removes leading SPACE");
+  equal(slugify("a\u0020"), "a", "removes trailing SPACE");
+  equal(slugify("\u0020\u0020a⁠"), "a", "removes many leading SPACE");
+  equal(slugify("a\u0020\u0020"), "a", "removes many trailing SPACE");
+  equal(slugify("\na"), "a", "removes leading SPACE");
+  equal(slugify("a\n"), "a", "removes trailing SPACE");
+  equal(slugify("\n\na"), "a", "removes many leading SPACEs");
+  equal(slugify("a\n\n"), "a", "removes many trailing SPACEs");
+  equal(slugify("\ta"), "a", "removes leading HORIZONTAL TABULATION");
+  equal(slugify("a\t"), "a", "removes trailing HORIZONTAL TABULATION");
+  equal(slugify("\t\ta"), "a", "removes many leading HORIZONTAL TABULATION");
+  equal(slugify("a\t\t"), "a", "removes many trailing HORIZONTAL TABULATION");
   end();
 });
 
@@ -900,14 +908,6 @@ test("standard-slugify with dash punctuation marks", ({ equal, end }) => {
   equal(slugify("a\uFE58b"), "a-b", "converts SMALL EM DASH to `-`");
   equal(slugify("a\uFE63b"), "a-b", "converts SMALL HYPHEN-MINUS to `-`");
   equal(slugify("a\uFF0Db"), "a-b", "converts FULLWIDTH HYPHEN-MINUS to `-`");
-  end();
-});
-
-test("standard-slugify with leading or trailing `-`", ({ equal, end }) => {
-  equal(slugify("-a⁠"), "a", "removes leading `-`");
-  equal(slugify("a-⁠"), "a", "removes trailing `-`");
-  equal(slugify("--a⁠"), "a", "removes leading `-` characters");
-  equal(slugify("a--⁠"), "a", "removes trailing `-` characters");
   end();
 });
 
