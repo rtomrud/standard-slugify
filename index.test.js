@@ -338,7 +338,6 @@ test("standard-slugify with Latin-1 Supplement lowercase letters", ({
   equal(slugify("ÿ"), "y", "transliterates `ÿ` as `y`");
 });
 
-// eslint-disable-next-line max-lines-per-function
 test("standard-slugify with Latin Extended-A uppercase letters", ({
   equal,
   plan
@@ -409,7 +408,6 @@ test("standard-slugify with Latin Extended-A uppercase letters", ({
   equal(slugify("Ž"), "z", "transliterates `Ž` as `z`");
 });
 
-// eslint-disable-next-line max-lines-per-function
 test("standard-slugify with Latin Extended-A lowercase letters", ({
   equal,
   plan
@@ -606,7 +604,6 @@ test("standard-slugify with Greek and Coptic lowercase letters from ISO-8859-7",
   end();
 });
 
-// eslint-disable-next-line max-lines-per-function
 test("standard-slugify with Cyrillic uppercase letters from ISO-8859-5", ({
   equal,
   end
@@ -662,7 +659,6 @@ test("standard-slugify with Cyrillic uppercase letters from ISO-8859-5", ({
   end();
 });
 
-// eslint-disable-next-line max-lines-per-function
 test("standard-slugify with Cyrillic lowercase letters from ISO-8859-5", ({
   equal,
   end
