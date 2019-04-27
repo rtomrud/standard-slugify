@@ -7,7 +7,7 @@
 
 Converts a string into a slug safe for [URLs](https://tools.ietf.org/html/rfc3986) and filenames
 
-* [Standards compliant replacements](#details); no arbitrary and surprising substitutions, but allows custom replacements
+* [Standards-compliant replacements](#details); no arbitrary and surprising substitutions, but allows custom replacements
 * Transliterates to [US-ASCII](https://en.wikipedia.org/wiki/ASCII) every letter from [ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16](https://en.wikipedia.org/wiki/ISO/IEC_8859), [MES-1](http://www.evertype.com/standards/iso10646/pdf/cwa13873.pdf), and [WGL4](https://en.wikipedia.org/wiki/Windows_Glyph_List_4), i.e., every Latin, Greek, and Cyrillic letter actually used in keyboard layouts and fonts
 * Converts all white space and separators, e.g., HT, LF, VT, FF, CR, FS, GS, RS, US, SP, NEL, NBPS, LSEP, PSEP
 * Converts all dash punctuation characters, e.g., HYPHEN, FIGURE DASH, EN DASH, EM DASH, HORIZONTAL BAR
@@ -22,11 +22,11 @@ npm install standard-slugify
 
 ### `standardSlugify(string, { keepCase, replacements })`
 
-Returns a slug of the given `string`, where white space, control codes that are separators, and hyphen and dash marks are converted to `-`, letters are lowercased, non-US-ASCII letters are transliterated to US-ASCII, `_` is kept, the rest of characters are removed, and leading and trailing `-` are removed.
+Returns a slug of the given `string`. Leading and trailing white space is removed; white space, control codes that are separators, and hyphen and dash marks are converted to `-`; uppercase letters are lowercased; non-US-ASCII letters are transliterated to US-ASCII; `_` is kept as is; and the rest of characters are removed.
 
-By default, the resulting slug is in lowercase. To keep the original case of the given string, set the `keepCase` option to `true`.
+By default, the resulting slug is in lowercase. To keep the original case of the given `string`, set the `keepCase` option to `true`.
 
-You can specify custom replacements by passing an object that maps characters to strings as the `replacements` option. The custom replacements take precedence over the default replacements in case of collision.
+To specify custom replacements, pass an object that maps characters to strings as the `replacements` option. The custom replacements take precedence over the default replacements in case of collision.
 
 ```js
 import standardSlugify from "standard-slugify";

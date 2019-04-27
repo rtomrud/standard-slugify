@@ -416,17 +416,18 @@ const defaultReplacements = {
 };
 
 /**
- * Returns a slug of the given `string`, where white space, control codes that
- * are separators, and hyphen and dash marks are converted to `-`, letters are
- * lowercased, non-US-ASCII letters are transliterated to US-ASCII, `_` is kept,
- * the rest of characters are removed, and leading and trailing `-` are removed.
+ * Returns a slug of the given `string`. Leading and trailing white space is
+ * removed; white space, control codes that are separators, and hyphen and dash
+ * marks are converted to `-`; uppercase letters are lowercased; non-US-ASCII
+ * letters are transliterated to US-ASCII; `_` is kept as is; and the rest of
+ * characters are removed.
  *
  * By default, the resulting slug is in lowercase. To keep the original case of
- * the given string, set the `keepCase` option to `true`.
+ * the given `string`, set the `keepCase` option to `true`.
  *
- * You can specify custom replacements by passing an object that maps characters
- * to strings as the `replacements` option. The custom replacements take
- * precedence over the default replacements in case of collision.
+ * To specify custom replacements, pass an object that maps characters to
+ * strings as the `replacements` option. The custom replacements take precedence
+ * over the default replacements in case of collision.
  */
 export default function(
   string = "",
