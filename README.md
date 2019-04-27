@@ -2,6 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/standard-slugify.svg?style=flat-square)](https://www.npmjs.com/package/standard-slugify)
 [![Build Status](https://travis-ci.com/rtomrud/standard-slugify.svg?branch=master)](https://travis-ci.com/rtomrud/standard-slugify)
+[![Coverage Status](https://coveralls.io/repos/github/rtomrud/standard-slugify/badge.svg?branch=master)](https://coveralls.io/github/rtomrud/standard-slugify?branch=master)
 
 Converts a string into a slug safe for [URLs](https://tools.ietf.org/html/rfc3986) and filenames
 
