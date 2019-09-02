@@ -73,7 +73,7 @@ const defaultReplacements = {
    * https://www.unicode.org/charts/PDF/U0080.pdf
    */
   "\u0085": "-", // NEL: NEXT LINE (nel)
-  " ": "-", // NBPS: NO-BREAK SPACE, non-breaking space
+  "\u00A0": "-", // NBPS: NO-BREAK SPACE, non-breaking space
   ß: "ss",
   à: "a",
   á: "a",
@@ -367,23 +367,23 @@ const defaultReplacements = {
    *
    * https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
    */
-  " ": "-", // OGHAM SPACE MARK
-  " ": "-", // EN QUAD
-  " ": "-", // EM QUAD, mutton quad
-  " ": "-", // EN SPACE, nut
-  " ": "-", // EM SPACE, mutton
-  " ": "-", // THREE-PER-EM SPACE, thick space
-  " ": "-", // FOUR-PER-EM SPACE, mid space
-  " ": "-", // SIX-PER-EM SPACE
-  " ": "-", // FIGURE SPACE
-  " ": "-", // PUNCTUATION SPACE
-  " ": "-", // THIN SPACE
-  " ": "-", // HAIR SPACE
+  "\u1680": "-", // OGHAM SPACE MARK
+  "\u2000": "-", // EN QUAD
+  "\u2001": "-", // EM QUAD, mutton quad
+  "\u2002": "-", // EN SPACE, nut
+  "\u2003": "-", // EM SPACE, mutton
+  "\u2004": "-", // THREE-PER-EM SPACE, thick space
+  "\u2005": "-", // FOUR-PER-EM SPACE, mid space
+  "\u2006": "-", // SIX-PER-EM SPACE
+  "\u2007": "-", // FIGURE SPACE
+  "\u2008": "-", // PUNCTUATION SPACE
+  "\u2009": "-", // THIN SPACE
+  "\u200A": "-", // HAIR SPACE
   "\u2028": "-", // LSEP: LINE SEPARATOR
   "\u2029": "-", // PSEP: PARAGRAPH SEPARATOR
-  " ": "-", // NNBSP: NARROW NO-BREAK SPACE (nnbsp)
-  " ": "-", // MMSP: MEDIUM MATHEMATICAL SPACE (mmsp)
-  "　": "-", // IDEOGRAPHIC SPACE
+  "\u202F": "-", // NNBSP: NARROW NO-BREAK SPACE (nnbsp)
+  "\u205F": "-", // MMSP: MEDIUM MATHEMATICAL SPACE (mmsp)
+  "\u3000": "-", // IDEOGRAPHIC SPACE
 
   /**
    * The rest of characters from the Dash_Punctuation (Pd) General Category
