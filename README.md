@@ -62,7 +62,7 @@ standardSlugify("₿ raising, € falling", {
     * Letters from ISO-8859-1,2,3,4,5,7,9,10,13,14,15,16, MES-1 or WGL4 are transliterated:
         * Latin or Cyrillic letters are transliterated according to [ISO/IEC 7501-3](https://www.icao.int/publications/Documents/9303_p3_cons_en.pdf)
         * Greek letters are transliterated according to [ISO 843](https://en.wikipedia.org/wiki/ISO_843)
-    * Characters with the [White_Space property](https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt), [Control Codes with semantics in Unicode (§ 23.1)](http://www.unicode.org/versions/Unicode11.0.0/ch23.pdf) and characters in the [Dash_Punctuation (Pd) General Category of Unicode](https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt) are converted to HYPHEN-MINUS (`-`)
+    * Characters with the [White_Space property](https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt), [Control Codes with semantics in Unicode (§ 23.1)](https://www.unicode.org/versions/Unicode12.0.0/ch23.pdf) and characters in the [Dash_Punctuation (Pd) General Category of Unicode](https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt) are converted to HYPHEN-MINUS (`-`)
     * LOW LINE (`_`) characters are kept as is
     * The rest of characters are removed
 * Characters are replaced with their respective mappings in the given custom `replacements`, if any is specified
