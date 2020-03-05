@@ -58,6 +58,7 @@
     },
     "root": true,
     "rules": {
+      "no-control-regex": "off",
       "no-inline-comments": "off"
     }
   },
