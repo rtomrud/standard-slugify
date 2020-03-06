@@ -1,419 +1,80 @@
 /**
- * Uppercase characters are omited because the string is lowercased.
- * Non-alphanumeric characters that are removed are also omited.
+ * Transliteration performed according to ISO/IEC 7501-3, except Greek, which is
+ * transliterated according to ISO 843 (without diacritics).
  *
- * Transliterated according to ISO/IEC 7501-3, except Greek, which is
- * transliterated according to ISO 843.
- *
- * See transliteration map of Latin and Cyrillic on pages 38 to 42 of
+ * See the transliteration map of Latin and Cyrillic on pages 38 to 42 of
  * https://www.icao.int/publications/Documents/9303_p3_cons_en.pdf
  */
-const defaultReplacements = {
-  /**
-   * C0 Controls and Basic Latin
-   *
-   * - US-ASCII
-   *
-   * https://www.unicode.org/charts/PDF/U0000.pdf
-   */
-  "\u0009": "-", // HT: CHARACTER TABULATION, horizontal tabulation (ht), tab
-  "\u000A": "-", // LF: LINE FEED, new line (nl), end of line (eol)
-  "\u000B": "-", // VT: LINE TABULATION, vertical tabulation (vt)
-  "\u000C": "-", // FF: FORM FEED (ff)
-  "\u000D": "-", // CR: CARRIAGE RETURN (cr)
-  "\u001C": "-", // FS: INFORMATION SEPARATOR FOUR, file separator
-  "\u001D": "-", // GS: INFORMATION SEPARATOR THREE, group separator
-  "\u001E": "-", // RS: INFORMATION SEPARATOR TWO, record separator
-  "\u001F": "-", // US: INFORMATION SEPARATOR ONE, unit separator
-  " ": "-", // SP: SPACE
-  "-": "-", // HYPHEN-MINUS, hyphen or minus sign, hyphus
-  "0": "0",
-  "1": "1",
-  "2": "2",
-  "3": "3",
-  "4": "4",
-  "5": "5",
-  "6": "6",
-  "7": "7",
-  "8": "8",
-  "9": "9",
-  _: "_", // LOW LINE, spacing underscore
-  a: "a",
-  b: "b",
-  c: "c",
-  d: "d",
-  e: "e",
-  f: "f",
-  g: "g",
-  h: "h",
-  i: "i",
-  j: "j",
-  k: "k",
-  l: "l",
-  m: "m",
-  n: "n",
-  o: "o",
-  p: "p",
-  q: "q",
-  r: "r",
-  s: "s",
-  t: "t",
-  u: "u",
-  v: "v",
-  w: "w",
-  x: "x",
-  y: "y",
-  z: "z",
+const defaultReplacements = [
+  ["[aàáâãäåāăąǻάαа]", "a"],
+  ["[bбḃ]", "b"],
+  ["[cçćĉċčћ]", "c"],
+  ["[dðďđδдђḋ]", "d"],
+  ["[eèéêëēĕėęěέεеэѐё]", "e"],
+  ["[fƒφфḟ]", "f"],
+  ["[gĝğġģγгѓґ]", "g"],
+  ["[hĥħ]", "h"],
+  ["[iìíîïĩīĭįıΐήίηιϊийіїѝ]", "i"],
+  ["[jĵј]", "j"],
+  ["[kķĸκкќ]", "k"],
+  ["[lĺļľŀłλл]", "l"],
+  ["[mμмṁ]", "m"],
+  ["[nñńņňŉŋνн]", "n"],
+  ["[oòóôõöōŏőοωόώо]", "o"],
+  ["[pπпṗ]", "p"],
+  ["q", "q"],
+  ["[rŕŗřρр]", "r"],
+  ["[sśŝşšſșςσсṡ]", "s"],
+  ["[tţťŧțτтṫ]", "t"],
+  ["[uùúûüũūŭůűųуў]", "u"],
+  ["[vβв]", "v"],
+  ["[wŵẁẃẅ]", "w"],
+  ["[xξ]", "x"],
+  ["[yýÿŷΰυϋύыỳ]", "y"],
+  ["[zźżžζз]", "z"],
+  ["[æǽ]", "ae"],
+  ["[χч]", "ch"],
+  ["[ѕџ]", "dz"],
+  ["ﬁ", "fi"],
+  ["ﬂ", "fl"],
+  ["я", "ia"],
+  ["[ъє]", "ie"],
+  ["ĳ", "ij"],
+  ["ю", "iu"],
+  ["х", "kh"],
+  ["љ", "lj"],
+  ["њ", "nj"],
+  ["[øœǿ]", "oe"],
+  ["ψ", "ps"],
+  ["ш", "sh"],
+  ["щ", "shch"],
+  ["ß", "ss"],
+  ["[þθ]", "th"],
+  ["ц", "ts"],
+  ["ж", "zh"],
 
-  /**
-   * C1 Controls and Latin-1 Supplement
-   *
-   * - ISO-8859-1: Latin-1
-   *
-   * https://www.unicode.org/charts/PDF/U0080.pdf
-   */
-  "\u0085": "-", // NEL: NEXT LINE (nel)
-  "\u00A0": "-", // NBPS: NO-BREAK SPACE, non-breaking space
-  ß: "ss",
-  à: "a",
-  á: "a",
-  â: "a",
-  ã: "a",
-  ä: "a",
-  å: "a",
-  æ: "ae",
-  ç: "c",
-  è: "e",
-  é: "e",
-  ê: "e",
-  ë: "e",
-  ì: "i",
-  í: "i",
-  î: "i",
-  ï: "i",
-  ð: "d",
-  ñ: "n",
-  ò: "o",
-  ó: "o",
-  ô: "o",
-  õ: "o",
-  ö: "o",
-  ø: "oe",
-  ù: "u",
-  ú: "u",
-  û: "u",
-  ü: "u",
-  ý: "y",
-  þ: "th",
-  ÿ: "y",
+  // White_Space, General_Category=Dash_Punctuation and Control Codes
+  [
+    "[\\u0009-\\u000D\\u001C-\\u001F\\u0020\\u002D\\u0085\\u00A0\\u1680\\u2000-\\u200A\\u2028\\u2029\\u202F\\u205F\\u3000\\u058A\\u05BE\\u1400\\u1806\\u2010-\\u2015\\u2E17\\u2E1A\\u2E3A\\u2E3B\\u2E40\\u301C\\u3030\\u30A0\\uFE31\\uFE32\\uFE58\\uFE63\\uFF0D]",
+    "-"
+  ]
+];
 
-  /**
-   * Latin Extended-A
-   *
-   * - ISO-8859-2: Latin-2 Central European
-   * - ISO-8859-3: Latin-3 South European
-   * - ISO-8859-4: Latin-4 North European
-   * - ISO-8859-9: Latin-5 Turkish
-   * - ISO-8859-10: Latin-6 Nordic
-   * - ISO-8859-13: Latin-7 Baltic Rim
-   * - ISO-8859-14: Latin-8 Celtic
-   * - ISO-8859-15: Latin-9
-   * - ISO-8859-16: Latin-10 South-Eastern European
-   * - MES-1
-   * - WGL4
-   *
-   * https://www.unicode.org/charts/PDF/U0100.pdf
-   */
-  ā: "a",
-  ă: "a",
-  ą: "a",
-  ć: "c",
-  ĉ: "c",
-  ċ: "c",
-  č: "c",
-  ď: "d",
-  đ: "d",
-  ē: "e",
-  ĕ: "e",
-  ė: "e",
-  ę: "e",
-  ě: "e",
-  ĝ: "g",
-  ğ: "g",
-  ġ: "g",
-  ģ: "g",
-  ĥ: "h",
-  ħ: "h",
-  ĩ: "i",
-  ī: "i",
-  ĭ: "i",
-  į: "i",
-  ı: "i",
-  ĳ: "ij",
-  ĵ: "j",
-  ķ: "k",
-  ĸ: "k",
-  ĺ: "l",
-  ļ: "l",
-  ľ: "l",
-  ŀ: "l",
-  ł: "l",
-  ń: "n",
-  ņ: "n",
-  ň: "n",
-  ŉ: "n",
-  ŋ: "n",
-  ō: "o",
-  ŏ: "o",
-  ő: "o",
-  œ: "oe",
-  ŕ: "r",
-  ŗ: "r",
-  ř: "r",
-  ś: "s",
-  ŝ: "s",
-  ş: "s",
-  š: "s",
-  ţ: "t",
-  ť: "t",
-  ŧ: "t",
-  ũ: "u",
-  ū: "u",
-  ŭ: "u",
-  ů: "u",
-  ű: "u",
-  ų: "u",
-  ŵ: "w",
-  ŷ: "y",
-  ź: "z",
-  ż: "z",
-  ž: "z",
-  ſ: "s",
+const replaceLoweringCase = (string, [regExp, replacement]) =>
+  string.replace(RegExp(regExp, "giu"), replacement);
 
-  /**
-   * Latin Extended-B (subset)
-   *
-   * - WGL4
-   *
-   * https://www.unicode.org/charts/PDF/U0180.pdf
-   */
-  ƒ: "f",
-  ǻ: "a",
-  ǽ: "ae",
-  ǿ: "oe",
+const replaceKeepingCase = (string, [regExp, replacement]) =>
+  string.replace(RegExp(regExp, "giu"), (match, offset) => {
+    if (match.toLowerCase() === match) {
+      return replacement.toLowerCase();
+    }
 
-  /**
-   * Latin Extended-B (subset)
-   *
-   * - ISO-8859-16: Latin-10 South-Eastern European
-   *
-   * https://www.unicode.org/charts/PDF/U0180.pdf
-   */
-  ș: "s",
-  ț: "t",
-
-  /**
-   * Greek and Coptic (subset)
-   *
-   * - ISO-8859-7: Latin/Greek
-   *
-   * Transliterated according to ISO 843, and then the diacritics are removed as
-   * specified in ISO/IEC 7501-3.
-   *
-   * https://www.unicode.org/charts/PDF/U0370.pdf
-   *
-   * https://en.wikipedia.org/wiki/ISO_843
-   */
-  ΐ: "i",
-  ά: "a",
-  έ: "e",
-  ή: "i",
-  ί: "i",
-  ΰ: "y",
-  α: "a",
-  β: "v",
-  γ: "g",
-  δ: "d",
-  ε: "e",
-  ζ: "z",
-  η: "i",
-  θ: "th",
-  ι: "i",
-  κ: "k",
-  λ: "l",
-  μ: "m",
-  ν: "n",
-  ξ: "x",
-  ο: "o",
-  π: "p",
-  ρ: "r",
-  ς: "s",
-  σ: "s",
-  τ: "t",
-  υ: "y",
-  φ: "f",
-  χ: "ch",
-  ψ: "ps",
-  ω: "o",
-  ϊ: "i",
-  ϋ: "y",
-  ό: "o",
-  ύ: "y",
-  ώ: "o",
-
-  /**
-   * Cyrillic (subset)
-   *
-   * - ISO-8859-5: Latin/Cyrillic
-   *
-   * Transliterated according to ISO/IEC 7501-3. The ISO 9:1995, identical to
-   * GOST 7.79-2000 System A, does not apply because its goal is
-   * transliterating to Latin using single letters with diacritics to allow
-   * reverse transliteration.
-   *
-   * https://www.unicode.org/charts/PDF/U0400.pdf
-   *
-   * https://www.icao.int/publications/Documents/9303_p3_cons_en.pdf
-   */
-  а: "a",
-  б: "b",
-  в: "v",
-  г: "g", // `h` for Serbian and Belorussian
-  д: "d",
-  е: "e",
-  ж: "zh", // `z` for Serbian
-  з: "z",
-  и: "i", // `y` for Ukrainian
-  й: "i",
-  к: "k",
-  л: "l",
-  м: "m",
-  н: "n",
-  о: "o",
-  п: "p",
-  р: "r",
-  с: "s",
-  т: "t",
-  у: "u",
-  ф: "f",
-  х: "kh", // `h` for Serbian
-  ц: "ts", // `c` for Serbian
-  ч: "ch", // `c` for Serbian
-  ш: "sh", // `s` for Serbian
-  щ: "shch", // `sht` for Bulgarian
-  ъ: "ie", // Novel transliteration only present in ISO/IEC 7501-3
-  ы: "y",
-  ь: "",
-  э: "e",
-  ю: "iu",
-  я: "ia",
-  ѐ: "e",
-  ё: "e", // `io` for Belorussian
-  ђ: "d",
-  ѓ: "g",
-  є: "ie",
-  ѕ: "dz",
-  і: "i",
-  ї: "i",
-  ј: "j",
-  љ: "lj",
-  њ: "nj",
-  ћ: "c",
-  ќ: "k",
-  ѝ: "i",
-  ў: "u",
-  џ: "dz",
-
-  /**
-   * Cyrillic (subset)
-   *
-   * - WGL4
-   *
-   * https://www.unicode.org/charts/PDF/U0400.pdf
-   */
-  ґ: "g",
-
-  /**
-   * Latin Extended Additional (subset)
-   *
-   * - ISO-8859-14: Latin-8 Celtic
-   *
-   * https://www.unicode.org/charts/PDF/U1E00.pdf
-   */
-  ḃ: "b",
-  ḋ: "d",
-  ḟ: "f",
-  ṁ: "m",
-  ṗ: "p",
-  ṡ: "s",
-  ṫ: "t",
-  ẁ: "w",
-  ẃ: "w",
-  ẅ: "w",
-  ỳ: "y",
-
-  /**
-   * Alphabetic Presentation Forms (subset)
-   *
-   * - WGL4
-   *
-   * https://www.unicode.org/charts/PDF/UFB00.pdf
-   */
-  ﬁ: "fi", // LATIN SMALL LIGATURE FI
-  ﬂ: "fl", // LATIN SMALL LIGATURE FL
-
-  /**
-   * The rest of characters with the White_Space property
-   *
-   * https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
-   */
-  "\u1680": "-", // OGHAM SPACE MARK
-  "\u2000": "-", // EN QUAD
-  "\u2001": "-", // EM QUAD, mutton quad
-  "\u2002": "-", // EN SPACE, nut
-  "\u2003": "-", // EM SPACE, mutton
-  "\u2004": "-", // THREE-PER-EM SPACE, thick space
-  "\u2005": "-", // FOUR-PER-EM SPACE, mid space
-  "\u2006": "-", // SIX-PER-EM SPACE
-  "\u2007": "-", // FIGURE SPACE
-  "\u2008": "-", // PUNCTUATION SPACE
-  "\u2009": "-", // THIN SPACE
-  "\u200A": "-", // HAIR SPACE
-  "\u2028": "-", // LSEP: LINE SEPARATOR
-  "\u2029": "-", // PSEP: PARAGRAPH SEPARATOR
-  "\u202F": "-", // NNBSP: NARROW NO-BREAK SPACE (nnbsp)
-  "\u205F": "-", // MMSP: MEDIUM MATHEMATICAL SPACE (mmsp)
-  "\u3000": "-", // IDEOGRAPHIC SPACE
-
-  /**
-   * The rest of characters from the Dash_Punctuation (Pd) General Category
-   *
-   * https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
-   */
-  "֊": "-", // ARMENIAN HYPHEN
-  "־": "-", // HEBREW PUNCTUATION MAQAF
-  "᐀": "-", // CANADIAN SYLLABICS HYPHEN
-  "᠆": "-", // MONGOLIAN TODO SOFT HYPHEN
-  "‐": "-", // HYPHEN
-  "‑": "-", // NON-BREAKING HYPHEN
-  "‒": "-", // FIGURE DASH
-  "–": "-", // EN DASH
-  "—": "-", // EM DASH
-  "―": "-", // HORIZONTAL BAR, quotation dash
-  "⸗": "-", // DOUBLE OBLIQUE HYPHEN
-  "⸚": "-", // HYPHEN WITH DIAERESIS
-  "⸺": "-", // TWO-EM DASH, omission dash
-  "⸻": "-", // THREE-EM DASH
-  "⹀": "-", // DOUBLE HYPHEN
-  "〜": "-", // WAVE DASH
-  "〰": "-", // WAVY DASH
-  "゠": "-", // KATAKANA-HIRAGANA DOUBLE HYPHEN
-  "︱": "-", // PRESENTATION FORM FOR VERTICAL EM DASH
-  "︲": "-", // PRESENTATION FORM FOR VERTICAL EN DASH
-  "﹘": "-", // SMALL EM DASH
-  "﹣": "-", // SMALL HYPHEN-MINUS
-  "－": "-" // FULLWIDTH HYPHEN-MINUS
-};
+    const nextChar = string.charAt(offset + 1);
+    return !nextChar || nextChar.toUpperCase() === nextChar
+      ? replacement.toUpperCase()
+      : replacement.charAt().toUpperCase() +
+          replacement.substring(1).toLowerCase();
+  });
 
 /**
  * Returns a slug of the given `string`. Leading and trailing white space is
@@ -425,34 +86,19 @@ const defaultReplacements = {
  * By default, the resulting slug is in lowercase. To keep the original case of
  * the given `string`, set the `keepCase` option to `true`.
  *
- * To specify custom replacements, pass an object that maps characters to
- * strings as the `replacements` option. The custom replacements take precedence
- * over the default replacements in case of collision.
+ * To specify custom replacements, pass as the `replacements` option an object
+ * where each key matches the characters to be replaced and the value is their
+ * replacement. The keys can be regular expressions.
  */
 export default function(
   string = "",
   { keepCase = false, replacements = {} } = {}
 ) {
-  return string.trim().replace(/[\s\S]/gu, (match, offset) => {
-    const replacement = replacements[match];
-    if (replacement != null) {
-      return keepCase ? replacement : replacement.toLowerCase();
-    }
-
-    const lowerCaseMatch = match.toLowerCase();
-    const defaultReplacement = defaultReplacements[lowerCaseMatch];
-    if (defaultReplacement == null) {
-      return "";
-    }
-
-    if (!keepCase || lowerCaseMatch === match) {
-      return defaultReplacement;
-    }
-
-    const nextChar = string.charAt(offset + 1);
-    return !nextChar || nextChar.toUpperCase() === nextChar
-      ? defaultReplacement.toUpperCase()
-      : defaultReplacement.charAt().toUpperCase() +
-          defaultReplacement.substring(1);
-  });
+  const replacer = keepCase ? replaceKeepingCase : replaceLoweringCase;
+  return defaultReplacements
+    .reduce(
+      replacer,
+      Object.entries(replacements).reduce(replacer, string.trim())
+    )
+    .replace(/[^\w-]/g, "");
 }

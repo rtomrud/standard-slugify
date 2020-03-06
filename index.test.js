@@ -961,23 +961,36 @@ test("standard-slugify with replacements", ({ equal, end }) => {
 
 test("standard-slugify with keepCase and replacements", ({ equal, end }) => {
   equal(
-    slugify("ȜET", {
+    slugify("Єгипет, Їжак, Йорданія, Югославія, Ямайка", {
       keepCase: true,
+      // Transliterate Ukrainian according to ISO/IEC 7501-3
       replacements: {
-        Ȝ: "Y" // LATIN SMALL LETTER YOGH
+        "(?<=^|\\P{L})Є": "YE", // if Ukrainian first character (instead of IO)
+        "(?<=^|\\P{L})Ї": "YI", // if Ukrainian first character (instead of IE)
+        Г: "H", // if Ukrainian (instead of G)
+        И: "Y", // if Ukrainian (instead of I)
+        "(?<=^|\\P{L})Й": "Y", // if Ukrainian first character (instead of I)
+        "(?<=^|\\P{L})Ю": "YU", // if Ukrainian first character (instead of IU)
+        "(?<=^|\\P{L})Я": "YA" // if Ukrainian first character (instead of YA)
       }
     }),
-    "YET",
+    "Yehypet-Yizhak-Yordaniia-Yuhoslaviia-Yamaika",
     "keeps case of custom replacements and original string"
   );
   equal(
-    slugify("ȜET", {
-      keepCase: false,
+    slugify("Єгипет, Їжак, Йорданія, Югославія, Ямайка", {
+      // Transliterate Ukrainian according to ISO/IEC 7501-3
       replacements: {
-        Ȝ: "Y" // LATIN SMALL LETTER YOGH
+        "(?<=^|\\P{L})Є": "YE", // if Ukrainian first character (instead of IO)
+        "(?<=^|\\P{L})Ї": "YI", // if Ukrainian first character (instead of IE)
+        Г: "H", // if Ukrainian (instead of G)
+        И: "Y", // if Ukrainian (instead of I)
+        "(?<=^|\\P{L})Й": "Y", // if Ukrainian first character (instead of I)
+        "(?<=^|\\P{L})Ю": "YU", // if Ukrainian first character (instead of IU)
+        "(?<=^|\\P{L})Я": "YA" // if Ukrainian first character (instead of YA)
       }
     }),
-    "yet",
+    "yehypet-yizhak-yordaniia-yuhoslaviia-yamaika",
     "lowercases custom replacements and original string"
   );
   end();
