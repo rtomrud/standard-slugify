@@ -32,20 +32,19 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint .",
     "prepare": "npm run build",
-    "test": "nyc --reporter html tape -r esm index.test.js | faucet && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
+    "test": "nyc --reporter html tape -r esm index.test.js && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
     "posttest": "npm run lint"
   },
   "devDependencies": {
-    "coveralls": "3.0.9",
+    "coveralls": "3.0.11",
     "eslint": "6.8.0",
     "eslint-config-pretty-strict": "4.0.0",
     "eslint-plugin-prettier": "3.1.2",
     "esm": "3.2.25",
-    "faucet": "0.0.1",
     "husky": "4.2.3",
     "nyc": "15.0.0",
     "prettier": "1.19.1",
-    "rollup": "1.32.0",
+    "rollup": "2.1.0",
     "tape": "4.13.2"
   },
   "eslintConfig": {
