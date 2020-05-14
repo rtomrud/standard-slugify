@@ -1,7 +1,7 @@
 # standard-slugify
 
 [![npm version](https://img.shields.io/npm/v/standard-slugify.svg?style=flat-square)](https://www.npmjs.com/package/standard-slugify)
-[![Build Status](https://travis-ci.com/rtomrud/standard-slugify.svg?branch=master)](https://travis-ci.com/rtomrud/standard-slugify)
+[![build status](https://github.com/rtomrud/standard-slugify/workflows/build/badge.svg)](https://github.com/rtomrud/standard-slugify/actions?query=branch%3Amaster+workflow%3Abuild)
 [![Coverage Status](https://coveralls.io/repos/github/rtomrud/standard-slugify/badge.svg?branch=master)](https://coveralls.io/github/rtomrud/standard-slugify?branch=master)
 [![Code size](https://badgen.net/bundlephobia/minzip/standard-slugify)](https://bundlephobia.com/result?p=standard-slugify)
 
