@@ -25,8 +25,6 @@ Returns a slug of the given `string`. Leading and trailing white space is remove
 
 By default, the resulting slug is in lowercase. To keep the original case of the given `string`, set the `keepCase` option to `true`.
 
-To specify custom replacements, pass as the `replacements` option an object where each key matches the characters to be replaced and the value is their replacement. The keys can be regular expressions.
-
 ```js
 import standardSlugify from "standard-slugify";
 
@@ -44,6 +42,12 @@ standardSlugify("Æthelflæd", { keepCase: true });
 
 standardSlugify("ÆTHELFLÆD", { keepCase: true });
 // => "AETHELFLAED"
+```
+
+To specify custom replacements, pass as the `replacements` option an object where each key matches the characters to be replaced and the value is their replacement. The keys can be regular expressions.
+
+```js
+import standardSlugify from "standard-slugify";
 
 standardSlugify("₿ raising, € falling", {
   replacements: {
