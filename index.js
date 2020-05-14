@@ -56,8 +56,8 @@ const defaultReplacements = [
   // White_Space, General_Category=Dash_Punctuation and Control Codes
   [
     "[\\u0009-\\u000D\\u001C-\\u001F\\u0020\\u002D\\u0085\\u00A0\\u1680\\u2000-\\u200A\\u2028\\u2029\\u202F\\u205F\\u3000\\u058A\\u05BE\\u1400\\u1806\\u2010-\\u2015\\u2E17\\u2E1A\\u2E3A\\u2E3B\\u2E40\\u301C\\u3030\\u30A0\\uFE31\\uFE32\\uFE58\\uFE63\\uFF0D]",
-    "-"
-  ]
+    "-",
+  ],
 ];
 
 const replaceLoweringCase = (string, [regExp, replacement]) =>
@@ -90,7 +90,7 @@ const replaceKeepingCase = (string, [regExp, replacement]) =>
  * where each key matches the characters to be replaced and the value is their
  * replacement. The keys can be regular expressions.
  */
-export default function(
+export default function (
   string = "",
   { keepCase = false, replacements = {} } = {}
 ) {

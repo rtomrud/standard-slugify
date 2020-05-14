@@ -19,7 +19,7 @@ test("standard-slugify with empty arguments", ({ equal, end }) => {
 
 test("standard-slugify with first argument of wrong type", ({
   throws,
-  end
+  end,
 }) => {
   throws(() => slugify(true), TypeError, "throws TypeError when given true");
   throws(() => slugify(false), TypeError, "throws TypeError when given false");
@@ -38,7 +38,7 @@ test("standard-slugify with first argument of wrong type", ({
 test("standard-slugify with options argument of wrong type", ({
   equal,
   throws,
-  end
+  end,
 }) => {
   equal(slugify("", true), "", "returns an empty string when given true");
   equal(slugify("", false), "", "returns an empty string when given false");
@@ -60,7 +60,7 @@ test("standard-slugify with options argument of wrong type", ({
 // See https://tools.ietf.org/html/rfc3986#section-2.1
 test("standard-slugify with RFC 3986 percent-encoding US-ASCII character", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("%"), "", "removes percent-encoding character `%`");
   end();
@@ -69,7 +69,7 @@ test("standard-slugify with RFC 3986 percent-encoding US-ASCII character", ({
 // See https://tools.ietf.org/html/rfc3986#section-2.2
 test("standard-slugify with RFC 3986 reserved gen-delims US-ASCII characters", ({
   equal,
-  plan
+  plan,
 }) => {
   plan(7);
   equal(slugify(":"), "", "removes RFC 3986 gen-delim `:`");
@@ -84,7 +84,7 @@ test("standard-slugify with RFC 3986 reserved gen-delims US-ASCII characters", (
 // See https://tools.ietf.org/html/rfc3986#section-2.2
 test("standard-slugify with RFC 3986 reserved sub-delims US-ASCII characters", ({
   equal,
-  plan
+  plan,
 }) => {
   plan(11);
   equal(slugify("!"), "", "removes RFC 3986 sub-delim `!`");
@@ -103,7 +103,7 @@ test("standard-slugify with RFC 3986 reserved sub-delims US-ASCII characters", (
 // See https://tools.ietf.org/html/rfc3986#section-2.3
 test("standard-slugify with RFC 3986 unreserved US-ASCII uppercase letters", ({
   equal,
-  plan
+  plan,
 }) => {
   plan(26);
   equal(slugify("A"), "a", "lowercases uppercase letter `A`");
@@ -137,7 +137,7 @@ test("standard-slugify with RFC 3986 unreserved US-ASCII uppercase letters", ({
 // See https://tools.ietf.org/html/rfc3986#section-2.3
 test("standard-slugify with RFC 3986 unreserved US-ASCII lowercase letters", ({
   equal,
-  plan
+  plan,
 }) => {
   plan(26);
   equal(slugify("a"), "a", "keeps lowercase letter `a`");
@@ -171,7 +171,7 @@ test("standard-slugify with RFC 3986 unreserved US-ASCII lowercase letters", ({
 // See https://tools.ietf.org/html/rfc3986#section-2.3
 test("standard-slugify with RFC 3986 unreserved US-ASCII decimal digits", ({
   equal,
-  plan
+  plan,
 }) => {
   plan(10);
   equal(slugify("0"), "0", "keeps decimal digit `0`");
@@ -189,7 +189,7 @@ test("standard-slugify with RFC 3986 unreserved US-ASCII decimal digits", ({
 // See https://tools.ietf.org/html/rfc3986#section-2.3
 test("standard-slugify with RFC 3986 unreserved US-ASCII non-alphanumeric characters", ({
   equal,
-  plan
+  plan,
 }) => {
   plan(4);
   equal(slugify("-"), "-", "keeps `-`");
@@ -284,7 +284,7 @@ test("standard-slugify with C1 Controls", ({ equal, plan }) => {
 
 test("standard-slugify with Latin-1 Supplement lowercase letters", ({
   equal,
-  plan
+  plan,
 }) => {
   plan(30);
   equal(slugify("À"), "a", "transliterates `À` as `a`");
@@ -321,7 +321,7 @@ test("standard-slugify with Latin-1 Supplement lowercase letters", ({
 
 test("standard-slugify with Latin-1 Supplement lowercase letters", ({
   equal,
-  plan
+  plan,
 }) => {
   plan(32);
   equal(slugify("ß"), "ss", "transliterates `ß` as `ss`");
@@ -360,7 +360,7 @@ test("standard-slugify with Latin-1 Supplement lowercase letters", ({
 
 test("standard-slugify with Latin Extended-A uppercase letters", ({
   equal,
-  plan
+  plan,
 }) => {
   plan(62);
   equal(slugify("Ā"), "a", "transliterates `Ā` as `a`");
@@ -429,7 +429,7 @@ test("standard-slugify with Latin Extended-A uppercase letters", ({
 
 test("standard-slugify with Latin Extended-A lowercase letters", ({
   equal,
-  plan
+  plan,
 }) => {
   plan(65);
   equal(slugify("ā"), "a", "transliterates `ā` as `a`");
@@ -501,7 +501,7 @@ test("standard-slugify with Latin Extended-A lowercase letters", ({
 
 test("standard-slugify with Latin Extended-B uppercase letters from WGL4", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("Ƒ"), "f", "transliterates `Ƒ` as `f`");
   equal(slugify("Ǻ"), "a", "transliterates `Ǻ` as `a`");
@@ -512,7 +512,7 @@ test("standard-slugify with Latin Extended-B uppercase letters from WGL4", ({
 
 test("standard-slugify with Latin Extended-B lowercase letters from WGL4", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("ƒ"), "f", "transliterates `ƒ` as `f`");
   equal(slugify("ǻ"), "a", "transliterates `ǻ` as `a`");
@@ -523,7 +523,7 @@ test("standard-slugify with Latin Extended-B lowercase letters from WGL4", ({
 
 test("standard-slugify with Latin Extended-B uppercase letters from ISO-8859-16", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("Ș"), "s", "transliterates `Ș` as `s`");
   equal(slugify("Ț"), "t", "transliterates `Ț` as `t`");
@@ -532,7 +532,7 @@ test("standard-slugify with Latin Extended-B uppercase letters from ISO-8859-16"
 
 test("standard-slugify with Latin Extended-B uppercase letters from ISO-8859-16", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("ș"), "s", "transliterates `ș` as `s`");
   equal(slugify("ț"), "t", "transliterates `ț` as `t`");
@@ -541,7 +541,7 @@ test("standard-slugify with Latin Extended-B uppercase letters from ISO-8859-16"
 
 test("standard-slugify with Greek and Coptic uppercase letters from ISO-8859-7", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("Ά"), "a", "transliterates `Ά` as `a`");
   equal(slugify("Έ"), "e", "transliterates `Έ` as `e`");
@@ -582,7 +582,7 @@ test("standard-slugify with Greek and Coptic uppercase letters from ISO-8859-7",
 
 test("standard-slugify with Greek and Coptic lowercase letters from ISO-8859-7", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("ΐ"), "i", "transliterates `ΐ` as `i`");
   equal(slugify("ά"), "a", "transliterates `ά` as `a`");
@@ -625,7 +625,7 @@ test("standard-slugify with Greek and Coptic lowercase letters from ISO-8859-7",
 
 test("standard-slugify with Cyrillic uppercase letters from ISO-8859-5", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("А"), "a", "transliterates `А` as `a`");
   equal(slugify("Б"), "b", "transliterates `Б` as `b`");
@@ -680,7 +680,7 @@ test("standard-slugify with Cyrillic uppercase letters from ISO-8859-5", ({
 
 test("standard-slugify with Cyrillic lowercase letters from ISO-8859-5", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("а"), "a", "transliterates `а` as `a`");
   equal(slugify("б"), "b", "transliterates `б` as `b`");
@@ -734,7 +734,7 @@ test("standard-slugify with Cyrillic lowercase letters from ISO-8859-5", ({
 
 test("standard-slugify with Cyrillic uppercase letters from WGL4", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("Ґ"), "g", "transliterates `Ґ` as `g`");
   end();
@@ -742,7 +742,7 @@ test("standard-slugify with Cyrillic uppercase letters from WGL4", ({
 
 test("standard-slugify with Cyrillic lowercase letters from WGL4", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("ґ"), "g", "transliterates `ґ` as `g`");
   end();
@@ -750,7 +750,7 @@ test("standard-slugify with Cyrillic lowercase letters from WGL4", ({
 
 test("standard-slugify with Latin Extended Additional uppercase letters from ISO-8859-14", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("Ḃ"), "b", "transliterates `Ḃ` as `b`");
   equal(slugify("Ḋ"), "d", "transliterates `Ḋ` as `d`");
@@ -768,7 +768,7 @@ test("standard-slugify with Latin Extended Additional uppercase letters from ISO
 
 test("standard-slugify with Latin Extended Additional lowercase letters from ISO-8859-14", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("ḃ"), "b", "transliterates `ḃ` as `b`");
   equal(slugify("ḋ"), "d", "transliterates `ḋ` as `d`");
@@ -786,7 +786,7 @@ test("standard-slugify with Latin Extended Additional lowercase letters from ISO
 
 test("standard-slugify with Alphabetic Presentation Forms letters from WGL4", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("ﬁ"), "fi", "transliterates `ﬁ` as `fi`");
   equal(slugify("ﬂ"), "fl", "transliterates `ﬂ` as `fl`");
@@ -796,7 +796,7 @@ test("standard-slugify with Alphabetic Presentation Forms letters from WGL4", ({
 // See Table 23-1 in https://www.unicode.org/versions/Unicode11.0.0/ch23.pdf
 test("standard-slugify with control characters that are separators", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("a\u0009b"), "a-b", "converts CHARACTER TABULATION to `-`");
   equal(slugify("a\u000Ab"), "a-b", "converts LINE FEED to `-`");
@@ -814,7 +814,7 @@ test("standard-slugify with control characters that are separators", ({
 // See White_Space in https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
 test("standard-slugify with non-control white space characters", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("a\u0020b"), "a-b", "converts SPACE to `-`");
   equal(slugify("a\u00A0b"), "a-b", "converts NO-BREAK SPACE to `-`");
@@ -844,7 +844,7 @@ test("standard-slugify with non-control white space characters", ({
 
 test("standard-slugify with leading and trailing white space characters", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("\u0020a"), "a", "removes leading SPACE");
   equal(slugify("a\u0020"), "a", "removes trailing SPACE");
@@ -904,7 +904,7 @@ test("standard-slugify with dash punctuation marks", ({ equal, end }) => {
 
 test("standard-slugify with keepCase and single-character replacements", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("a", { keepCase: true }), "a", "keeps case");
   equal(slugify("A", { keepCase: true }), "A", "keeps case");
@@ -920,7 +920,7 @@ test("standard-slugify with keepCase and single-character replacements", ({
 
 test("standard-slugify with keepCase and multi-character replacements", ({
   equal,
-  end
+  end,
 }) => {
   equal(slugify("Æ", { keepCase: true }), "AE", "keeps case");
   equal(slugify("Æ_", { keepCase: true }), "AE_", "keeps case");
@@ -950,8 +950,8 @@ test("standard-slugify with replacements", ({ equal, end }) => {
     slugify("₿ raising, € falling", {
       replacements: {
         "€": "eur", // EURO SIGN
-        "₿": "xbt" // BITCOIN SIGN
-      }
+        "₿": "xbt", // BITCOIN SIGN
+      },
     }),
     "xbt-raising-eur-falling",
     "uses the given custom replacements"
@@ -971,8 +971,8 @@ test("standard-slugify with keepCase and replacements", ({ equal, end }) => {
         И: "Y", // if Ukrainian (instead of I)
         "(?<=^|\\P{L})Й": "Y", // if Ukrainian first character (instead of I)
         "(?<=^|\\P{L})Ю": "YU", // if Ukrainian first character (instead of IU)
-        "(?<=^|\\P{L})Я": "YA" // if Ukrainian first character (instead of YA)
-      }
+        "(?<=^|\\P{L})Я": "YA", // if Ukrainian first character (instead of YA)
+      },
     }),
     "Yehypet-Yizhak-Yordaniia-Yuhoslaviia-Yamaika",
     "keeps case of custom replacements and original string"
@@ -987,8 +987,8 @@ test("standard-slugify with keepCase and replacements", ({ equal, end }) => {
         И: "Y", // if Ukrainian (instead of I)
         "(?<=^|\\P{L})Й": "Y", // if Ukrainian first character (instead of I)
         "(?<=^|\\P{L})Ю": "YU", // if Ukrainian first character (instead of IU)
-        "(?<=^|\\P{L})Я": "YA" // if Ukrainian first character (instead of YA)
-      }
+        "(?<=^|\\P{L})Я": "YA", // if Ukrainian first character (instead of YA)
+      },
     }),
     "yehypet-yizhak-yordaniia-yuhoslaviia-yamaika",
     "lowercases custom replacements and original string"
