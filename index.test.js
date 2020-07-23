@@ -2,287 +2,205 @@ import test from "./node_modules/tape/index.js";
 import slugify from "./index.js";
 
 test("standard-slugify with empty arguments", ({ equal, end }) => {
-  equal(slugify(), "", "returns an empty string when given nothing");
-  equal(slugify(""), "", "returns an empty string when given an empty string");
-  equal(
-    slugify(undefined, {}),
-    "",
-    "returns an empty string when given undefined and an empty object"
-  );
-  equal(
-    slugify("", {}),
-    "",
-    "returns an empty string when given an empty string and an empty object"
-  );
+  equal(slugify(), "", 'returns "" when given nothing');
+  equal(slugify(""), "", 'returns "" when given ""');
+  equal(slugify(undefined, {}), "", 'returns "" when given undefined and {}');
+  equal(slugify("", {}), "", 'returns "" when given "" and {}');
   end();
 });
 
-test("standard-slugify with first argument of wrong type", ({
-  throws,
-  end,
-}) => {
-  throws(() => slugify(true), TypeError, "throws TypeError when given true");
-  throws(() => slugify(false), TypeError, "throws TypeError when given false");
-  throws(() => slugify(null), TypeError, "throws TypeError when given null");
-  throws(() => slugify(0), TypeError, "throws TypeError when given a number");
-  throws(() => slugify({}), TypeError, "throws TypeError when given an object");
-  throws(() => slugify([]), TypeError, "throws TypeError when given an array");
-  throws(
-    () => slugify(() => {}),
-    TypeError,
-    "throws TypeError when given a function"
-  );
-  end();
-});
-
-test("standard-slugify with options argument of wrong type", ({
-  equal,
-  throws,
-  end,
-}) => {
-  equal(slugify("", true), "", "returns an empty string when given true");
-  equal(slugify("", false), "", "returns an empty string when given false");
-  equal(slugify("", 0), "", "returns an empty string when given a number");
-  equal(slugify("", ""), "", "returns an empty string when given a string");
-  equal(
-    slugify("", () => {}),
-    "",
-    "returns an empty string when given a function"
-  );
-  throws(
-    () => slugify("", null),
-    TypeError,
-    "throws TypeError when given a null"
-  );
-  end();
-});
-
-// See https://tools.ietf.org/html/rfc3986#section-2.1
-test("standard-slugify with RFC 3986 percent-encoding US-ASCII character", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("%"), "", "removes percent-encoding character `%`");
-  end();
-});
-
-// See https://tools.ietf.org/html/rfc3986#section-2.2
-test("standard-slugify with RFC 3986 reserved gen-delims US-ASCII characters", ({
-  equal,
-  plan,
-}) => {
-  plan(7);
-  equal(slugify(":"), "", "removes RFC 3986 gen-delim `:`");
-  equal(slugify("/"), "", "removes RFC 3986 gen-delim `/`");
-  equal(slugify("?"), "", "removes RFC 3986 gen-delim `?`");
-  equal(slugify("#"), "", "removes RFC 3986 gen-delim `#`");
-  equal(slugify("["), "", "removes RFC 3986 gen-delim `[`");
-  equal(slugify("]"), "", "removes RFC 3986 gen-delim `]`");
-  equal(slugify("@"), "", "removes RFC 3986 gen-delim `@`");
-});
-
-// See https://tools.ietf.org/html/rfc3986#section-2.2
-test("standard-slugify with RFC 3986 reserved sub-delims US-ASCII characters", ({
-  equal,
-  plan,
-}) => {
-  plan(11);
-  equal(slugify("!"), "", "removes RFC 3986 sub-delim `!`");
-  equal(slugify("$"), "", "removes RFC 3986 sub-delim `$`");
-  equal(slugify("&"), "", "removes RFC 3986 sub-delim `&`");
-  equal(slugify("'"), "", "removes RFC 3986 sub-delim `'`");
-  equal(slugify("("), "", "removes RFC 3986 sub-delim `(`");
-  equal(slugify(")"), "", "removes RFC 3986 sub-delim `)`");
-  equal(slugify("*"), "", "removes RFC 3986 sub-delim `*`");
-  equal(slugify("+"), "", "removes RFC 3986 sub-delim `+`");
-  equal(slugify(","), "", "removes RFC 3986 sub-delim `,`");
-  equal(slugify(";"), "", "removes RFC 3986 sub-delim `;`");
-  equal(slugify("="), "", "removes RFC 3986 sub-delim `=`");
-});
-
-// See https://tools.ietf.org/html/rfc3986#section-2.3
-test("standard-slugify with RFC 3986 unreserved US-ASCII uppercase letters", ({
-  equal,
-  plan,
-}) => {
-  plan(26);
-  equal(slugify("A"), "a", "lowercases uppercase letter `A`");
-  equal(slugify("B"), "b", "lowercases uppercase letter `B`");
-  equal(slugify("C"), "c", "lowercases uppercase letter `C`");
-  equal(slugify("D"), "d", "lowercases uppercase letter `D`");
-  equal(slugify("E"), "e", "lowercases uppercase letter `E`");
-  equal(slugify("F"), "f", "lowercases uppercase letter `F`");
-  equal(slugify("G"), "g", "lowercases uppercase letter `G`");
-  equal(slugify("H"), "h", "lowercases uppercase letter `H`");
-  equal(slugify("I"), "i", "lowercases uppercase letter `I`");
-  equal(slugify("J"), "j", "lowercases uppercase letter `J`");
-  equal(slugify("K"), "k", "lowercases uppercase letter `K`");
-  equal(slugify("L"), "l", "lowercases uppercase letter `L`");
-  equal(slugify("M"), "m", "lowercases uppercase letter `M`");
-  equal(slugify("N"), "n", "lowercases uppercase letter `N`");
-  equal(slugify("O"), "o", "lowercases uppercase letter `O`");
-  equal(slugify("P"), "p", "lowercases uppercase letter `P`");
-  equal(slugify("Q"), "q", "lowercases uppercase letter `Q`");
-  equal(slugify("R"), "r", "lowercases uppercase letter `R`");
-  equal(slugify("S"), "s", "lowercases uppercase letter `S`");
-  equal(slugify("T"), "t", "lowercases uppercase letter `T`");
-  equal(slugify("U"), "u", "lowercases uppercase letter `U`");
-  equal(slugify("V"), "v", "lowercases uppercase letter `V`");
-  equal(slugify("W"), "w", "lowercases uppercase letter `W`");
-  equal(slugify("X"), "x", "lowercases uppercase letter `X`");
-  equal(slugify("Y"), "y", "lowercases uppercase letter `Y`");
-  equal(slugify("Z"), "z", "lowercases uppercase letter `Z`");
-});
-
-// See https://tools.ietf.org/html/rfc3986#section-2.3
-test("standard-slugify with RFC 3986 unreserved US-ASCII lowercase letters", ({
-  equal,
-  plan,
-}) => {
-  plan(26);
-  equal(slugify("a"), "a", "keeps lowercase letter `a`");
-  equal(slugify("b"), "b", "keeps lowercase letter `b`");
-  equal(slugify("c"), "c", "keeps lowercase letter `c`");
-  equal(slugify("d"), "d", "keeps lowercase letter `d`");
-  equal(slugify("e"), "e", "keeps lowercase letter `e`");
-  equal(slugify("f"), "f", "keeps lowercase letter `f`");
-  equal(slugify("g"), "g", "keeps lowercase letter `g`");
-  equal(slugify("h"), "h", "keeps lowercase letter `h`");
-  equal(slugify("i"), "i", "keeps lowercase letter `i`");
-  equal(slugify("j"), "j", "keeps lowercase letter `j`");
-  equal(slugify("k"), "k", "keeps lowercase letter `k`");
-  equal(slugify("l"), "l", "keeps lowercase letter `l`");
-  equal(slugify("m"), "m", "keeps lowercase letter `m`");
-  equal(slugify("n"), "n", "keeps lowercase letter `n`");
-  equal(slugify("o"), "o", "keeps lowercase letter `o`");
-  equal(slugify("p"), "p", "keeps lowercase letter `p`");
-  equal(slugify("q"), "q", "keeps lowercase letter `q`");
-  equal(slugify("r"), "r", "keeps lowercase letter `r`");
-  equal(slugify("s"), "s", "keeps lowercase letter `s`");
-  equal(slugify("t"), "t", "keeps lowercase letter `t`");
-  equal(slugify("u"), "u", "keeps lowercase letter `u`");
-  equal(slugify("v"), "v", "keeps lowercase letter `v`");
-  equal(slugify("w"), "w", "keeps lowercase letter `w`");
-  equal(slugify("x"), "x", "keeps lowercase letter `x`");
-  equal(slugify("y"), "y", "keeps lowercase letter `y`");
-  equal(slugify("z"), "z", "keeps lowercase letter `z`");
-});
-
-// See https://tools.ietf.org/html/rfc3986#section-2.3
-test("standard-slugify with RFC 3986 unreserved US-ASCII decimal digits", ({
-  equal,
-  plan,
-}) => {
-  plan(10);
-  equal(slugify("0"), "0", "keeps decimal digit `0`");
-  equal(slugify("1"), "1", "keeps decimal digit `1`");
-  equal(slugify("2"), "2", "keeps decimal digit `2`");
-  equal(slugify("3"), "3", "keeps decimal digit `3`");
-  equal(slugify("4"), "4", "keeps decimal digit `4`");
-  equal(slugify("5"), "5", "keeps decimal digit `5`");
-  equal(slugify("6"), "6", "keeps decimal digit `6`");
-  equal(slugify("7"), "7", "keeps decimal digit `7`");
-  equal(slugify("8"), "8", "keeps decimal digit `8`");
-  equal(slugify("9"), "9", "keeps decimal digit `9`");
-});
-
-// See https://tools.ietf.org/html/rfc3986#section-2.3
-test("standard-slugify with RFC 3986 unreserved US-ASCII non-alphanumeric characters", ({
-  equal,
-  plan,
-}) => {
-  plan(4);
-  equal(slugify("a-b"), "a-b", "keeps `-`");
-  equal(slugify("_"), "_", "keeps `_`");
-  equal(slugify("."), "", "removes `.`");
-  equal(slugify("~"), "", "removes `~`");
-});
-
-// See https://tools.ietf.org/html/rfc3986#section-2
-test("standard-slugify with RFC 3986 forbidden US-ASCII", ({ equal, plan }) => {
-  plan(43);
-  equal(slugify("\u0000"), "", "removes RFC 3986 forbidden character `\u0000`");
-  equal(slugify("\u0001"), "", "removes RFC 3986 forbidden character `\u0001`");
-  equal(slugify("\u0002"), "", "removes RFC 3986 forbidden character `\u0002`");
-  equal(slugify("\u0003"), "", "removes RFC 3986 forbidden character `\u0003`");
-  equal(slugify("\u0004"), "", "removes RFC 3986 forbidden character `\u0004`");
-  equal(slugify("\u0005"), "", "removes RFC 3986 forbidden character `\u0005`");
-  equal(slugify("\u0006"), "", "removes RFC 3986 forbidden character `\u0006`");
-  equal(slugify("\u0007"), "", "removes RFC 3986 forbidden character `\u0007`");
-  equal(slugify("\u0008"), "", "removes RFC 3986 forbidden character `\u0008`");
-  equal(slugify("a\u0009b"), "a-b", "converts CHARACTER TABULATION to `-`");
-  equal(slugify("a\u000Ab"), "a-b", "converts LINE FEED to `-`");
-  equal(slugify("a\u000Bb"), "a-b", "converts LINE TABULATION to `-`");
-  equal(slugify("a\u000Cb"), "a-b", "converts FORM FEED to `-`");
-  equal(slugify("a\u000Db"), "a-b", "converts CARRIAGE RETURN to `-`");
-  equal(slugify("\u000E"), "", "removes RFC 3986 forbidden character `\u000E`");
-  equal(slugify("\u000F"), "", "removes RFC 3986 forbidden character `\u000F`");
-  equal(slugify("\u0010"), "", "removes RFC 3986 forbidden character `\u0010`");
-  equal(slugify("\u0011"), "", "removes RFC 3986 forbidden character `\u0011`");
-  equal(slugify("\u0012"), "", "removes RFC 3986 forbidden character `\u0012`");
-  equal(slugify("\u0013"), "", "removes RFC 3986 forbidden character `\u0013`");
-  equal(slugify("\u0014"), "", "removes RFC 3986 forbidden character `\u0014`");
-  equal(slugify("\u0015"), "", "removes RFC 3986 forbidden character `\u0015`");
-  equal(slugify("\u0016"), "", "removes RFC 3986 forbidden character `\u0016`");
-  equal(slugify("\u0017"), "", "removes RFC 3986 forbidden character `\u0017`");
-  equal(slugify("\u0018"), "", "removes RFC 3986 forbidden character `\u0018`");
-  equal(slugify("\u0019"), "", "removes RFC 3986 forbidden character `\u0019`");
-  equal(slugify("\u001A"), "", "removes RFC 3986 forbidden character `\u001A`");
-  equal(slugify("\u001B"), "", "removes RFC 3986 forbidden character `\u001B`");
+test("standard-slugify with C0 Controls", ({ equal, plan }) => {
+  plan(32);
+  equal(slugify("\u0000"), "", "removes NUL");
+  equal(slugify("\u0001"), "", "removes SOH");
+  equal(slugify("\u0002"), "", "removes STX");
+  equal(slugify("\u0003"), "", "removes ETX");
+  equal(slugify("\u0004"), "", "removes EOT");
+  equal(slugify("\u0005"), "", "removes ENQ");
+  equal(slugify("\u0006"), "", "removes ACK");
+  equal(slugify("\u0007"), "", "removes BEL");
+  equal(slugify("\u0008"), "", "removes BS");
+  equal(slugify("a\u0009b"), "a-b", "converts HT to `-`");
+  equal(slugify("a\u000Ab"), "a-b", "converts LF to `-`");
+  equal(slugify("a\u000Bb"), "a-b", "converts VT to `-`");
+  equal(slugify("a\u000Cb"), "a-b", "converts FF to `-`");
+  equal(slugify("a\u000Db"), "a-b", "converts CR to `-`");
+  equal(slugify("\u000E"), "", "removes SO");
+  equal(slugify("\u000F"), "", "removes SI");
+  equal(slugify("\u0010"), "", "removes DLE");
+  equal(slugify("\u0011"), "", "removes DC1");
+  equal(slugify("\u0012"), "", "removes DC2");
+  equal(slugify("\u0013"), "", "removes DC3");
+  equal(slugify("\u0014"), "", "removes DC4");
+  equal(slugify("\u0015"), "", "removes NAK");
+  equal(slugify("\u0016"), "", "removes SYN");
+  equal(slugify("\u0017"), "", "removes ETB");
+  equal(slugify("\u0018"), "", "removes CAN");
+  equal(slugify("\u0019"), "", "removes EM");
+  equal(slugify("\u001A"), "", "removes SUB");
+  equal(slugify("\u001B"), "", "removes ESC");
   equal(slugify("a\u001Cb"), "a-b", "converts FS to `-`");
   equal(slugify("a\u001Db"), "a-b", "converts GS to `-`");
   equal(slugify("a\u001Eb"), "a-b", "converts RS to `-`");
   equal(slugify("a\u001Fb"), "a-b", "converts US to `-`");
+});
+
+test("standard-slugify with ASCII punctuation and symbols ", ({
+  equal,
+  plan,
+}) => {
+  plan(33);
   equal(slugify("a\u0020b"), "a-b", "converts SPACE to `-`");
-  equal(slugify('"'), "", 'removes RFC 3986 forbidden character `"`');
-  equal(slugify("<"), "", "removes RFC 3986 forbidden character `<`");
-  equal(slugify(">"), "", "removes RFC 3986 forbidden character `>`");
-  equal(slugify("\\"), "", "removes RFC 3986 forbidden character `\\`");
-  equal(slugify("^"), "", "removes RFC 3986 forbidden character `^`");
-  equal(slugify("`"), "", "removes RFC 3986 forbidden character ```");
-  equal(slugify("{"), "", "removes RFC 3986 forbidden character `{`");
-  equal(slugify("|"), "", "removes RFC 3986 forbidden character `|`");
-  equal(slugify("}"), "", "removes RFC 3986 forbidden character `}`");
-  equal(slugify("\u007F"), "", "removes RFC 3986 forbidden character `\u007F`");
+  equal(slugify("!"), "", "removes `!`");
+  equal(slugify('"'), "", 'removes `"`');
+  equal(slugify("#"), "", "removes `#`");
+  equal(slugify("$"), "", "removes `$`");
+  equal(slugify("%"), "", "removes `%`");
+  equal(slugify("&"), "", "removes `&`");
+  equal(slugify("'"), "", "removes `'`");
+  equal(slugify("("), "", "removes `(`");
+  equal(slugify(")"), "", "removes `)`");
+  equal(slugify("*"), "", "removes `*`");
+  equal(slugify("+"), "", "removes `+`");
+  equal(slugify(","), "", "removes `,`");
+  equal(slugify("a-b"), "a-b", "keeps `-`");
+  equal(slugify("."), "", "removes `.`");
+  equal(slugify("/"), "", "removes `/`");
+  equal(slugify(":"), "", "removes `:`");
+  equal(slugify(";"), "", "removes `;`");
+  equal(slugify("<"), "", "removes `<`");
+  equal(slugify("="), "", "removes `=`");
+  equal(slugify(">"), "", "removes `>`");
+  equal(slugify("?"), "", "removes `?`");
+  equal(slugify("@"), "", "removes `@`");
+  equal(slugify("["), "", "removes `[`");
+  equal(slugify("\\"), "", "removes `\\`");
+  equal(slugify("]"), "", "removes `]`");
+  equal(slugify("^"), "", "removes `^`");
+  equal(slugify("_"), "_", "keeps `_`");
+  equal(slugify("`"), "", "removes ```");
+  equal(slugify("{"), "", "removes `{`");
+  equal(slugify("|"), "", "removes `|`");
+  equal(slugify("}"), "", "removes `}`");
+  equal(slugify("~"), "", "removes `~`");
+});
+
+test("standard-slugify with ASCII digits", ({ equal, plan }) => {
+  plan(10);
+  equal(slugify("0"), "0", "keeps `0`");
+  equal(slugify("1"), "1", "keeps `1`");
+  equal(slugify("2"), "2", "keeps `2`");
+  equal(slugify("3"), "3", "keeps `3`");
+  equal(slugify("4"), "4", "keeps `4`");
+  equal(slugify("5"), "5", "keeps `5`");
+  equal(slugify("6"), "6", "keeps `6`");
+  equal(slugify("7"), "7", "keeps `7`");
+  equal(slugify("8"), "8", "keeps `8`");
+  equal(slugify("9"), "9", "keeps `9`");
+});
+
+test("standard-slugify with Uppercase Latin alphabet", ({ equal, plan }) => {
+  plan(26);
+  equal(slugify("A"), "a", "lowercases `A`");
+  equal(slugify("B"), "b", "lowercases `B`");
+  equal(slugify("C"), "c", "lowercases `C`");
+  equal(slugify("D"), "d", "lowercases `D`");
+  equal(slugify("E"), "e", "lowercases `E`");
+  equal(slugify("F"), "f", "lowercases `F`");
+  equal(slugify("G"), "g", "lowercases `G`");
+  equal(slugify("H"), "h", "lowercases `H`");
+  equal(slugify("I"), "i", "lowercases `I`");
+  equal(slugify("J"), "j", "lowercases `J`");
+  equal(slugify("K"), "k", "lowercases `K`");
+  equal(slugify("L"), "l", "lowercases `L`");
+  equal(slugify("M"), "m", "lowercases `M`");
+  equal(slugify("N"), "n", "lowercases `N`");
+  equal(slugify("O"), "o", "lowercases `O`");
+  equal(slugify("P"), "p", "lowercases `P`");
+  equal(slugify("Q"), "q", "lowercases `Q`");
+  equal(slugify("R"), "r", "lowercases `R`");
+  equal(slugify("S"), "s", "lowercases `S`");
+  equal(slugify("T"), "t", "lowercases `T`");
+  equal(slugify("U"), "u", "lowercases `U`");
+  equal(slugify("V"), "v", "lowercases `V`");
+  equal(slugify("W"), "w", "lowercases `W`");
+  equal(slugify("X"), "x", "lowercases `X`");
+  equal(slugify("Y"), "y", "lowercases `Y`");
+  equal(slugify("Z"), "z", "lowercases `Z`");
+});
+
+test("standard-slugify with Lowercase Latin alphabet", ({ equal, plan }) => {
+  plan(26);
+  equal(slugify("a"), "a", "keeps `a`");
+  equal(slugify("b"), "b", "keeps `b`");
+  equal(slugify("c"), "c", "keeps `c`");
+  equal(slugify("d"), "d", "keeps `d`");
+  equal(slugify("e"), "e", "keeps `e`");
+  equal(slugify("f"), "f", "keeps `f`");
+  equal(slugify("g"), "g", "keeps `g`");
+  equal(slugify("h"), "h", "keeps `h`");
+  equal(slugify("i"), "i", "keeps `i`");
+  equal(slugify("j"), "j", "keeps `j`");
+  equal(slugify("k"), "k", "keeps `k`");
+  equal(slugify("l"), "l", "keeps `l`");
+  equal(slugify("m"), "m", "keeps `m`");
+  equal(slugify("n"), "n", "keeps `n`");
+  equal(slugify("o"), "o", "keeps `o`");
+  equal(slugify("p"), "p", "keeps `p`");
+  equal(slugify("q"), "q", "keeps `q`");
+  equal(slugify("r"), "r", "keeps `r`");
+  equal(slugify("s"), "s", "keeps `s`");
+  equal(slugify("t"), "t", "keeps `t`");
+  equal(slugify("u"), "u", "keeps `u`");
+  equal(slugify("v"), "v", "keeps `v`");
+  equal(slugify("w"), "w", "keeps `w`");
+  equal(slugify("x"), "x", "keeps `x`");
+  equal(slugify("y"), "y", "keeps `y`");
+  equal(slugify("z"), "z", "keeps `z`");
+});
+
+test("standard-slugify with Control character", ({ equal, plan }) => {
+  plan(1);
+  equal(slugify("\u007F"), "", "removes DEL");
 });
 
 test("standard-slugify with C1 Controls", ({ equal, plan }) => {
   plan(32);
-  equal(slugify("\u0080"), "", "removes C1 Control `\u0080`");
-  equal(slugify("\u0081"), "", "removes C1 Control `\u0081`");
-  equal(slugify("\u0082"), "", "removes C1 Control `\u0082`");
-  equal(slugify("\u0083"), "", "removes C1 Control `\u0083`");
-  equal(slugify("\u0084"), "", "removes C1 Control `\u0084`");
-  equal(slugify("a\u0085b"), "a-b", "converts NEXT LINE (NEL) to `-`");
-  equal(slugify("\u0086"), "", "removes C1 Control `\u0086`");
-  equal(slugify("\u0087"), "", "removes C1 Control `\u0087`");
-  equal(slugify("\u0088"), "", "removes C1 Control `\u0088`");
-  equal(slugify("\u0089"), "", "removes C1 Control `\u0089`");
-  equal(slugify("\u008A"), "", "removes C1 Control `\u008A`");
-  equal(slugify("\u008B"), "", "removes C1 Control `\u008B`");
-  equal(slugify("\u008C"), "", "removes C1 Control `\u008C`");
-  equal(slugify("\u008D"), "", "removes C1 Control `\u008D`");
-  equal(slugify("\u008E"), "", "removes C1 Control `\u008E`");
-  equal(slugify("\u008F"), "", "removes C1 Control `\u008F`");
-  equal(slugify("\u0090"), "", "removes C1 Control `\u0090`");
-  equal(slugify("\u0091"), "", "removes C1 Control `\u0091`");
-  equal(slugify("\u0092"), "", "removes C1 Control `\u0092`");
-  equal(slugify("\u0093"), "", "removes C1 Control `\u0093`");
-  equal(slugify("\u0094"), "", "removes C1 Control `\u0094`");
-  equal(slugify("\u0095"), "", "removes C1 Control `\u0095`");
-  equal(slugify("\u0096"), "", "removes C1 Control `\u0096`");
-  equal(slugify("\u0097"), "", "removes C1 Control `\u0097`");
-  equal(slugify("\u0098"), "", "removes C1 Control `\u0098`");
-  equal(slugify("\u0099"), "", "removes C1 Control `\u0099`");
-  equal(slugify("\u009A"), "", "removes C1 Control `\u009A`");
-  equal(slugify("\u009B"), "", "removes C1 Control `\u009B`");
-  equal(slugify("\u009C"), "", "removes C1 Control `\u009C`");
-  equal(slugify("\u009D"), "", "removes C1 Control `\u009D`");
-  equal(slugify("\u009E"), "", "removes C1 Control `\u009E`");
-  equal(slugify("\u009F"), "", "removes C1 Control `\u009F`");
+  equal(slugify("\u0080"), "", "removes PAD");
+  equal(slugify("\u0081"), "", "removes HOP");
+  equal(slugify("\u0082"), "", "removes BPH");
+  equal(slugify("\u0083"), "", "removes NBH");
+  equal(slugify("\u0084"), "", "removes IND");
+  equal(slugify("a\u0085b"), "a-b", "converts NEL to `-`");
+  equal(slugify("\u0086"), "", "removes SSA");
+  equal(slugify("\u0087"), "", "removes ESA");
+  equal(slugify("\u0088"), "", "removes HTS");
+  equal(slugify("\u0089"), "", "removes HTJ");
+  equal(slugify("\u008A"), "", "removes LTS");
+  equal(slugify("\u008B"), "", "removes PLD");
+  equal(slugify("\u008C"), "", "removes PLU");
+  equal(slugify("\u008D"), "", "removes RI");
+  equal(slugify("\u008E"), "", "removes SS2");
+  equal(slugify("\u008F"), "", "removes SS3");
+  equal(slugify("\u0090"), "", "removes DCS");
+  equal(slugify("\u0091"), "", "removes PU1");
+  equal(slugify("\u0092"), "", "removes PU2`");
+  equal(slugify("\u0093"), "", "removes STS");
+  equal(slugify("\u0094"), "", "removes CCH");
+  equal(slugify("\u0095"), "", "removes MW");
+  equal(slugify("\u0096"), "", "removes SPA");
+  equal(slugify("\u0097"), "", "removes EPA");
+  equal(slugify("\u0098"), "", "removes SOS");
+  equal(slugify("\u0099"), "", "removes SGCI");
+  equal(slugify("\u009A"), "", "removes SCI");
+  equal(slugify("\u009B"), "", "removes CSI");
+  equal(slugify("\u009C"), "", "removes ST");
+  equal(slugify("\u009D"), "", "removes OSC");
+  equal(slugify("\u009E"), "", "removes PM");
+  equal(slugify("\u009F"), "", "removes APC");
 });
 
-test("standard-slugify with Latin-1 Supplement lowercase letters", ({
+test("standard-slugify with Latin-1 Supplement Letters (Uppercase)", ({
   equal,
   plan,
 }) => {
@@ -319,7 +237,7 @@ test("standard-slugify with Latin-1 Supplement lowercase letters", ({
   equal(slugify("Þ"), "th", "transliterates `Þ` as `th`");
 });
 
-test("standard-slugify with Latin-1 Supplement lowercase letters", ({
+test("standard-slugify with Latin-1 Supplement Letters (Lowercase)", ({
   equal,
   plan,
 }) => {
@@ -358,7 +276,7 @@ test("standard-slugify with Latin-1 Supplement lowercase letters", ({
   equal(slugify("ÿ"), "y", "transliterates `ÿ` as `y`");
 });
 
-test("standard-slugify with Latin Extended-A uppercase letters", ({
+test("standard-slugify with Latin Extended-A (Uppercase)", ({
   equal,
   plan,
 }) => {
@@ -427,7 +345,7 @@ test("standard-slugify with Latin Extended-A uppercase letters", ({
   equal(slugify("Ž"), "z", "transliterates `Ž` as `z`");
 });
 
-test("standard-slugify with Latin Extended-A lowercase letters", ({
+test("standard-slugify with Latin Extended-A (Lowercase)", ({
   equal,
   plan,
 }) => {
@@ -499,7 +417,7 @@ test("standard-slugify with Latin Extended-A lowercase letters", ({
   equal(slugify("ſ"), "s", "transliterates `ſ` as `s`");
 });
 
-test("standard-slugify with Latin Extended-B uppercase letters from WGL4", ({
+test("standard-slugify with Latin Extended-B (Uppercase) from WGL4", ({
   equal,
   end,
 }) => {
@@ -510,7 +428,7 @@ test("standard-slugify with Latin Extended-B uppercase letters from WGL4", ({
   end();
 });
 
-test("standard-slugify with Latin Extended-B lowercase letters from WGL4", ({
+test("standard-slugify with Latin Extended-B (Lowercase) from WGL4", ({
   equal,
   end,
 }) => {
@@ -521,7 +439,7 @@ test("standard-slugify with Latin Extended-B lowercase letters from WGL4", ({
   end();
 });
 
-test("standard-slugify with Latin Extended-B uppercase letters from ISO-8859-16", ({
+test("standard-slugify with Latin Extended-B (Uppercase) from ISO-8859-16", ({
   equal,
   end,
 }) => {
@@ -530,7 +448,7 @@ test("standard-slugify with Latin Extended-B uppercase letters from ISO-8859-16"
   end();
 });
 
-test("standard-slugify with Latin Extended-B uppercase letters from ISO-8859-16", ({
+test("standard-slugify with Latin Extended-B (Lowercase) from ISO-8859-16", ({
   equal,
   end,
 }) => {
@@ -539,7 +457,7 @@ test("standard-slugify with Latin Extended-B uppercase letters from ISO-8859-16"
   end();
 });
 
-test("standard-slugify with Greek and Coptic uppercase letters from ISO-8859-7", ({
+test("standard-slugify with Greek and Coptic (Uppercase) from ISO-8859-7", ({
   equal,
   end,
 }) => {
@@ -580,7 +498,7 @@ test("standard-slugify with Greek and Coptic uppercase letters from ISO-8859-7",
   end();
 });
 
-test("standard-slugify with Greek and Coptic lowercase letters from ISO-8859-7", ({
+test("standard-slugify with Greek and Coptic (Lowercase) from ISO-8859-7", ({
   equal,
   end,
 }) => {
@@ -623,7 +541,7 @@ test("standard-slugify with Greek and Coptic lowercase letters from ISO-8859-7",
   end();
 });
 
-test("standard-slugify with Cyrillic uppercase letters from ISO-8859-5", ({
+test("standard-slugify with Cyrillic (Uppercase) from ISO-8859-5", ({
   equal,
   end,
 }) => {
@@ -678,7 +596,7 @@ test("standard-slugify with Cyrillic uppercase letters from ISO-8859-5", ({
   end();
 });
 
-test("standard-slugify with Cyrillic lowercase letters from ISO-8859-5", ({
+test("standard-slugify with Cyrillic (Lowercase) from ISO-8859-5", ({
   equal,
   end,
 }) => {
@@ -732,7 +650,7 @@ test("standard-slugify with Cyrillic lowercase letters from ISO-8859-5", ({
   end();
 });
 
-test("standard-slugify with Cyrillic uppercase letters from WGL4", ({
+test("standard-slugify with Cyrillic (Uppercase) from WGL4", ({
   equal,
   end,
 }) => {
@@ -740,7 +658,7 @@ test("standard-slugify with Cyrillic uppercase letters from WGL4", ({
   end();
 });
 
-test("standard-slugify with Cyrillic lowercase letters from WGL4", ({
+test("standard-slugify with Cyrillic (Lowercase) from WGL4", ({
   equal,
   end,
 }) => {
@@ -748,7 +666,7 @@ test("standard-slugify with Cyrillic lowercase letters from WGL4", ({
   end();
 });
 
-test("standard-slugify with Latin Extended Additional uppercase letters from ISO-8859-14", ({
+test("standard-slugify with Latin Extended Additional (Uppercase) from ISO-8859-14", ({
   equal,
   end,
 }) => {
@@ -766,7 +684,7 @@ test("standard-slugify with Latin Extended Additional uppercase letters from ISO
   end();
 });
 
-test("standard-slugify with Latin Extended Additional lowercase letters from ISO-8859-14", ({
+test("standard-slugify with Latin Extended Additional (Lowercase) from ISO-8859-14", ({
   equal,
   end,
 }) => {
@@ -784,7 +702,7 @@ test("standard-slugify with Latin Extended Additional lowercase letters from ISO
   end();
 });
 
-test("standard-slugify with Alphabetic Presentation Forms letters from WGL4", ({
+test("standard-slugify with Alphabetic Presentation Forms from WGL4", ({
   equal,
   end,
 }) => {
@@ -793,47 +711,8 @@ test("standard-slugify with Alphabetic Presentation Forms letters from WGL4", ({
   end();
 });
 
-// See Table 23-1 in https://www.unicode.org/versions/Unicode11.0.0/ch23.pdf
-test("standard-slugify with control characters that are separators", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("a\u0009b"), "a-b", "converts CHARACTER TABULATION to `-`");
-  equal(slugify("a\u000Ab"), "a-b", "converts LINE FEED to `-`");
-  equal(slugify("a\u000Bb"), "a-b", "converts LINE TABULATION to `-`");
-  equal(slugify("a\u000Cb"), "a-b", "converts FORM FEED to `-`");
-  equal(slugify("a\u000Db"), "a-b", "converts CARRIAGE RETURN to `-`");
-  equal(
-    slugify("a\u001Cb"),
-    "a-b",
-    "converts INFORMATION SEPARATOR FOUR to `-`"
-  );
-  equal(
-    slugify("a\u001Db"),
-    "a-b",
-    "converts INFORMATION SEPARATOR THREE to `-`"
-  );
-  equal(
-    slugify("a\u001Eb"),
-    "a-b",
-    "converts INFORMATION SEPARATOR TWO to `-`"
-  );
-  equal(
-    slugify("a\u001Fb"),
-    "a-b",
-    "converts INFORMATION SEPARATOR ONE to `-`"
-  );
-  equal(slugify("a\u0085b"), "a-b", "converts NEXT LINE to `-`");
-  equal(
-    slugify("a\u0009\u0009b"),
-    "a-b",
-    "converts many CHARACTER TABULATION characters to just one `-`"
-  );
-  end();
-});
-
 // See White_Space in https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
-test("standard-slugify with non-control white space characters", ({
+test("standard-slugify with non-control White_Space characters", ({
   equal,
   end,
 }) => {
@@ -863,32 +742,40 @@ test("standard-slugify with non-control white space characters", ({
   equal(
     slugify("a\u0020\u0020b"),
     "a-b",
-    "converts many separator characters to just one `-`"
+    "converts many SPACE characters to just one `-`"
   );
   end();
 });
 
-test("standard-slugify with leading and trailing white space characters", ({
+test("standard-slugify with leading and trailing white space", ({
   equal,
   end,
 }) => {
-  equal(slugify("\u0020a"), "a", "removes leading SPACE");
-  equal(slugify("a\u0020"), "a", "removes trailing SPACE");
-  equal(slugify("\u0020\u0020a⁠"), "a", "removes many leading SPACE");
-  equal(slugify("a\u0020\u0020"), "a", "removes many trailing SPACE");
-  equal(slugify("\na"), "a", "removes leading LINE FEED");
-  equal(slugify("a\n"), "a", "removes trailing LINE FEED");
-  equal(slugify("\n\na"), "a", "removes many leading LINE FEEDs");
-  equal(slugify("a\n\n"), "a", "removes many trailing LINE FEEDs");
-  equal(slugify("\ta"), "a", "removes leading HORIZONTAL TABULATION");
-  equal(slugify("a\t"), "a", "removes trailing HORIZONTAL TABULATION");
-  equal(slugify("\t\ta"), "a", "removes many leading HORIZONTAL TABULATION");
-  equal(slugify("a\t\t"), "a", "removes many trailing HORIZONTAL TABULATION");
+  equal(slugify("\u0020a"), "a", "removes a leading SPACE");
+  equal(slugify("a\u0020"), "a", "removes a trailing SPACE");
+  equal(
+    slugify("\u0020\u0020a⁠"),
+    "a",
+    "removes many leading SPACE characters"
+  );
+  equal(
+    slugify("a\u0020\u0020"),
+    "a",
+    "removes many trailing SPACE characters"
+  );
+  equal(slugify("\na"), "a", "removes a leading LF characters");
+  equal(slugify("a\n"), "a", "removes a trailing LF characters");
+  equal(slugify("\n\na"), "a", "removes many leading LF characters");
+  equal(slugify("a\n\n"), "a", "removes many trailing LF characters");
+  equal(slugify("\ta"), "a", "removes a leading HT characters");
+  equal(slugify("a\t"), "a", "removes a trailing HT characters");
+  equal(slugify("\t\ta"), "a", "removes many leading HT characters");
+  equal(slugify("a\t\t"), "a", "removes many trailing HT characters");
   end();
 });
 
 // See # Pd in https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
-test("standard-slugify with dash punctuation marks", ({ equal, end }) => {
+test("standard-slugify with Dash characters", ({ equal, end }) => {
   equal(slugify("a-b"), "a-b", "keeps `-` as is");
   equal(slugify("a\u058Ab"), "a-b", "converts ARMENIAN HYPHEN to `-`");
   equal(slugify("a\u05BEb"), "a-b", "converts HEBREW PUNCTUATION MAQAF to `-`");
@@ -937,46 +824,36 @@ test("standard-slugify with dash punctuation marks", ({ equal, end }) => {
   end();
 });
 
-test("standard-slugify with keepCase and single-character replacements", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("a", { keepCase: true }), "a", "keeps case");
-  equal(slugify("A", { keepCase: true }), "A", "keeps case");
-  equal(slugify("A_", { keepCase: true }), "A_", "keeps case");
-  equal(slugify("AA", { keepCase: true }), "AA", "keeps case");
-  equal(slugify("Aa", { keepCase: true }), "Aa", "keeps case");
-  equal(slugify("aa", { keepCase: true }), "aa", "keeps case");
-  equal(slugify("aA", { keepCase: true }), "aA", "keeps case");
-  equal(slugify("AaA", { keepCase: true }), "AaA", "keeps case");
-  equal(slugify("aAa", { keepCase: true }), "aAa", "keeps case");
-  end();
-});
-
-test("standard-slugify with keepCase and multi-character replacements", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("Æ", { keepCase: true }), "AE", "keeps case");
-  equal(slugify("Æ_", { keepCase: true }), "AE_", "keeps case");
-  equal(slugify("ÆA", { keepCase: true }), "AEA", "keeps case");
-  equal(slugify("Æa", { keepCase: true }), "Aea", "keeps case");
-  equal(slugify("Ĳ", { keepCase: true }), "IJ", "keeps case");
-  equal(slugify("Ĳ_", { keepCase: true }), "IJ_", "keeps case");
-  equal(slugify("ĲA", { keepCase: true }), "IJA", "keeps case");
-  equal(slugify("Ĳa", { keepCase: true }), "Ija", "keeps case");
-  equal(slugify("Ǽ", { keepCase: true }), "AE", "keeps case");
-  equal(slugify("Ǽ_", { keepCase: true }), "AE_", "keeps case");
-  equal(slugify("ǼA", { keepCase: true }), "AEA", "keeps case");
-  equal(slugify("Ǽa", { keepCase: true }), "Aea", "keeps case");
-  equal(slugify("Θ", { keepCase: true }), "TH", "keeps case");
-  equal(slugify("Θ_", { keepCase: true }), "TH_", "keeps case");
-  equal(slugify("ΘA", { keepCase: true }), "THA", "keeps case");
-  equal(slugify("Θa", { keepCase: true }), "Tha", "keeps case");
-  equal(slugify("Ж", { keepCase: true }), "ZH", "keeps case");
-  equal(slugify("Ж_", { keepCase: true }), "ZH_", "keeps case");
-  equal(slugify("ЖA", { keepCase: true }), "ZHA", "keeps case");
-  equal(slugify("Жa", { keepCase: true }), "Zha", "keeps case");
+test("standard-slugify with keepCase", ({ equal, end }) => {
+  equal(slugify("a", { keepCase: true }), "a", "keeps case with shape x");
+  equal(slugify("A", { keepCase: true }), "A", "keeps case with shape X");
+  equal(slugify("A_", { keepCase: true }), "A_", "keeps case with shape X_");
+  equal(slugify("AA", { keepCase: true }), "AA", "keeps case with shape XX");
+  equal(slugify("Aa", { keepCase: true }), "Aa", "keeps case with shape Xx");
+  equal(slugify("aa", { keepCase: true }), "aa", "keeps case with shape xx");
+  equal(slugify("aA", { keepCase: true }), "aA", "keeps case with shape xX");
+  equal(slugify("AaA", { keepCase: true }), "AaA", "keeps case with shape XxX");
+  equal(slugify("aAa", { keepCase: true }), "aAa", "keeps case with shape xXx");
+  equal(
+    slugify("Æ", { keepCase: true }),
+    "AE",
+    "keeps case with shape X (ligature)"
+  );
+  equal(
+    slugify("Æ_", { keepCase: true }),
+    "AE_",
+    "keeps case with shape X_ (ligature)"
+  );
+  equal(
+    slugify("ÆA", { keepCase: true }),
+    "AEA",
+    "keeps case with shape XX (ligature)"
+  );
+  equal(
+    slugify("Æa", { keepCase: true }),
+    "Aea",
+    "keeps case with shape Xx (ligature)"
+  );
   end();
 });
 
