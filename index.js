@@ -96,9 +96,8 @@ export default function (
 ) {
   const replacer = keepCase ? replaceKeepingCase : replaceLoweringCase;
   return defaultReplacements
-    .reduce(
-      replacer,
-      Object.entries(replacements).reduce(replacer, string.trim())
-    )
-    .replace(/[^\w-]/g, "");
+    .reduce(replacer, Object.entries(replacements).reduce(replacer, string))
+    .replace(/[^\w-]/g, "")
+    .replace(/-{2,}/g, "-")
+    .replace(/^-|-$/g, "");
 }

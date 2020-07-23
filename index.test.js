@@ -192,7 +192,7 @@ test("standard-slugify with RFC 3986 unreserved US-ASCII non-alphanumeric charac
   plan,
 }) => {
   plan(4);
-  equal(slugify("-"), "-", "keeps `-`");
+  equal(slugify("a-b"), "a-b", "keeps `-`");
   equal(slugify("_"), "_", "keeps `_`");
   equal(slugify("."), "", "removes `.`");
   equal(slugify("~"), "", "removes `~`");
@@ -229,10 +229,10 @@ test("standard-slugify with RFC 3986 forbidden US-ASCII", ({ equal, plan }) => {
   equal(slugify("\u0019"), "", "removes RFC 3986 forbidden character `\u0019`");
   equal(slugify("\u001A"), "", "removes RFC 3986 forbidden character `\u001A`");
   equal(slugify("\u001B"), "", "removes RFC 3986 forbidden character `\u001B`");
-  equal(slugify("\u001C"), "-", "converts FS to `-`");
-  equal(slugify("\u001D"), "-", "converts GS to `-`");
-  equal(slugify("\u001E"), "-", "converts RS to `-`");
-  equal(slugify("\u001F"), "-", "converts US to `-`");
+  equal(slugify("a\u001Cb"), "a-b", "converts FS to `-`");
+  equal(slugify("a\u001Db"), "a-b", "converts GS to `-`");
+  equal(slugify("a\u001Eb"), "a-b", "converts RS to `-`");
+  equal(slugify("a\u001Fb"), "a-b", "converts US to `-`");
   equal(slugify("a\u0020b"), "a-b", "converts SPACE to `-`");
   equal(slugify('"'), "", 'removes RFC 3986 forbidden character `"`');
   equal(slugify("<"), "", "removes RFC 3986 forbidden character `<`");
@@ -253,7 +253,7 @@ test("standard-slugify with C1 Controls", ({ equal, plan }) => {
   equal(slugify("\u0082"), "", "removes C1 Control `\u0082`");
   equal(slugify("\u0083"), "", "removes C1 Control `\u0083`");
   equal(slugify("\u0084"), "", "removes C1 Control `\u0084`");
-  equal(slugify("\u0085"), "-", "converts NEXT LINE (NEL) to `-`");
+  equal(slugify("a\u0085b"), "a-b", "converts NEXT LINE (NEL) to `-`");
   equal(slugify("\u0086"), "", "removes C1 Control `\u0086`");
   equal(slugify("\u0087"), "", "removes C1 Control `\u0087`");
   equal(slugify("\u0088"), "", "removes C1 Control `\u0088`");
@@ -803,11 +803,32 @@ test("standard-slugify with control characters that are separators", ({
   equal(slugify("a\u000Bb"), "a-b", "converts LINE TABULATION to `-`");
   equal(slugify("a\u000Cb"), "a-b", "converts FORM FEED to `-`");
   equal(slugify("a\u000Db"), "a-b", "converts CARRIAGE RETURN to `-`");
-  equal(slugify("\u001C"), "-", "converts INFORMATION SEPARATOR FOUR to `-`");
-  equal(slugify("\u001D"), "-", "converts INFORMATION SEPARATOR THREE to `-`");
-  equal(slugify("\u001E"), "-", "converts INFORMATION SEPARATOR TWO to `-`");
-  equal(slugify("\u001F"), "-", "converts INFORMATION SEPARATOR ONE to `-`");
-  equal(slugify("\u0085"), "-", "converts NEXT LINE to `-`");
+  equal(
+    slugify("a\u001Cb"),
+    "a-b",
+    "converts INFORMATION SEPARATOR FOUR to `-`"
+  );
+  equal(
+    slugify("a\u001Db"),
+    "a-b",
+    "converts INFORMATION SEPARATOR THREE to `-`"
+  );
+  equal(
+    slugify("a\u001Eb"),
+    "a-b",
+    "converts INFORMATION SEPARATOR TWO to `-`"
+  );
+  equal(
+    slugify("a\u001Fb"),
+    "a-b",
+    "converts INFORMATION SEPARATOR ONE to `-`"
+  );
+  equal(slugify("a\u0085b"), "a-b", "converts NEXT LINE to `-`");
+  equal(
+    slugify("a\u0009\u0009b"),
+    "a-b",
+    "converts many CHARACTER TABULATION characters to just one `-`"
+  );
   end();
 });
 
@@ -839,6 +860,11 @@ test("standard-slugify with non-control white space characters", ({
     "converts MEDIUM MATHEMATICAL SPACE to `-`"
   );
   equal(slugify("a\u3000b"), "a-b", "converts IDEOGRAPHIC SPACE to `-`");
+  equal(
+    slugify("a\u0020\u0020b"),
+    "a-b",
+    "converts many separator characters to just one `-`"
+  );
   end();
 });
 
@@ -863,42 +889,51 @@ test("standard-slugify with leading and trailing white space characters", ({
 
 // See # Pd in https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
 test("standard-slugify with dash punctuation marks", ({ equal, end }) => {
-  equal(slugify("-"), "-", "keeps `-` as is");
-  equal(slugify("\u058A"), "-", "converts ARMENIAN HYPHEN to `-`");
-  equal(slugify("\u05BE"), "-", "converts HEBREW PUNCTUATION MAQAF to `-`");
-  equal(slugify("\u1400"), "-", "converts CANADIAN SYLLABICS HYPHEN to `-`");
-  equal(slugify("\u1806"), "-", "converts MONGOLIAN TODO SOFT HYPHEN to `-`");
-  equal(slugify("\u2010"), "-", "converts HYPHEN to `-`");
-  equal(slugify("\u2011"), "-", "converts NON-BREAKING HYPHEN to `-`");
-  equal(slugify("\u2012"), "-", "converts FIGURE DASH to `-`");
-  equal(slugify("\u2013"), "-", "converts EN DASH to `-`");
-  equal(slugify("\u2014"), "-", "converts EM DASH to `-`");
-  equal(slugify("\u2015"), "-", "converts HORIZONTAL BAR to `-`");
-  equal(slugify("\u2E17"), "-", "converts DOUBLE OBLIQUE HYPHEN to `-`");
-  equal(slugify("\u2E1A"), "-", "converts HYPHEN WITH DIAERESIS to `-`");
-  equal(slugify("\u2E3A"), "-", "converts TWO-EM DASH to `-`");
-  equal(slugify("\u2E3B"), "-", "converts THREE-EM DASH to `-`");
-  equal(slugify("\u2E40"), "-", "converts DOUBLE HYPHEN to `-`");
-  equal(slugify("\u301C"), "-", "converts WAVE DASH to `-`");
-  equal(slugify("\u3030"), "-", "converts WAVY DASH to `-`");
+  equal(slugify("a-b"), "a-b", "keeps `-` as is");
+  equal(slugify("a\u058Ab"), "a-b", "converts ARMENIAN HYPHEN to `-`");
+  equal(slugify("a\u05BEb"), "a-b", "converts HEBREW PUNCTUATION MAQAF to `-`");
   equal(
-    slugify("\u30A0"),
-    "-",
+    slugify("a\u1400b"),
+    "a-b",
+    "converts CANADIAN SYLLABICS HYPHEN to `-`"
+  );
+  equal(
+    slugify("a\u1806b"),
+    "a-b",
+    "converts MONGOLIAN TODO SOFT HYPHEN to `-`"
+  );
+  equal(slugify("a\u2010b"), "a-b", "converts HYPHEN to `-`");
+  equal(slugify("a\u2011b"), "a-b", "converts NON-BREAKING HYPHEN to `-`");
+  equal(slugify("a\u2012b"), "a-b", "converts FIGURE DASH to `-`");
+  equal(slugify("a\u2013b"), "a-b", "converts EN DASH to `-`");
+  equal(slugify("a\u2014b"), "a-b", "converts EM DASH to `-`");
+  equal(slugify("a\u2015b"), "a-b", "converts HORIZONTAL BAR to `-`");
+  equal(slugify("a\u2E17b"), "a-b", "converts DOUBLE OBLIQUE HYPHEN to `-`");
+  equal(slugify("a\u2E1Ab"), "a-b", "converts HYPHEN WITH DIAERESIS to `-`");
+  equal(slugify("a\u2E3Ab"), "a-b", "converts TWO-EM DASH to `-`");
+  equal(slugify("a\u2E3Bb"), "a-b", "converts THREE-EM DASH to `-`");
+  equal(slugify("a\u2E40b"), "a-b", "converts DOUBLE HYPHEN to `-`");
+  equal(slugify("a\u301Cb"), "a-b", "converts WAVE DASH to `-`");
+  equal(slugify("a\u3030b"), "a-b", "converts WAVY DASH to `-`");
+  equal(
+    slugify("a\u30A0b"),
+    "a-b",
     "converts KATAKANA-HIRAGANA DOUBLE HYPHEN to `-`"
   );
   equal(
-    slugify("\uFE31"),
-    "-",
+    slugify("a\uFE31b"),
+    "a-b",
     "converts PRESENTATION FORM FOR VERTICAL EM DASH to `-`"
   );
   equal(
-    slugify("\uFE32"),
-    "-",
+    slugify("a\uFE32b"),
+    "a-b",
     "converts PRESENTATION FORM FOR VERTICAL EN DASH to `-`"
   );
-  equal(slugify("\uFE58"), "-", "converts SMALL EM DASH to `-`");
-  equal(slugify("\uFE63"), "-", "converts SMALL HYPHEN-MINUS to `-`");
-  equal(slugify("\uFF0D"), "-", "converts FULLWIDTH HYPHEN-MINUS to `-`");
+  equal(slugify("a\uFE58b"), "a-b", "converts SMALL EM DASH to `-`");
+  equal(slugify("a\uFE63b"), "a-b", "converts SMALL HYPHEN-MINUS to `-`");
+  equal(slugify("a\uFF0Db"), "a-b", "converts FULLWIDTH HYPHEN-MINUS to `-`");
+  equal(slugify("a--b"), "a-b", "converts many `-` characters to just one `-`");
   end();
 });
 
