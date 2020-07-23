@@ -77,18 +77,13 @@ const replaceKeepingCase = (string, [regExp, replacement]) =>
   });
 
 /**
- * Returns a slug of the given `string`. Leading and trailing white space is
- * removed; white space, control codes that are separators, and hyphen and dash
- * marks are converted to `-`; uppercase letters are lowercased; non-US-ASCII
- * letters are transliterated to US-ASCII; `_` is kept as is; and the rest of
- * characters are removed.
+ * Returns a slug of the given `string`.
  *
- * By default, the resulting slug is in lowercase. To keep the original case of
- * the given `string`, set the `keepCase` option to `true`.
+ * The result is in lowercase, unless the `keepCase` option is set to `true`.
  *
  * To specify custom replacements, pass as the `replacements` option an object
  * where each key matches the characters to be replaced and the value is their
- * replacement. The keys can be regular expressions.
+ * replacement. The keys may be regular expressions.
  */
 export default function (
   string = "",

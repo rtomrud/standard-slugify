@@ -1000,13 +1000,13 @@ test("standard-slugify with keepCase and replacements", ({ equal, end }) => {
       keepCase: true,
       // Transliterate Ukrainian according to ISO/IEC 7501-3
       replacements: {
-        "(?<=^|\\P{L})Є": "YE", // if Ukrainian first character (instead of IO)
-        "(?<=^|\\P{L})Ї": "YI", // if Ukrainian first character (instead of IE)
-        Г: "H", // if Ukrainian (instead of G)
-        И: "Y", // if Ukrainian (instead of I)
-        "(?<=^|\\P{L})Й": "Y", // if Ukrainian first character (instead of I)
-        "(?<=^|\\P{L})Ю": "YU", // if Ukrainian first character (instead of IU)
-        "(?<=^|\\P{L})Я": "YA", // if Ukrainian first character (instead of YA)
+        "(?<=^|\\P{L})Є": "YE", // Є as the first character
+        "(?<=^|\\P{L})Ї": "YI", // Ї as the first character
+        Г: "H",
+        И: "Y",
+        "(?<=^|\\P{L})Й": "Y", // Й as the first character
+        "(?<=^|\\P{L})Ю": "YU", // Ю as the first character
+        "(?<=^|\\P{L})Я": "YA", // Я as the first character
       },
     }),
     "Yehypet-Yizhak-Yordaniia-Yuhoslaviia-Yamaika",
@@ -1016,13 +1016,13 @@ test("standard-slugify with keepCase and replacements", ({ equal, end }) => {
     slugify("Єгипет, Їжак, Йорданія, Югославія, Ямайка", {
       // Transliterate Ukrainian according to ISO/IEC 7501-3
       replacements: {
-        "(?<=^|\\P{L})Є": "YE", // if Ukrainian first character (instead of IO)
-        "(?<=^|\\P{L})Ї": "YI", // if Ukrainian first character (instead of IE)
-        Г: "H", // if Ukrainian (instead of G)
-        И: "Y", // if Ukrainian (instead of I)
-        "(?<=^|\\P{L})Й": "Y", // if Ukrainian first character (instead of I)
-        "(?<=^|\\P{L})Ю": "YU", // if Ukrainian first character (instead of IU)
-        "(?<=^|\\P{L})Я": "YA", // if Ukrainian first character (instead of YA)
+        "(?<=^|\\P{L})Є": "YE", // Є as the first character
+        "(?<=^|\\P{L})Ї": "YI", // Ї as the first character
+        Г: "H",
+        И: "Y",
+        "(?<=^|\\P{L})Й": "Y", // Й as the first character
+        "(?<=^|\\P{L})Ю": "YU", // Ю as the first character
+        "(?<=^|\\P{L})Я": "YA", // Я as the first character
       },
     }),
     "yehypet-yizhak-yordaniia-yuhoslaviia-yamaika",
