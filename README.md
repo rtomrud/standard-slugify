@@ -39,32 +39,31 @@ standardSlugify("ÆTHELFLÆD", { keepCase: true });
 // => "AETHELFLAED"
 ```
 
-To specify custom replacements, pass as the `replacements` option an object where each key matches the characters to be replaced and the value is their replacement. The keys may be regular expressions.
+To specify custom replacements, pass as the `replacements` option an array of `[regexp, replacement]` pairs.
 
 ```js
 import standardSlugify from "standard-slugify";
 
 standardSlugify("₿ raising, € falling", {
-  replacements: {
-    "€": "eur", // EURO SIGN
-    "₿": "xbt" // BITCOIN SIGN
-  }
+  replacements: [
+    ["€", "eur"], // EURO SIGN
+    ["₿", "xbt"], // BITCOIN SIGN
+  ],
 });
 // => "xbt-raising-eur-falling"
 
-// Note that replacements can be regular expressions, which is useful for
-// complex transliteration rules, i.e., matching the start of a word
+// Replacements can be matched with regular expressions,
+// e.g., transliterating Ukrainian according to ISO/IEC 7501-3
 standardSlugify("Єгипет, Їжак, Йорданія, Югославія, Ямайка", {
-  // Transliterate Ukrainian according to ISO/IEC 7501-3
-  replacements: {
-    "(?<=^|\\P{L})Є": "YE", // Є as the first character
-    "(?<=^|\\P{L})Ї": "YI", // Ї as the first character
-    Г: "H",
-    И: "Y",
-    "(?<=^|\\P{L})Й": "Y", // Й as the first character
-    "(?<=^|\\P{L})Ю": "YU", // Ю as the first character
-    "(?<=^|\\P{L})Я": "YA", // Я as the first character
-  },
+  replacements: [
+    [/(?<=^|\P{L})Є/, "YE"], // Є as the first letter of a word
+    [/(?<=^|\P{L})Ї/, "YI"], // Ї as the first letter of a word
+    ["Г", "H"], // Г in any position
+    ["И", "Y"], // И in any position
+    [/(?<=^|\P{L})Й/, "Y"], // Й as the first letter of a word
+    [/(?<=^|\P{L})Ю/, "YU"], // Ю as the first letter of a word
+    [/(?<=^|\P{L})Я/, "YA"], // Я as the first letter of a word
+  ],
 });
 // => "yehypet-yizhak-yordaniia-yuhoslaviia-yamaika"
 ```

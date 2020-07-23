@@ -81,17 +81,16 @@ const replaceKeepingCase = (string, [regExp, replacement]) =>
  *
  * The result is in lowercase, unless the `keepCase` option is set to `true`.
  *
- * To specify custom replacements, pass as the `replacements` option an object
- * where each key matches the characters to be replaced and the value is their
- * replacement. The keys may be regular expressions.
+ * To specify custom replacements, pass as the `replacements` option an array
+ * of `[regexp, replacement]` pairs.
  */
 export default function (
   string = "",
-  { keepCase = false, replacements = {} } = {}
+  { keepCase = false, replacements = [] } = {}
 ) {
   const replacer = keepCase ? replaceKeepingCase : replaceLoweringCase;
   return defaultReplacements
-    .reduce(replacer, Object.entries(replacements).reduce(replacer, string))
+    .reduce(replacer, replacements.reduce(replacer, string))
     .replace(/[^\w-]/g, "")
     .replace(/-{2,}/g, "-")
     .replace(/^-|-$/g, "");

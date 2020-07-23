@@ -860,10 +860,10 @@ test("standard-slugify with keepCase", ({ equal, end }) => {
 test("standard-slugify with replacements", ({ equal, end }) => {
   equal(
     slugify("₿ raising, € falling", {
-      replacements: {
-        "€": "eur", // EURO SIGN
-        "₿": "xbt", // BITCOIN SIGN
-      },
+      replacements: [
+        ["€", "eur"], // EURO SIGN
+        ["₿", "xbt"], // BITCOIN SIGN
+      ],
     }),
     "xbt-raising-eur-falling",
     "uses the given custom replacements"
@@ -875,32 +875,30 @@ test("standard-slugify with keepCase and replacements", ({ equal, end }) => {
   equal(
     slugify("Єгипет, Їжак, Йорданія, Югославія, Ямайка", {
       keepCase: true,
-      // Transliterate Ukrainian according to ISO/IEC 7501-3
-      replacements: {
-        "(?<=^|\\P{L})Є": "YE", // Є as the first character
-        "(?<=^|\\P{L})Ї": "YI", // Ї as the first character
-        Г: "H",
-        И: "Y",
-        "(?<=^|\\P{L})Й": "Y", // Й as the first character
-        "(?<=^|\\P{L})Ю": "YU", // Ю as the first character
-        "(?<=^|\\P{L})Я": "YA", // Я as the first character
-      },
+      replacements: [
+        [/(?<=^|\P{L})Є/, "YE"],
+        [/(?<=^|\P{L})Ї/, "YI"],
+        ["Г", "H"],
+        ["И", "Y"],
+        [/(?<=^|\P{L})Й/, "Y"],
+        [/(?<=^|\P{L})Ю/, "YU"],
+        [/(?<=^|\P{L})Я/, "YA"],
+      ],
     }),
     "Yehypet-Yizhak-Yordaniia-Yuhoslaviia-Yamaika",
     "keeps case of custom replacements and original string"
   );
   equal(
     slugify("Єгипет, Їжак, Йорданія, Югославія, Ямайка", {
-      // Transliterate Ukrainian according to ISO/IEC 7501-3
-      replacements: {
-        "(?<=^|\\P{L})Є": "YE", // Є as the first character
-        "(?<=^|\\P{L})Ї": "YI", // Ї as the first character
-        Г: "H",
-        И: "Y",
-        "(?<=^|\\P{L})Й": "Y", // Й as the first character
-        "(?<=^|\\P{L})Ю": "YU", // Ю as the first character
-        "(?<=^|\\P{L})Я": "YA", // Я as the first character
-      },
+      replacements: [
+        [/(?<=^|\P{L})Є/, "YE"],
+        [/(?<=^|\P{L})Ї/, "YI"],
+        ["Г", "H"],
+        ["И", "Y"],
+        [/(?<=^|\P{L})Й/, "Y"],
+        [/(?<=^|\P{L})Ю/, "YU"],
+        [/(?<=^|\P{L})Я/, "YA"],
+      ],
     }),
     "yehypet-yizhak-yordaniia-yuhoslaviia-yamaika",
     "lowercases custom replacements and original string"
