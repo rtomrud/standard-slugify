@@ -4,7 +4,7 @@
 [![npm version](https://badgen.net/npm/v/standard-slugify)](https://www.npmjs.com/package/standard-slugify)
 [![bundle size](https://badgen.net/bundlephobia/minzip/standard-slugify)](https://bundlephobia.com/result?p=standard-slugify)
 
-Converts a string into a [slug](#details) safe for [URLs](https://tools.ietf.org/html/rfc3986) and filenames
+Converts a string into a [slug](#details) safe for [URLs](https://tools.ietf.org/html/rfc3986) and filenames. Supports Latin, Greek and Cyrillic scripts.
 
 ## Installing
 
