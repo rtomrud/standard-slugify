@@ -1,878 +1,752 @@
-import test from "./node_modules/tape/index.js";
 import slugify from "./index.js";
 
-test("standard-slugify with empty arguments", ({ equal, end }) => {
-  equal(slugify(), "", 'returns "" when given nothing');
-  equal(slugify(""), "", 'returns "" when given ""');
-  equal(slugify(undefined, {}), "", 'returns "" when given undefined and {}');
-  equal(slugify("", {}), "", 'returns "" when given "" and {}');
-  end();
+test("standard-slugify with no arguments", () => {
+  expect(slugify()).toBe("");
 });
 
-test("standard-slugify with C0 Controls", ({ equal, plan }) => {
-  plan(32);
-  equal(slugify("\u0000"), "", "removes NUL");
-  equal(slugify("\u0001"), "", "removes SOH");
-  equal(slugify("\u0002"), "", "removes STX");
-  equal(slugify("\u0003"), "", "removes ETX");
-  equal(slugify("\u0004"), "", "removes EOT");
-  equal(slugify("\u0005"), "", "removes ENQ");
-  equal(slugify("\u0006"), "", "removes ACK");
-  equal(slugify("\u0007"), "", "removes BEL");
-  equal(slugify("\u0008"), "", "removes BS");
-  equal(slugify("a\u0009b"), "a-b", "converts HT to `-`");
-  equal(slugify("a\u000Ab"), "a-b", "converts LF to `-`");
-  equal(slugify("a\u000Bb"), "a-b", "converts VT to `-`");
-  equal(slugify("a\u000Cb"), "a-b", "converts FF to `-`");
-  equal(slugify("a\u000Db"), "a-b", "converts CR to `-`");
-  equal(slugify("\u000E"), "", "removes SO");
-  equal(slugify("\u000F"), "", "removes SI");
-  equal(slugify("\u0010"), "", "removes DLE");
-  equal(slugify("\u0011"), "", "removes DC1");
-  equal(slugify("\u0012"), "", "removes DC2");
-  equal(slugify("\u0013"), "", "removes DC3");
-  equal(slugify("\u0014"), "", "removes DC4");
-  equal(slugify("\u0015"), "", "removes NAK");
-  equal(slugify("\u0016"), "", "removes SYN");
-  equal(slugify("\u0017"), "", "removes ETB");
-  equal(slugify("\u0018"), "", "removes CAN");
-  equal(slugify("\u0019"), "", "removes EM");
-  equal(slugify("\u001A"), "", "removes SUB");
-  equal(slugify("\u001B"), "", "removes ESC");
-  equal(slugify("a\u001Cb"), "a-b", "converts FS to `-`");
-  equal(slugify("a\u001Db"), "a-b", "converts GS to `-`");
-  equal(slugify("a\u001Eb"), "a-b", "converts RS to `-`");
-  equal(slugify("a\u001Fb"), "a-b", "converts US to `-`");
+test("standard-slugify with C0 Controls", () => {
+  expect.assertions(32);
+  expect(slugify("\u0000")).toBe("");
+  expect(slugify("\u0001")).toBe("");
+  expect(slugify("\u0002")).toBe("");
+  expect(slugify("\u0003")).toBe("");
+  expect(slugify("\u0004")).toBe("");
+  expect(slugify("\u0005")).toBe("");
+  expect(slugify("\u0006")).toBe("");
+  expect(slugify("\u0007")).toBe("");
+  expect(slugify("\u0008")).toBe("");
+  expect(slugify("a\u0009b")).toBe("a-b");
+  expect(slugify("a\u000Ab")).toBe("a-b");
+  expect(slugify("a\u000Bb")).toBe("a-b");
+  expect(slugify("a\u000Cb")).toBe("a-b");
+  expect(slugify("a\u000Db")).toBe("a-b");
+  expect(slugify("\u000E")).toBe("");
+  expect(slugify("\u000F")).toBe("");
+  expect(slugify("\u0010")).toBe("");
+  expect(slugify("\u0011")).toBe("");
+  expect(slugify("\u0012")).toBe("");
+  expect(slugify("\u0013")).toBe("");
+  expect(slugify("\u0014")).toBe("");
+  expect(slugify("\u0015")).toBe("");
+  expect(slugify("\u0016")).toBe("");
+  expect(slugify("\u0017")).toBe("");
+  expect(slugify("\u0018")).toBe("");
+  expect(slugify("\u0019")).toBe("");
+  expect(slugify("\u001A")).toBe("");
+  expect(slugify("\u001B")).toBe("");
+  expect(slugify("a\u001Cb")).toBe("a-b");
+  expect(slugify("a\u001Db")).toBe("a-b");
+  expect(slugify("a\u001Eb")).toBe("a-b");
+  expect(slugify("a\u001Fb")).toBe("a-b");
 });
 
-test("standard-slugify with ASCII punctuation and symbols ", ({
-  equal,
-  plan,
-}) => {
-  plan(33);
-  equal(slugify("a\u0020b"), "a-b", "converts SPACE to `-`");
-  equal(slugify("!"), "", "removes `!`");
-  equal(slugify('"'), "", 'removes `"`');
-  equal(slugify("#"), "", "removes `#`");
-  equal(slugify("$"), "", "removes `$`");
-  equal(slugify("%"), "", "removes `%`");
-  equal(slugify("&"), "", "removes `&`");
-  equal(slugify("'"), "", "removes `'`");
-  equal(slugify("("), "", "removes `(`");
-  equal(slugify(")"), "", "removes `)`");
-  equal(slugify("*"), "", "removes `*`");
-  equal(slugify("+"), "", "removes `+`");
-  equal(slugify(","), "", "removes `,`");
-  equal(slugify("a-b"), "a-b", "keeps `-`");
-  equal(slugify("."), "", "removes `.`");
-  equal(slugify("/"), "", "removes `/`");
-  equal(slugify(":"), "", "removes `:`");
-  equal(slugify(";"), "", "removes `;`");
-  equal(slugify("<"), "", "removes `<`");
-  equal(slugify("="), "", "removes `=`");
-  equal(slugify(">"), "", "removes `>`");
-  equal(slugify("?"), "", "removes `?`");
-  equal(slugify("@"), "", "removes `@`");
-  equal(slugify("["), "", "removes `[`");
-  equal(slugify("\\"), "", "removes `\\`");
-  equal(slugify("]"), "", "removes `]`");
-  equal(slugify("^"), "", "removes `^`");
-  equal(slugify("_"), "_", "keeps `_`");
-  equal(slugify("`"), "", "removes ```");
-  equal(slugify("{"), "", "removes `{`");
-  equal(slugify("|"), "", "removes `|`");
-  equal(slugify("}"), "", "removes `}`");
-  equal(slugify("~"), "", "removes `~`");
+test("standard-slugify with ASCII punctuation and symbols", () => {
+  expect.assertions(33);
+  expect(slugify("a\u0020b")).toBe("a-b");
+  expect(slugify("!")).toBe("");
+  expect(slugify('"')).toBe("");
+  expect(slugify("#")).toBe("");
+  expect(slugify("$")).toBe("");
+  expect(slugify("%")).toBe("");
+  expect(slugify("&")).toBe("");
+  expect(slugify("'")).toBe("");
+  expect(slugify("(")).toBe("");
+  expect(slugify(")")).toBe("");
+  expect(slugify("*")).toBe("");
+  expect(slugify("+")).toBe("");
+  expect(slugify(",")).toBe("");
+  expect(slugify("a-b")).toBe("a-b");
+  expect(slugify(".")).toBe("");
+  expect(slugify("/")).toBe("");
+  expect(slugify(":")).toBe("");
+  expect(slugify(";")).toBe("");
+  expect(slugify("<")).toBe("");
+  expect(slugify("=")).toBe("");
+  expect(slugify(">")).toBe("");
+  expect(slugify("?")).toBe("");
+  expect(slugify("@")).toBe("");
+  expect(slugify("[")).toBe("");
+  expect(slugify("\\")).toBe("");
+  expect(slugify("]")).toBe("");
+  expect(slugify("^")).toBe("");
+  expect(slugify("_")).toBe("_");
+  expect(slugify("`")).toBe("");
+  expect(slugify("{")).toBe("");
+  expect(slugify("|")).toBe("");
+  expect(slugify("}")).toBe("");
+  expect(slugify("~")).toBe("");
 });
 
-test("standard-slugify with ASCII digits", ({ equal, plan }) => {
-  plan(10);
-  equal(slugify("0"), "0", "keeps `0`");
-  equal(slugify("1"), "1", "keeps `1`");
-  equal(slugify("2"), "2", "keeps `2`");
-  equal(slugify("3"), "3", "keeps `3`");
-  equal(slugify("4"), "4", "keeps `4`");
-  equal(slugify("5"), "5", "keeps `5`");
-  equal(slugify("6"), "6", "keeps `6`");
-  equal(slugify("7"), "7", "keeps `7`");
-  equal(slugify("8"), "8", "keeps `8`");
-  equal(slugify("9"), "9", "keeps `9`");
+test("standard-slugify with ASCII digits", () => {
+  expect.assertions(10);
+  expect(slugify("0")).toBe("0");
+  expect(slugify("1")).toBe("1");
+  expect(slugify("2")).toBe("2");
+  expect(slugify("3")).toBe("3");
+  expect(slugify("4")).toBe("4");
+  expect(slugify("5")).toBe("5");
+  expect(slugify("6")).toBe("6");
+  expect(slugify("7")).toBe("7");
+  expect(slugify("8")).toBe("8");
+  expect(slugify("9")).toBe("9");
 });
 
-test("standard-slugify with Uppercase Latin alphabet", ({ equal, plan }) => {
-  plan(26);
-  equal(slugify("A"), "a", "lowercases `A`");
-  equal(slugify("B"), "b", "lowercases `B`");
-  equal(slugify("C"), "c", "lowercases `C`");
-  equal(slugify("D"), "d", "lowercases `D`");
-  equal(slugify("E"), "e", "lowercases `E`");
-  equal(slugify("F"), "f", "lowercases `F`");
-  equal(slugify("G"), "g", "lowercases `G`");
-  equal(slugify("H"), "h", "lowercases `H`");
-  equal(slugify("I"), "i", "lowercases `I`");
-  equal(slugify("J"), "j", "lowercases `J`");
-  equal(slugify("K"), "k", "lowercases `K`");
-  equal(slugify("L"), "l", "lowercases `L`");
-  equal(slugify("M"), "m", "lowercases `M`");
-  equal(slugify("N"), "n", "lowercases `N`");
-  equal(slugify("O"), "o", "lowercases `O`");
-  equal(slugify("P"), "p", "lowercases `P`");
-  equal(slugify("Q"), "q", "lowercases `Q`");
-  equal(slugify("R"), "r", "lowercases `R`");
-  equal(slugify("S"), "s", "lowercases `S`");
-  equal(slugify("T"), "t", "lowercases `T`");
-  equal(slugify("U"), "u", "lowercases `U`");
-  equal(slugify("V"), "v", "lowercases `V`");
-  equal(slugify("W"), "w", "lowercases `W`");
-  equal(slugify("X"), "x", "lowercases `X`");
-  equal(slugify("Y"), "y", "lowercases `Y`");
-  equal(slugify("Z"), "z", "lowercases `Z`");
+test("standard-slugify with Uppercase Latin alphabet", () => {
+  expect.assertions(26);
+  expect(slugify("A")).toBe("a");
+  expect(slugify("B")).toBe("b");
+  expect(slugify("C")).toBe("c");
+  expect(slugify("D")).toBe("d");
+  expect(slugify("E")).toBe("e");
+  expect(slugify("F")).toBe("f");
+  expect(slugify("G")).toBe("g");
+  expect(slugify("H")).toBe("h");
+  expect(slugify("I")).toBe("i");
+  expect(slugify("J")).toBe("j");
+  expect(slugify("K")).toBe("k");
+  expect(slugify("L")).toBe("l");
+  expect(slugify("M")).toBe("m");
+  expect(slugify("N")).toBe("n");
+  expect(slugify("O")).toBe("o");
+  expect(slugify("P")).toBe("p");
+  expect(slugify("Q")).toBe("q");
+  expect(slugify("R")).toBe("r");
+  expect(slugify("S")).toBe("s");
+  expect(slugify("T")).toBe("t");
+  expect(slugify("U")).toBe("u");
+  expect(slugify("V")).toBe("v");
+  expect(slugify("W")).toBe("w");
+  expect(slugify("X")).toBe("x");
+  expect(slugify("Y")).toBe("y");
+  expect(slugify("Z")).toBe("z");
 });
 
-test("standard-slugify with Lowercase Latin alphabet", ({ equal, plan }) => {
-  plan(26);
-  equal(slugify("a"), "a", "keeps `a`");
-  equal(slugify("b"), "b", "keeps `b`");
-  equal(slugify("c"), "c", "keeps `c`");
-  equal(slugify("d"), "d", "keeps `d`");
-  equal(slugify("e"), "e", "keeps `e`");
-  equal(slugify("f"), "f", "keeps `f`");
-  equal(slugify("g"), "g", "keeps `g`");
-  equal(slugify("h"), "h", "keeps `h`");
-  equal(slugify("i"), "i", "keeps `i`");
-  equal(slugify("j"), "j", "keeps `j`");
-  equal(slugify("k"), "k", "keeps `k`");
-  equal(slugify("l"), "l", "keeps `l`");
-  equal(slugify("m"), "m", "keeps `m`");
-  equal(slugify("n"), "n", "keeps `n`");
-  equal(slugify("o"), "o", "keeps `o`");
-  equal(slugify("p"), "p", "keeps `p`");
-  equal(slugify("q"), "q", "keeps `q`");
-  equal(slugify("r"), "r", "keeps `r`");
-  equal(slugify("s"), "s", "keeps `s`");
-  equal(slugify("t"), "t", "keeps `t`");
-  equal(slugify("u"), "u", "keeps `u`");
-  equal(slugify("v"), "v", "keeps `v`");
-  equal(slugify("w"), "w", "keeps `w`");
-  equal(slugify("x"), "x", "keeps `x`");
-  equal(slugify("y"), "y", "keeps `y`");
-  equal(slugify("z"), "z", "keeps `z`");
+test("standard-slugify with Lowercase Latin alphabet", () => {
+  expect.assertions(26);
+  expect(slugify("a")).toBe("a");
+  expect(slugify("b")).toBe("b");
+  expect(slugify("c")).toBe("c");
+  expect(slugify("d")).toBe("d");
+  expect(slugify("e")).toBe("e");
+  expect(slugify("f")).toBe("f");
+  expect(slugify("g")).toBe("g");
+  expect(slugify("h")).toBe("h");
+  expect(slugify("i")).toBe("i");
+  expect(slugify("j")).toBe("j");
+  expect(slugify("k")).toBe("k");
+  expect(slugify("l")).toBe("l");
+  expect(slugify("m")).toBe("m");
+  expect(slugify("n")).toBe("n");
+  expect(slugify("o")).toBe("o");
+  expect(slugify("p")).toBe("p");
+  expect(slugify("q")).toBe("q");
+  expect(slugify("r")).toBe("r");
+  expect(slugify("s")).toBe("s");
+  expect(slugify("t")).toBe("t");
+  expect(slugify("u")).toBe("u");
+  expect(slugify("v")).toBe("v");
+  expect(slugify("w")).toBe("w");
+  expect(slugify("x")).toBe("x");
+  expect(slugify("y")).toBe("y");
+  expect(slugify("z")).toBe("z");
 });
 
-test("standard-slugify with Control character", ({ equal, plan }) => {
-  plan(1);
-  equal(slugify("\u007F"), "", "removes DEL");
+test("standard-slugify with Control character", () => {
+  expect.assertions(1);
+  expect(slugify("\u007F")).toBe("");
 });
 
-test("standard-slugify with C1 Controls", ({ equal, plan }) => {
-  plan(32);
-  equal(slugify("\u0080"), "", "removes PAD");
-  equal(slugify("\u0081"), "", "removes HOP");
-  equal(slugify("\u0082"), "", "removes BPH");
-  equal(slugify("\u0083"), "", "removes NBH");
-  equal(slugify("\u0084"), "", "removes IND");
-  equal(slugify("a\u0085b"), "a-b", "converts NEL to `-`");
-  equal(slugify("\u0086"), "", "removes SSA");
-  equal(slugify("\u0087"), "", "removes ESA");
-  equal(slugify("\u0088"), "", "removes HTS");
-  equal(slugify("\u0089"), "", "removes HTJ");
-  equal(slugify("\u008A"), "", "removes LTS");
-  equal(slugify("\u008B"), "", "removes PLD");
-  equal(slugify("\u008C"), "", "removes PLU");
-  equal(slugify("\u008D"), "", "removes RI");
-  equal(slugify("\u008E"), "", "removes SS2");
-  equal(slugify("\u008F"), "", "removes SS3");
-  equal(slugify("\u0090"), "", "removes DCS");
-  equal(slugify("\u0091"), "", "removes PU1");
-  equal(slugify("\u0092"), "", "removes PU2`");
-  equal(slugify("\u0093"), "", "removes STS");
-  equal(slugify("\u0094"), "", "removes CCH");
-  equal(slugify("\u0095"), "", "removes MW");
-  equal(slugify("\u0096"), "", "removes SPA");
-  equal(slugify("\u0097"), "", "removes EPA");
-  equal(slugify("\u0098"), "", "removes SOS");
-  equal(slugify("\u0099"), "", "removes SGCI");
-  equal(slugify("\u009A"), "", "removes SCI");
-  equal(slugify("\u009B"), "", "removes CSI");
-  equal(slugify("\u009C"), "", "removes ST");
-  equal(slugify("\u009D"), "", "removes OSC");
-  equal(slugify("\u009E"), "", "removes PM");
-  equal(slugify("\u009F"), "", "removes APC");
+test("standard-slugify with C1 Controls", () => {
+  expect.assertions(32);
+  expect(slugify("\u0080")).toBe("");
+  expect(slugify("\u0081")).toBe("");
+  expect(slugify("\u0082")).toBe("");
+  expect(slugify("\u0083")).toBe("");
+  expect(slugify("\u0084")).toBe("");
+  expect(slugify("a\u0085b")).toBe("a-b");
+  expect(slugify("\u0086")).toBe("");
+  expect(slugify("\u0087")).toBe("");
+  expect(slugify("\u0088")).toBe("");
+  expect(slugify("\u0089")).toBe("");
+  expect(slugify("\u008A")).toBe("");
+  expect(slugify("\u008B")).toBe("");
+  expect(slugify("\u008C")).toBe("");
+  expect(slugify("\u008D")).toBe("");
+  expect(slugify("\u008E")).toBe("");
+  expect(slugify("\u008F")).toBe("");
+  expect(slugify("\u0090")).toBe("");
+  expect(slugify("\u0091")).toBe("");
+  expect(slugify("\u0092")).toBe("");
+  expect(slugify("\u0093")).toBe("");
+  expect(slugify("\u0094")).toBe("");
+  expect(slugify("\u0095")).toBe("");
+  expect(slugify("\u0096")).toBe("");
+  expect(slugify("\u0097")).toBe("");
+  expect(slugify("\u0098")).toBe("");
+  expect(slugify("\u0099")).toBe("");
+  expect(slugify("\u009A")).toBe("");
+  expect(slugify("\u009B")).toBe("");
+  expect(slugify("\u009C")).toBe("");
+  expect(slugify("\u009D")).toBe("");
+  expect(slugify("\u009E")).toBe("");
+  expect(slugify("\u009F")).toBe("");
 });
 
-test("standard-slugify with Latin-1 Supplement Letters (Uppercase)", ({
-  equal,
-  plan,
-}) => {
-  plan(30);
-  equal(slugify("À"), "a", "transliterates `À` as `a`");
-  equal(slugify("Á"), "a", "transliterates `Á` as `a`");
-  equal(slugify("Â"), "a", "transliterates `Â` as `a`");
-  equal(slugify("Ã"), "a", "transliterates `Ã` as `a`");
-  equal(slugify("Ä"), "a", "transliterates `Ä` as `a`");
-  equal(slugify("Å"), "a", "transliterates `Å` as `a`");
-  equal(slugify("Æ"), "ae", "transliterates `Æ` as `ae`");
-  equal(slugify("Ç"), "c", "transliterates `Ç` as `c`");
-  equal(slugify("È"), "e", "transliterates `È` as `e`");
-  equal(slugify("É"), "e", "transliterates `É` as `e`");
-  equal(slugify("Ê"), "e", "transliterates `Ê` as `e`");
-  equal(slugify("Ë"), "e", "transliterates `Ë` as `e`");
-  equal(slugify("Ì"), "i", "transliterates `Ì` as `i`");
-  equal(slugify("Í"), "i", "transliterates `Í` as `i`");
-  equal(slugify("Î"), "i", "transliterates `Î` as `i`");
-  equal(slugify("Ï"), "i", "transliterates `Ï` as `i`");
-  equal(slugify("Ð"), "d", "transliterates `Ð` as `d`");
-  equal(slugify("Ñ"), "n", "transliterates `Ñ` as `n`");
-  equal(slugify("Ò"), "o", "transliterates `Ò` as `o`");
-  equal(slugify("Ó"), "o", "transliterates `Ó` as `o`");
-  equal(slugify("Ô"), "o", "transliterates `Ô` as `o`");
-  equal(slugify("Õ"), "o", "transliterates `Õ` as `o`");
-  equal(slugify("Ö"), "o", "transliterates `Ö` as `o`");
-  equal(slugify("Ø"), "oe", "transliterates `Ø` as `oe`");
-  equal(slugify("Ù"), "u", "transliterates `Ù` as `u`");
-  equal(slugify("Ú"), "u", "transliterates `Ú` as `u`");
-  equal(slugify("Û"), "u", "transliterates `Û` as `u`");
-  equal(slugify("Ü"), "u", "transliterates `Ü` as `u`");
-  equal(slugify("Ý"), "y", "transliterates `Ý` as `y`");
-  equal(slugify("Þ"), "th", "transliterates `Þ` as `th`");
+test("standard-slugify with Latin-1 Supplement Letters (Uppercase)", () => {
+  expect.assertions(30);
+  expect(slugify("À")).toBe("a");
+  expect(slugify("Á")).toBe("a");
+  expect(slugify("Â")).toBe("a");
+  expect(slugify("Ã")).toBe("a");
+  expect(slugify("Ä")).toBe("a");
+  expect(slugify("Å")).toBe("a");
+  expect(slugify("Æ")).toBe("ae");
+  expect(slugify("Ç")).toBe("c");
+  expect(slugify("È")).toBe("e");
+  expect(slugify("É")).toBe("e");
+  expect(slugify("Ê")).toBe("e");
+  expect(slugify("Ë")).toBe("e");
+  expect(slugify("Ì")).toBe("i");
+  expect(slugify("Í")).toBe("i");
+  expect(slugify("Î")).toBe("i");
+  expect(slugify("Ï")).toBe("i");
+  expect(slugify("Ð")).toBe("d");
+  expect(slugify("Ñ")).toBe("n");
+  expect(slugify("Ò")).toBe("o");
+  expect(slugify("Ó")).toBe("o");
+  expect(slugify("Ô")).toBe("o");
+  expect(slugify("Õ")).toBe("o");
+  expect(slugify("Ö")).toBe("o");
+  expect(slugify("Ø")).toBe("oe");
+  expect(slugify("Ù")).toBe("u");
+  expect(slugify("Ú")).toBe("u");
+  expect(slugify("Û")).toBe("u");
+  expect(slugify("Ü")).toBe("u");
+  expect(slugify("Ý")).toBe("y");
+  expect(slugify("Þ")).toBe("th");
 });
 
-test("standard-slugify with Latin-1 Supplement Letters (Lowercase)", ({
-  equal,
-  plan,
-}) => {
-  plan(32);
-  equal(slugify("ß"), "ss", "transliterates `ß` as `ss`");
-  equal(slugify("à"), "a", "transliterates `à` as `a`");
-  equal(slugify("á"), "a", "transliterates `á` as `a`");
-  equal(slugify("â"), "a", "transliterates `â` as `a`");
-  equal(slugify("ã"), "a", "transliterates `ã` as `a`");
-  equal(slugify("ä"), "a", "transliterates `ä` as `a`");
-  equal(slugify("å"), "a", "transliterates `å` as `a`");
-  equal(slugify("æ"), "ae", "transliterates `æ` as `ae`");
-  equal(slugify("ç"), "c", "transliterates `ç` as `c`");
-  equal(slugify("è"), "e", "transliterates `è` as `e`");
-  equal(slugify("é"), "e", "transliterates `é` as `e`");
-  equal(slugify("ê"), "e", "transliterates `ê` as `e`");
-  equal(slugify("ë"), "e", "transliterates `ë` as `e`");
-  equal(slugify("ì"), "i", "transliterates `ì` as `i`");
-  equal(slugify("í"), "i", "transliterates `í` as `i`");
-  equal(slugify("î"), "i", "transliterates `î` as `i`");
-  equal(slugify("ï"), "i", "transliterates `ï` as `i`");
-  equal(slugify("ð"), "d", "transliterates `ð` as `d`");
-  equal(slugify("ñ"), "n", "transliterates `ñ` as `n`");
-  equal(slugify("ò"), "o", "transliterates `ò` as `o`");
-  equal(slugify("ó"), "o", "transliterates `ó` as `o`");
-  equal(slugify("ô"), "o", "transliterates `ô` as `o`");
-  equal(slugify("õ"), "o", "transliterates `õ` as `o`");
-  equal(slugify("ö"), "o", "transliterates `ö` as `o`");
-  equal(slugify("ø"), "oe", "transliterates `ø` as `oe`");
-  equal(slugify("ù"), "u", "transliterates `ù` as `u`");
-  equal(slugify("ú"), "u", "transliterates `ú` as `u`");
-  equal(slugify("û"), "u", "transliterates `û` as `u`");
-  equal(slugify("ü"), "u", "transliterates `ü` as `u`");
-  equal(slugify("ý"), "y", "transliterates `ý` as `y`");
-  equal(slugify("þ"), "th", "transliterates `þ` as `th`");
-  equal(slugify("ÿ"), "y", "transliterates `ÿ` as `y`");
+test("standard-slugify with Latin-1 Supplement Letters (Lowercase)", () => {
+  expect.assertions(32);
+  expect(slugify("ß")).toBe("ss");
+  expect(slugify("à")).toBe("a");
+  expect(slugify("á")).toBe("a");
+  expect(slugify("â")).toBe("a");
+  expect(slugify("ã")).toBe("a");
+  expect(slugify("ä")).toBe("a");
+  expect(slugify("å")).toBe("a");
+  expect(slugify("æ")).toBe("ae");
+  expect(slugify("ç")).toBe("c");
+  expect(slugify("è")).toBe("e");
+  expect(slugify("é")).toBe("e");
+  expect(slugify("ê")).toBe("e");
+  expect(slugify("ë")).toBe("e");
+  expect(slugify("ì")).toBe("i");
+  expect(slugify("í")).toBe("i");
+  expect(slugify("î")).toBe("i");
+  expect(slugify("ï")).toBe("i");
+  expect(slugify("ð")).toBe("d");
+  expect(slugify("ñ")).toBe("n");
+  expect(slugify("ò")).toBe("o");
+  expect(slugify("ó")).toBe("o");
+  expect(slugify("ô")).toBe("o");
+  expect(slugify("õ")).toBe("o");
+  expect(slugify("ö")).toBe("o");
+  expect(slugify("ø")).toBe("oe");
+  expect(slugify("ù")).toBe("u");
+  expect(slugify("ú")).toBe("u");
+  expect(slugify("û")).toBe("u");
+  expect(slugify("ü")).toBe("u");
+  expect(slugify("ý")).toBe("y");
+  expect(slugify("þ")).toBe("th");
+  expect(slugify("ÿ")).toBe("y");
 });
 
-test("standard-slugify with Latin Extended-A (Uppercase)", ({
-  equal,
-  plan,
-}) => {
-  plan(62);
-  equal(slugify("Ā"), "a", "transliterates `Ā` as `a`");
-  equal(slugify("Ă"), "a", "transliterates `Ă` as `a`");
-  equal(slugify("Ą"), "a", "transliterates `Ą` as `a`");
-  equal(slugify("Ć"), "c", "transliterates `Ć` as `c`");
-  equal(slugify("Ĉ"), "c", "transliterates `Ĉ` as `c`");
-  equal(slugify("Ċ"), "c", "transliterates `Ċ` as `c`");
-  equal(slugify("Č"), "c", "transliterates `Č` as `c`");
-  equal(slugify("Ď"), "d", "transliterates `Ď` as `d`");
-  equal(slugify("Đ"), "d", "transliterates `Đ` as `d`");
-  equal(slugify("Ē"), "e", "transliterates `Ē` as `e`");
-  equal(slugify("Ĕ"), "e", "transliterates `Ĕ` as `e`");
-  equal(slugify("Ė"), "e", "transliterates `Ė` as `e`");
-  equal(slugify("Ę"), "e", "transliterates `Ę` as `e`");
-  equal(slugify("Ě"), "e", "transliterates `Ě` as `e`");
-  equal(slugify("Ĝ"), "g", "transliterates `Ĝ` as `g`");
-  equal(slugify("Ğ"), "g", "transliterates `Ğ` as `g`");
-  equal(slugify("Ġ"), "g", "transliterates `Ġ` as `g`");
-  equal(slugify("Ģ"), "g", "transliterates `Ģ` as `g`");
-  equal(slugify("Ĥ"), "h", "transliterates `Ĥ` as `h`");
-  equal(slugify("Ħ"), "h", "transliterates `Ħ` as `h`");
-  equal(slugify("Ĩ"), "i", "transliterates `Ĩ` as `i`");
-  equal(slugify("Ī"), "i", "transliterates `Ī` as `i`");
-  equal(slugify("Ĭ"), "i", "transliterates `Ĭ` as `i`");
-  equal(slugify("Į"), "i", "transliterates `Į` as `i`");
-  equal(slugify("I"), "i", "transliterates `I` as `i`");
-  equal(slugify("Ĳ"), "ij", "transliterates `Ĳ` as `ij`");
-  equal(slugify("Ĵ"), "j", "transliterates `Ĵ` as `j`");
-  equal(slugify("Ķ"), "k", "transliterates `Ķ` as `k`");
-  equal(slugify("Ĺ"), "l", "transliterates `Ĺ` as `l`");
-  equal(slugify("Ļ"), "l", "transliterates `Ļ` as `l`");
-  equal(slugify("Ľ"), "l", "transliterates `Ľ` as `l`");
-  equal(slugify("Ŀ"), "l", "transliterates `Ŀ` as `l`");
-  equal(slugify("Ł"), "l", "transliterates `Ł` as `l`");
-  equal(slugify("Ń"), "n", "transliterates `Ń` as `n`");
-  equal(slugify("Ņ"), "n", "transliterates `Ņ` as `n`");
-  equal(slugify("Ň"), "n", "transliterates `Ň` as `n`");
-  equal(slugify("Ŋ"), "n", "transliterates `Ŋ` as `n`");
-  equal(slugify("Ō"), "o", "transliterates `Ō` as `o`");
-  equal(slugify("Ŏ"), "o", "transliterates `Ŏ` as `o`");
-  equal(slugify("Ő"), "o", "transliterates `Ő` as `o`");
-  equal(slugify("Œ"), "oe", "transliterates `Œ` as `oe`");
-  equal(slugify("Ŕ"), "r", "transliterates `Ŕ` as `r`");
-  equal(slugify("Ŗ"), "r", "transliterates `Ŗ` as `r`");
-  equal(slugify("Ř"), "r", "transliterates `Ř` as `r`");
-  equal(slugify("Ś"), "s", "transliterates `Ś` as `s`");
-  equal(slugify("Ŝ"), "s", "transliterates `Ŝ` as `s`");
-  equal(slugify("Ş"), "s", "transliterates `Ş` as `s`");
-  equal(slugify("Š"), "s", "transliterates `Š` as `s`");
-  equal(slugify("Ţ"), "t", "transliterates `Ţ` as `t`");
-  equal(slugify("Ť"), "t", "transliterates `Ť` as `t`");
-  equal(slugify("Ŧ"), "t", "transliterates `Ŧ` as `t`");
-  equal(slugify("Ũ"), "u", "transliterates `Ũ` as `u`");
-  equal(slugify("Ū"), "u", "transliterates `Ū` as `u`");
-  equal(slugify("Ŭ"), "u", "transliterates `Ŭ` as `u`");
-  equal(slugify("Ů"), "u", "transliterates `Ů` as `u`");
-  equal(slugify("Ű"), "u", "transliterates `Ű` as `u`");
-  equal(slugify("Ų"), "u", "transliterates `Ų` as `u`");
-  equal(slugify("Ŵ"), "w", "transliterates `Ŵ` as `w`");
-  equal(slugify("Ŷ"), "y", "transliterates `Ŷ` as `y`");
-  equal(slugify("Ź"), "z", "transliterates `Ź` as `z`");
-  equal(slugify("Ż"), "z", "transliterates `Ż` as `z`");
-  equal(slugify("Ž"), "z", "transliterates `Ž` as `z`");
+test("standard-slugify with Latin Extended-A (Uppercase)", () => {
+  expect.assertions(62);
+  expect(slugify("Ā")).toBe("a");
+  expect(slugify("Ă")).toBe("a");
+  expect(slugify("Ą")).toBe("a");
+  expect(slugify("Ć")).toBe("c");
+  expect(slugify("Ĉ")).toBe("c");
+  expect(slugify("Ċ")).toBe("c");
+  expect(slugify("Č")).toBe("c");
+  expect(slugify("Ď")).toBe("d");
+  expect(slugify("Đ")).toBe("d");
+  expect(slugify("Ē")).toBe("e");
+  expect(slugify("Ĕ")).toBe("e");
+  expect(slugify("Ė")).toBe("e");
+  expect(slugify("Ę")).toBe("e");
+  expect(slugify("Ě")).toBe("e");
+  expect(slugify("Ĝ")).toBe("g");
+  expect(slugify("Ğ")).toBe("g");
+  expect(slugify("Ġ")).toBe("g");
+  expect(slugify("Ģ")).toBe("g");
+  expect(slugify("Ĥ")).toBe("h");
+  expect(slugify("Ħ")).toBe("h");
+  expect(slugify("Ĩ")).toBe("i");
+  expect(slugify("Ī")).toBe("i");
+  expect(slugify("Ĭ")).toBe("i");
+  expect(slugify("Į")).toBe("i");
+  expect(slugify("I")).toBe("i");
+  expect(slugify("Ĳ")).toBe("ij");
+  expect(slugify("Ĵ")).toBe("j");
+  expect(slugify("Ķ")).toBe("k");
+  expect(slugify("Ĺ")).toBe("l");
+  expect(slugify("Ļ")).toBe("l");
+  expect(slugify("Ľ")).toBe("l");
+  expect(slugify("Ŀ")).toBe("l");
+  expect(slugify("Ł")).toBe("l");
+  expect(slugify("Ń")).toBe("n");
+  expect(slugify("Ņ")).toBe("n");
+  expect(slugify("Ň")).toBe("n");
+  expect(slugify("Ŋ")).toBe("n");
+  expect(slugify("Ō")).toBe("o");
+  expect(slugify("Ŏ")).toBe("o");
+  expect(slugify("Ő")).toBe("o");
+  expect(slugify("Œ")).toBe("oe");
+  expect(slugify("Ŕ")).toBe("r");
+  expect(slugify("Ŗ")).toBe("r");
+  expect(slugify("Ř")).toBe("r");
+  expect(slugify("Ś")).toBe("s");
+  expect(slugify("Ŝ")).toBe("s");
+  expect(slugify("Ş")).toBe("s");
+  expect(slugify("Š")).toBe("s");
+  expect(slugify("Ţ")).toBe("t");
+  expect(slugify("Ť")).toBe("t");
+  expect(slugify("Ŧ")).toBe("t");
+  expect(slugify("Ũ")).toBe("u");
+  expect(slugify("Ū")).toBe("u");
+  expect(slugify("Ŭ")).toBe("u");
+  expect(slugify("Ů")).toBe("u");
+  expect(slugify("Ű")).toBe("u");
+  expect(slugify("Ų")).toBe("u");
+  expect(slugify("Ŵ")).toBe("w");
+  expect(slugify("Ŷ")).toBe("y");
+  expect(slugify("Ź")).toBe("z");
+  expect(slugify("Ż")).toBe("z");
+  expect(slugify("Ž")).toBe("z");
 });
 
-test("standard-slugify with Latin Extended-A (Lowercase)", ({
-  equal,
-  plan,
-}) => {
-  plan(65);
-  equal(slugify("ā"), "a", "transliterates `ā` as `a`");
-  equal(slugify("ă"), "a", "transliterates `ă` as `a`");
-  equal(slugify("ą"), "a", "transliterates `ą` as `a`");
-  equal(slugify("ć"), "c", "transliterates `ć` as `c`");
-  equal(slugify("ĉ"), "c", "transliterates `ĉ` as `c`");
-  equal(slugify("ċ"), "c", "transliterates `ċ` as `c`");
-  equal(slugify("č"), "c", "transliterates `č` as `c`");
-  equal(slugify("ď"), "d", "transliterates `ď` as `d`");
-  equal(slugify("đ"), "d", "transliterates `đ` as `d`");
-  equal(slugify("ē"), "e", "transliterates `ē` as `e`");
-  equal(slugify("ĕ"), "e", "transliterates `ĕ` as `e`");
-  equal(slugify("ė"), "e", "transliterates `ė` as `e`");
-  equal(slugify("ę"), "e", "transliterates `ę` as `e`");
-  equal(slugify("ě"), "e", "transliterates `ě` as `e`");
-  equal(slugify("ĝ"), "g", "transliterates `ĝ` as `g`");
-  equal(slugify("ğ"), "g", "transliterates `ğ` as `g`");
-  equal(slugify("ġ"), "g", "transliterates `ġ` as `g`");
-  equal(slugify("ģ"), "g", "transliterates `ģ` as `g`");
-  equal(slugify("ĥ"), "h", "transliterates `ĥ` as `h`");
-  equal(slugify("ħ"), "h", "transliterates `ħ` as `h`");
-  equal(slugify("ĩ"), "i", "transliterates `ĩ` as `i`");
-  equal(slugify("ī"), "i", "transliterates `ī` as `i`");
-  equal(slugify("ĭ"), "i", "transliterates `ĭ` as `i`");
-  equal(slugify("į"), "i", "transliterates `į` as `i`");
-  equal(slugify("ı"), "i", "transliterates `ı` as `i`");
-  equal(slugify("ĳ"), "ij", "transliterates `ĳ` as `ij`");
-  equal(slugify("ĵ"), "j", "transliterates `ĵ` as `j`");
-  equal(slugify("ķ"), "k", "transliterates `ķ` as `k`");
-  equal(slugify("ĸ"), "k", "transliterates `ĸ` as `k`");
-  equal(slugify("ĺ"), "l", "transliterates `ĺ` as `l`");
-  equal(slugify("ļ"), "l", "transliterates `ļ` as `l`");
-  equal(slugify("ľ"), "l", "transliterates `ľ` as `l`");
-  equal(slugify("ŀ"), "l", "transliterates `ŀ` as `l`");
-  equal(slugify("ł"), "l", "transliterates `ł` as `l`");
-  equal(slugify("ń"), "n", "transliterates `ń` as `n`");
-  equal(slugify("ņ"), "n", "transliterates `ņ` as `n`");
-  equal(slugify("ň"), "n", "transliterates `ň` as `n`");
-  equal(slugify("ŉ"), "n", "transliterates `ŉ` as `n`");
-  equal(slugify("ŋ"), "n", "transliterates `ŋ` as `n`");
-  equal(slugify("ō"), "o", "transliterates `ō` as `o`");
-  equal(slugify("ŏ"), "o", "transliterates `ŏ` as `o`");
-  equal(slugify("ő"), "o", "transliterates `ő` as `o`");
-  equal(slugify("œ"), "oe", "transliterates `œ` as `oe`");
-  equal(slugify("ŕ"), "r", "transliterates `ŕ` as `r`");
-  equal(slugify("ŗ"), "r", "transliterates `ŗ` as `r`");
-  equal(slugify("ř"), "r", "transliterates `ř` as `r`");
-  equal(slugify("ś"), "s", "transliterates `ś` as `s`");
-  equal(slugify("ŝ"), "s", "transliterates `ŝ` as `s`");
-  equal(slugify("ş"), "s", "transliterates `ş` as `s`");
-  equal(slugify("š"), "s", "transliterates `š` as `s`");
-  equal(slugify("ţ"), "t", "transliterates `ţ` as `t`");
-  equal(slugify("ť"), "t", "transliterates `ť` as `t`");
-  equal(slugify("ŧ"), "t", "transliterates `ŧ` as `t`");
-  equal(slugify("ũ"), "u", "transliterates `ũ` as `u`");
-  equal(slugify("ū"), "u", "transliterates `ū` as `u`");
-  equal(slugify("ŭ"), "u", "transliterates `ŭ` as `u`");
-  equal(slugify("ů"), "u", "transliterates `ů` as `u`");
-  equal(slugify("ű"), "u", "transliterates `ű` as `u`");
-  equal(slugify("ų"), "u", "transliterates `ų` as `u`");
-  equal(slugify("ŵ"), "w", "transliterates `ŵ` as `w`");
-  equal(slugify("ŷ"), "y", "transliterates `ŷ` as `y`");
-  equal(slugify("ź"), "z", "transliterates `ź` as `z`");
-  equal(slugify("ż"), "z", "transliterates `ż` as `z`");
-  equal(slugify("ž"), "z", "transliterates `ž` as `z`");
-  equal(slugify("ſ"), "s", "transliterates `ſ` as `s`");
+test("standard-slugify with Latin Extended-A (Lowercase)", () => {
+  expect.assertions(65);
+  expect(slugify("ā")).toBe("a");
+  expect(slugify("ă")).toBe("a");
+  expect(slugify("ą")).toBe("a");
+  expect(slugify("ć")).toBe("c");
+  expect(slugify("ĉ")).toBe("c");
+  expect(slugify("ċ")).toBe("c");
+  expect(slugify("č")).toBe("c");
+  expect(slugify("ď")).toBe("d");
+  expect(slugify("đ")).toBe("d");
+  expect(slugify("ē")).toBe("e");
+  expect(slugify("ĕ")).toBe("e");
+  expect(slugify("ė")).toBe("e");
+  expect(slugify("ę")).toBe("e");
+  expect(slugify("ě")).toBe("e");
+  expect(slugify("ĝ")).toBe("g");
+  expect(slugify("ğ")).toBe("g");
+  expect(slugify("ġ")).toBe("g");
+  expect(slugify("ģ")).toBe("g");
+  expect(slugify("ĥ")).toBe("h");
+  expect(slugify("ħ")).toBe("h");
+  expect(slugify("ĩ")).toBe("i");
+  expect(slugify("ī")).toBe("i");
+  expect(slugify("ĭ")).toBe("i");
+  expect(slugify("į")).toBe("i");
+  expect(slugify("ı")).toBe("i");
+  expect(slugify("ĳ")).toBe("ij");
+  expect(slugify("ĵ")).toBe("j");
+  expect(slugify("ķ")).toBe("k");
+  expect(slugify("ĸ")).toBe("k");
+  expect(slugify("ĺ")).toBe("l");
+  expect(slugify("ļ")).toBe("l");
+  expect(slugify("ľ")).toBe("l");
+  expect(slugify("ŀ")).toBe("l");
+  expect(slugify("ł")).toBe("l");
+  expect(slugify("ń")).toBe("n");
+  expect(slugify("ņ")).toBe("n");
+  expect(slugify("ň")).toBe("n");
+  expect(slugify("ŉ")).toBe("n");
+  expect(slugify("ŋ")).toBe("n");
+  expect(slugify("ō")).toBe("o");
+  expect(slugify("ŏ")).toBe("o");
+  expect(slugify("ő")).toBe("o");
+  expect(slugify("œ")).toBe("oe");
+  expect(slugify("ŕ")).toBe("r");
+  expect(slugify("ŗ")).toBe("r");
+  expect(slugify("ř")).toBe("r");
+  expect(slugify("ś")).toBe("s");
+  expect(slugify("ŝ")).toBe("s");
+  expect(slugify("ş")).toBe("s");
+  expect(slugify("š")).toBe("s");
+  expect(slugify("ţ")).toBe("t");
+  expect(slugify("ť")).toBe("t");
+  expect(slugify("ŧ")).toBe("t");
+  expect(slugify("ũ")).toBe("u");
+  expect(slugify("ū")).toBe("u");
+  expect(slugify("ŭ")).toBe("u");
+  expect(slugify("ů")).toBe("u");
+  expect(slugify("ű")).toBe("u");
+  expect(slugify("ų")).toBe("u");
+  expect(slugify("ŵ")).toBe("w");
+  expect(slugify("ŷ")).toBe("y");
+  expect(slugify("ź")).toBe("z");
+  expect(slugify("ż")).toBe("z");
+  expect(slugify("ž")).toBe("z");
+  expect(slugify("ſ")).toBe("s");
 });
 
-test("standard-slugify with Latin Extended-B (Uppercase) from WGL4", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("Ƒ"), "f", "transliterates `Ƒ` as `f`");
-  equal(slugify("Ǻ"), "a", "transliterates `Ǻ` as `a`");
-  equal(slugify("Ǽ"), "ae", "transliterates `Ǽ` as `ae`");
-  equal(slugify("Ǿ"), "oe", "transliterates `Ǿ` as `oe`");
-  end();
+test("standard-slugify with Latin Extended-B (Uppercase) from WGL4", () => {
+  expect(slugify("Ƒ")).toBe("f");
+  expect(slugify("Ǻ")).toBe("a");
+  expect(slugify("Ǽ")).toBe("ae");
+  expect(slugify("Ǿ")).toBe("oe");
 });
 
-test("standard-slugify with Latin Extended-B (Lowercase) from WGL4", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("ƒ"), "f", "transliterates `ƒ` as `f`");
-  equal(slugify("ǻ"), "a", "transliterates `ǻ` as `a`");
-  equal(slugify("ǽ"), "ae", "transliterates `ǽ` as `ae`");
-  equal(slugify("ǿ"), "oe", "transliterates `ǿ` as `oe`");
-  end();
+test("standard-slugify with Latin Extended-B (Lowercase) from WGL4", () => {
+  expect(slugify("ƒ")).toBe("f");
+  expect(slugify("ǻ")).toBe("a");
+  expect(slugify("ǽ")).toBe("ae");
+  expect(slugify("ǿ")).toBe("oe");
 });
 
-test("standard-slugify with Latin Extended-B (Uppercase) from ISO-8859-16", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("Ș"), "s", "transliterates `Ș` as `s`");
-  equal(slugify("Ț"), "t", "transliterates `Ț` as `t`");
-  end();
+test("standard-slugify with Latin Extended-B (Uppercase) from ISO-8859-16", () => {
+  expect(slugify("Ș")).toBe("s");
+  expect(slugify("Ț")).toBe("t");
 });
 
-test("standard-slugify with Latin Extended-B (Lowercase) from ISO-8859-16", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("ș"), "s", "transliterates `ș` as `s`");
-  equal(slugify("ț"), "t", "transliterates `ț` as `t`");
-  end();
+test("standard-slugify with Latin Extended-B (Lowercase) from ISO-8859-16", () => {
+  expect(slugify("ș")).toBe("s");
+  expect(slugify("ț")).toBe("t");
 });
 
-test("standard-slugify with Greek and Coptic (Uppercase) from ISO-8859-7", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("Ά"), "a", "transliterates `Ά` as `a`");
-  equal(slugify("Έ"), "e", "transliterates `Έ` as `e`");
-  equal(slugify("Ή"), "i", "transliterates `Ή` as `i`");
-  equal(slugify("Ί"), "i", "transliterates `Ί` as `i`");
-  equal(slugify("Α"), "a", "transliterates `Α` as `a`");
-  equal(slugify("Β"), "v", "transliterates `Β` as `v`");
-  equal(slugify("Γ"), "g", "transliterates `Γ` as `g`");
-  equal(slugify("Δ"), "d", "transliterates `Δ` as `d`");
-  equal(slugify("Ε"), "e", "transliterates `Ε` as `e`");
-  equal(slugify("Ζ"), "z", "transliterates `Ζ` as `z`");
-  equal(slugify("Η"), "i", "transliterates `Η` as `i`");
-  equal(slugify("Θ"), "th", "transliterates `Θ` as `th`");
-  equal(slugify("Ι"), "i", "transliterates `Ι` as `i`");
-  equal(slugify("Κ"), "k", "transliterates `Κ` as `k`");
-  equal(slugify("Λ"), "l", "transliterates `Λ` as `l`");
-  equal(slugify("Μ"), "m", "transliterates `Μ` as `m`");
-  equal(slugify("Ν"), "n", "transliterates `Ν` as `n`");
-  equal(slugify("Ξ"), "x", "transliterates `Ξ` as `x`");
-  equal(slugify("Ο"), "o", "transliterates `Ο` as `o`");
-  equal(slugify("Π"), "p", "transliterates `Π` as `p`");
-  equal(slugify("Ρ"), "r", "transliterates `Ρ` as `r`");
-  equal(slugify("Σ"), "s", "transliterates `Σ` as `s`");
-  equal(slugify("Σ"), "s", "transliterates `Σ` as `s`");
-  equal(slugify("Τ"), "t", "transliterates `Τ` as `t`");
-  equal(slugify("Υ"), "y", "transliterates `Υ` as `y`");
-  equal(slugify("Φ"), "f", "transliterates `Φ` as `f`");
-  equal(slugify("Χ"), "ch", "transliterates `Χ` as `ch`");
-  equal(slugify("Ψ"), "ps", "transliterates `Ψ` as `ps`");
-  equal(slugify("Ω"), "o", "transliterates `Ω` as `o`");
-  equal(slugify("Ϊ"), "i", "transliterates `Ϊ` as `i`");
-  equal(slugify("Ϋ"), "y", "transliterates `Ϋ` as `y`");
-  equal(slugify("Ό"), "o", "transliterates `Ό` as `o`");
-  equal(slugify("Ύ"), "y", "transliterates `Ύ` as `y`");
-  equal(slugify("Ώ"), "o", "transliterates `Ώ` as `o`");
-  end();
+test("standard-slugify with Greek and Coptic (Uppercase) from ISO-8859-7", () => {
+  expect(slugify("Ά")).toBe("a");
+  expect(slugify("Έ")).toBe("e");
+  expect(slugify("Ή")).toBe("i");
+  expect(slugify("Ί")).toBe("i");
+  expect(slugify("Α")).toBe("a");
+  expect(slugify("Β")).toBe("v");
+  expect(slugify("Γ")).toBe("g");
+  expect(slugify("Δ")).toBe("d");
+  expect(slugify("Ε")).toBe("e");
+  expect(slugify("Ζ")).toBe("z");
+  expect(slugify("Η")).toBe("i");
+  expect(slugify("Θ")).toBe("th");
+  expect(slugify("Ι")).toBe("i");
+  expect(slugify("Κ")).toBe("k");
+  expect(slugify("Λ")).toBe("l");
+  expect(slugify("Μ")).toBe("m");
+  expect(slugify("Ν")).toBe("n");
+  expect(slugify("Ξ")).toBe("x");
+  expect(slugify("Ο")).toBe("o");
+  expect(slugify("Π")).toBe("p");
+  expect(slugify("Ρ")).toBe("r");
+  expect(slugify("Σ")).toBe("s");
+  expect(slugify("Σ")).toBe("s");
+  expect(slugify("Τ")).toBe("t");
+  expect(slugify("Υ")).toBe("y");
+  expect(slugify("Φ")).toBe("f");
+  expect(slugify("Χ")).toBe("ch");
+  expect(slugify("Ψ")).toBe("ps");
+  expect(slugify("Ω")).toBe("o");
+  expect(slugify("Ϊ")).toBe("i");
+  expect(slugify("Ϋ")).toBe("y");
+  expect(slugify("Ό")).toBe("o");
+  expect(slugify("Ύ")).toBe("y");
+  expect(slugify("Ώ")).toBe("o");
 });
 
-test("standard-slugify with Greek and Coptic (Lowercase) from ISO-8859-7", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("ΐ"), "i", "transliterates `ΐ` as `i`");
-  equal(slugify("ά"), "a", "transliterates `ά` as `a`");
-  equal(slugify("έ"), "e", "transliterates `έ` as `e`");
-  equal(slugify("ή"), "i", "transliterates `ή` as `i`");
-  equal(slugify("ί"), "i", "transliterates `ί` as `i`");
-  equal(slugify("ΰ"), "y", "transliterates `ΰ` as `y`");
-  equal(slugify("α"), "a", "transliterates `α` as `a`");
-  equal(slugify("β"), "v", "transliterates `β` as `v`");
-  equal(slugify("γ"), "g", "transliterates `γ` as `g`");
-  equal(slugify("δ"), "d", "transliterates `δ` as `d`");
-  equal(slugify("ε"), "e", "transliterates `ε` as `e`");
-  equal(slugify("ζ"), "z", "transliterates `ζ` as `z`");
-  equal(slugify("η"), "i", "transliterates `η` as `i`");
-  equal(slugify("θ"), "th", "transliterates `θ` as `th`");
-  equal(slugify("ι"), "i", "transliterates `ι` as `i`");
-  equal(slugify("κ"), "k", "transliterates `κ` as `k`");
-  equal(slugify("λ"), "l", "transliterates `λ` as `l`");
-  equal(slugify("μ"), "m", "transliterates `μ` as `m`");
-  equal(slugify("ν"), "n", "transliterates `ν` as `n`");
-  equal(slugify("ξ"), "x", "transliterates `ξ` as `x`");
-  equal(slugify("ο"), "o", "transliterates `ο` as `o`");
-  equal(slugify("π"), "p", "transliterates `π` as `p`");
-  equal(slugify("ρ"), "r", "transliterates `ρ` as `r`");
-  equal(slugify("ς"), "s", "transliterates `ς` as `s`");
-  equal(slugify("σ"), "s", "transliterates `σ` as `s`");
-  equal(slugify("τ"), "t", "transliterates `τ` as `t`");
-  equal(slugify("υ"), "y", "transliterates `υ` as `y`");
-  equal(slugify("φ"), "f", "transliterates `φ` as `f`");
-  equal(slugify("χ"), "ch", "transliterates `χ` as `ch`");
-  equal(slugify("ψ"), "ps", "transliterates `ψ` as `ps`");
-  equal(slugify("ω"), "o", "transliterates `ω` as `o`");
-  equal(slugify("ϊ"), "i", "transliterates `ϊ` as `i`");
-  equal(slugify("ϋ"), "y", "transliterates `ϋ` as `y`");
-  equal(slugify("ό"), "o", "transliterates `ό` as `o`");
-  equal(slugify("ύ"), "y", "transliterates `ύ` as `y`");
-  equal(slugify("ώ"), "o", "transliterates `ώ` as `o`");
-  end();
+test("standard-slugify with Greek and Coptic (Lowercase) from ISO-8859-7", () => {
+  expect(slugify("ΐ")).toBe("i");
+  expect(slugify("ά")).toBe("a");
+  expect(slugify("έ")).toBe("e");
+  expect(slugify("ή")).toBe("i");
+  expect(slugify("ί")).toBe("i");
+  expect(slugify("ΰ")).toBe("y");
+  expect(slugify("α")).toBe("a");
+  expect(slugify("β")).toBe("v");
+  expect(slugify("γ")).toBe("g");
+  expect(slugify("δ")).toBe("d");
+  expect(slugify("ε")).toBe("e");
+  expect(slugify("ζ")).toBe("z");
+  expect(slugify("η")).toBe("i");
+  expect(slugify("θ")).toBe("th");
+  expect(slugify("ι")).toBe("i");
+  expect(slugify("κ")).toBe("k");
+  expect(slugify("λ")).toBe("l");
+  expect(slugify("μ")).toBe("m");
+  expect(slugify("ν")).toBe("n");
+  expect(slugify("ξ")).toBe("x");
+  expect(slugify("ο")).toBe("o");
+  expect(slugify("π")).toBe("p");
+  expect(slugify("ρ")).toBe("r");
+  expect(slugify("ς")).toBe("s");
+  expect(slugify("σ")).toBe("s");
+  expect(slugify("τ")).toBe("t");
+  expect(slugify("υ")).toBe("y");
+  expect(slugify("φ")).toBe("f");
+  expect(slugify("χ")).toBe("ch");
+  expect(slugify("ψ")).toBe("ps");
+  expect(slugify("ω")).toBe("o");
+  expect(slugify("ϊ")).toBe("i");
+  expect(slugify("ϋ")).toBe("y");
+  expect(slugify("ό")).toBe("o");
+  expect(slugify("ύ")).toBe("y");
+  expect(slugify("ώ")).toBe("o");
 });
 
-test("standard-slugify with Cyrillic (Uppercase) from ISO-8859-5", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("А"), "a", "transliterates `А` as `a`");
-  equal(slugify("Б"), "b", "transliterates `Б` as `b`");
-  equal(slugify("В"), "v", "transliterates `В` as `v`");
-  equal(slugify("Г"), "g", "transliterates `Г` as `g`");
-  equal(slugify("Д"), "d", "transliterates `Д` as `d`");
-  equal(slugify("Е"), "e", "transliterates `Е` as `e`");
-  equal(slugify("Ж"), "zh", "transliterates `Ж` as `zh`");
-  equal(slugify("З"), "z", "transliterates `З` as `z`");
-  equal(slugify("И"), "i", "transliterates `И` as `i`");
-  equal(slugify("Й"), "i", "transliterates `Й` as `i`");
-  equal(slugify("К"), "k", "transliterates `К` as `k`");
-  equal(slugify("Л"), "l", "transliterates `Л` as `l`");
-  equal(slugify("М"), "m", "transliterates `М` as `m`");
-  equal(slugify("Н"), "n", "transliterates `Н` as `n`");
-  equal(slugify("О"), "o", "transliterates `О` as `o`");
-  equal(slugify("П"), "p", "transliterates `П` as `p`");
-  equal(slugify("Р"), "r", "transliterates `Р` as `r`");
-  equal(slugify("С"), "s", "transliterates `С` as `s`");
-  equal(slugify("Т"), "t", "transliterates `Т` as `t`");
-  equal(slugify("У"), "u", "transliterates `У` as `u`");
-  equal(slugify("Ф"), "f", "transliterates `Ф` as `f`");
-  equal(slugify("Х"), "kh", "transliterates `Х` as `kh`");
-  equal(slugify("Ц"), "ts", "transliterates `Ц` as `ts`");
-  equal(slugify("Ч"), "ch", "transliterates `Ч` as `ch`");
-  equal(slugify("Ш"), "sh", "transliterates `Ш` as `sh`");
-  equal(slugify("Щ"), "shch", "transliterates `Щ` as `shch`");
-  equal(slugify("Ъ"), "ie", "transliterates `Ъ` as `ie`");
-  equal(slugify("Ы"), "y", "transliterates `Ы` as `y`");
-  equal(slugify("Ь"), "", "transliterates `Ь` as ``");
-  equal(slugify("Э"), "e", "transliterates `Э` as `e`");
-  equal(slugify("Ю"), "iu", "transliterates `Ю` as `iu`");
-  equal(slugify("Я"), "ia", "transliterates `Я` as `ia`");
-  equal(slugify("Ѐ"), "e", "transliterates `Ѐ` as `e`");
-  equal(slugify("Ё"), "e", "transliterates `Ё` as `e`");
-  equal(slugify("Ђ"), "d", "transliterates `Ђ` as `d`");
-  equal(slugify("Ѓ"), "g", "transliterates `Ѓ` as `g`");
-  equal(slugify("Є"), "ie", "transliterates `Є` as `ie`");
-  equal(slugify("Ѕ"), "dz", "transliterates `Ѕ` as `dz`");
-  equal(slugify("І"), "i", "transliterates `І` as `i`");
-  equal(slugify("Ї"), "i", "transliterates `Ї` as `i`");
-  equal(slugify("Ј"), "j", "transliterates `Ј` as `j`");
-  equal(slugify("Љ"), "lj", "transliterates `Љ` as `lj`");
-  equal(slugify("Њ"), "nj", "transliterates `Њ` as `nj`");
-  equal(slugify("Ћ"), "c", "transliterates `Ћ` as `c`");
-  equal(slugify("Ќ"), "k", "transliterates `Ќ` as `k`");
-  equal(slugify("Ѝ"), "i", "transliterates `Ѝ` as `i`");
-  equal(slugify("Ў"), "u", "transliterates `Ў` as `u`");
-  equal(slugify("Џ"), "dz", "transliterates `Џ` as `dz`");
-  end();
+test("standard-slugify with Cyrillic (Uppercase) from ISO-8859-5", () => {
+  expect(slugify("А")).toBe("a");
+  expect(slugify("Б")).toBe("b");
+  expect(slugify("В")).toBe("v");
+  expect(slugify("Г")).toBe("g");
+  expect(slugify("Д")).toBe("d");
+  expect(slugify("Е")).toBe("e");
+  expect(slugify("Ж")).toBe("zh");
+  expect(slugify("З")).toBe("z");
+  expect(slugify("И")).toBe("i");
+  expect(slugify("Й")).toBe("i");
+  expect(slugify("К")).toBe("k");
+  expect(slugify("Л")).toBe("l");
+  expect(slugify("М")).toBe("m");
+  expect(slugify("Н")).toBe("n");
+  expect(slugify("О")).toBe("o");
+  expect(slugify("П")).toBe("p");
+  expect(slugify("Р")).toBe("r");
+  expect(slugify("С")).toBe("s");
+  expect(slugify("Т")).toBe("t");
+  expect(slugify("У")).toBe("u");
+  expect(slugify("Ф")).toBe("f");
+  expect(slugify("Х")).toBe("kh");
+  expect(slugify("Ц")).toBe("ts");
+  expect(slugify("Ч")).toBe("ch");
+  expect(slugify("Ш")).toBe("sh");
+  expect(slugify("Щ")).toBe("shch");
+  expect(slugify("Ъ")).toBe("ie");
+  expect(slugify("Ы")).toBe("y");
+  expect(slugify("Ь")).toBe("");
+  expect(slugify("Э")).toBe("e");
+  expect(slugify("Ю")).toBe("iu");
+  expect(slugify("Я")).toBe("ia");
+  expect(slugify("Ѐ")).toBe("e");
+  expect(slugify("Ё")).toBe("e");
+  expect(slugify("Ђ")).toBe("d");
+  expect(slugify("Ѓ")).toBe("g");
+  expect(slugify("Є")).toBe("ie");
+  expect(slugify("Ѕ")).toBe("dz");
+  expect(slugify("І")).toBe("i");
+  expect(slugify("Ї")).toBe("i");
+  expect(slugify("Ј")).toBe("j");
+  expect(slugify("Љ")).toBe("lj");
+  expect(slugify("Њ")).toBe("nj");
+  expect(slugify("Ћ")).toBe("c");
+  expect(slugify("Ќ")).toBe("k");
+  expect(slugify("Ѝ")).toBe("i");
+  expect(slugify("Ў")).toBe("u");
+  expect(slugify("Џ")).toBe("dz");
 });
 
-test("standard-slugify with Cyrillic (Lowercase) from ISO-8859-5", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("а"), "a", "transliterates `а` as `a`");
-  equal(slugify("б"), "b", "transliterates `б` as `b`");
-  equal(slugify("в"), "v", "transliterates `в` as `v`");
-  equal(slugify("г"), "g", "transliterates `г` as `g`");
-  equal(slugify("е"), "e", "transliterates `е` as `e`");
-  equal(slugify("ж"), "zh", "transliterates `ж` as `zh`");
-  equal(slugify("з"), "z", "transliterates `з` as `z`");
-  equal(slugify("и"), "i", "transliterates `и` as `i`");
-  equal(slugify("й"), "i", "transliterates `й` as `i`");
-  equal(slugify("к"), "k", "transliterates `к` as `k`");
-  equal(slugify("л"), "l", "transliterates `л` as `l`");
-  equal(slugify("м"), "m", "transliterates `м` as `m`");
-  equal(slugify("н"), "n", "transliterates `н` as `n`");
-  equal(slugify("о"), "o", "transliterates `о` as `o`");
-  equal(slugify("п"), "p", "transliterates `п` as `p`");
-  equal(slugify("р"), "r", "transliterates `р` as `r`");
-  equal(slugify("с"), "s", "transliterates `с` as `s`");
-  equal(slugify("т"), "t", "transliterates `т` as `t`");
-  equal(slugify("у"), "u", "transliterates `у` as `u`");
-  equal(slugify("ф"), "f", "transliterates `ф` as `f`");
-  equal(slugify("х"), "kh", "transliterates `х` as `kh`");
-  equal(slugify("ц"), "ts", "transliterates `ц` as `ts`");
-  equal(slugify("ч"), "ch", "transliterates `ч` as `ch`");
-  equal(slugify("ш"), "sh", "transliterates `ш` as `sh`");
-  equal(slugify("щ"), "shch", "transliterates `щ` as `shch`");
-  equal(slugify("ъ"), "ie", "transliterates `ъ` as `ie`");
-  equal(slugify("ы"), "y", "transliterates `ы` as `y`");
-  equal(slugify("ь"), "", "transliterates `ь` as ``");
-  equal(slugify("э"), "e", "transliterates `э` as `e`");
-  equal(slugify("ю"), "iu", "transliterates `ю` as `iu`");
-  equal(slugify("я"), "ia", "transliterates `я` as `ia`");
-  equal(slugify("ѐ"), "e", "transliterates `ѐ` as `e`");
-  equal(slugify("ё"), "e", "transliterates `ё` as `e`");
-  equal(slugify("ђ"), "d", "transliterates `ђ` as `d`");
-  equal(slugify("ѓ"), "g", "transliterates `ѓ` as `g`");
-  equal(slugify("є"), "ie", "transliterates `є` as `ie`");
-  equal(slugify("ѕ"), "dz", "transliterates `ѕ` as `dz`");
-  equal(slugify("і"), "i", "transliterates `і` as `i`");
-  equal(slugify("ї"), "i", "transliterates `ї` as `i`");
-  equal(slugify("ј"), "j", "transliterates `ј` as `j`");
-  equal(slugify("љ"), "lj", "transliterates `љ` as `lj`");
-  equal(slugify("њ"), "nj", "transliterates `њ` as `nj`");
-  equal(slugify("ћ"), "c", "transliterates `ћ` as `c`");
-  equal(slugify("ќ"), "k", "transliterates `ќ` as `k`");
-  equal(slugify("ѝ"), "i", "transliterates `ѝ` as `i`");
-  equal(slugify("ў"), "u", "transliterates `ў` as `u`");
-  equal(slugify("џ"), "dz", "transliterates `џ` as `dz`");
-  end();
+test("standard-slugify with Cyrillic (Lowercase) from ISO-8859-5", () => {
+  expect(slugify("а")).toBe("a");
+  expect(slugify("б")).toBe("b");
+  expect(slugify("в")).toBe("v");
+  expect(slugify("г")).toBe("g");
+  expect(slugify("е")).toBe("e");
+  expect(slugify("ж")).toBe("zh");
+  expect(slugify("з")).toBe("z");
+  expect(slugify("и")).toBe("i");
+  expect(slugify("й")).toBe("i");
+  expect(slugify("к")).toBe("k");
+  expect(slugify("л")).toBe("l");
+  expect(slugify("м")).toBe("m");
+  expect(slugify("н")).toBe("n");
+  expect(slugify("о")).toBe("o");
+  expect(slugify("п")).toBe("p");
+  expect(slugify("р")).toBe("r");
+  expect(slugify("с")).toBe("s");
+  expect(slugify("т")).toBe("t");
+  expect(slugify("у")).toBe("u");
+  expect(slugify("ф")).toBe("f");
+  expect(slugify("х")).toBe("kh");
+  expect(slugify("ц")).toBe("ts");
+  expect(slugify("ч")).toBe("ch");
+  expect(slugify("ш")).toBe("sh");
+  expect(slugify("щ")).toBe("shch");
+  expect(slugify("ъ")).toBe("ie");
+  expect(slugify("ы")).toBe("y");
+  expect(slugify("ь")).toBe("");
+  expect(slugify("э")).toBe("e");
+  expect(slugify("ю")).toBe("iu");
+  expect(slugify("я")).toBe("ia");
+  expect(slugify("ѐ")).toBe("e");
+  expect(slugify("ё")).toBe("e");
+  expect(slugify("ђ")).toBe("d");
+  expect(slugify("ѓ")).toBe("g");
+  expect(slugify("є")).toBe("ie");
+  expect(slugify("ѕ")).toBe("dz");
+  expect(slugify("і")).toBe("i");
+  expect(slugify("ї")).toBe("i");
+  expect(slugify("ј")).toBe("j");
+  expect(slugify("љ")).toBe("lj");
+  expect(slugify("њ")).toBe("nj");
+  expect(slugify("ћ")).toBe("c");
+  expect(slugify("ќ")).toBe("k");
+  expect(slugify("ѝ")).toBe("i");
+  expect(slugify("ў")).toBe("u");
+  expect(slugify("џ")).toBe("dz");
 });
 
-test("standard-slugify with Cyrillic (Uppercase) from WGL4", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("Ґ"), "g", "transliterates `Ґ` as `g`");
-  end();
+test("standard-slugify with Cyrillic (Uppercase) from WGL4", () => {
+  expect(slugify("Ґ")).toBe("g");
 });
 
-test("standard-slugify with Cyrillic (Lowercase) from WGL4", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("ґ"), "g", "transliterates `ґ` as `g`");
-  end();
+test("standard-slugify with Cyrillic (Lowercase) from WGL4", () => {
+  expect(slugify("ґ")).toBe("g");
 });
 
-test("standard-slugify with Latin Extended Additional (Uppercase) from ISO-8859-14", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("Ḃ"), "b", "transliterates `Ḃ` as `b`");
-  equal(slugify("Ḋ"), "d", "transliterates `Ḋ` as `d`");
-  equal(slugify("Ḟ"), "f", "transliterates `Ḟ` as `f`");
-  equal(slugify("Ṁ"), "m", "transliterates `Ṁ` as `m`");
-  equal(slugify("Ṗ"), "p", "transliterates `Ṗ` as `p`");
-  equal(slugify("Ṡ"), "s", "transliterates `Ṡ` as `s`");
-  equal(slugify("Ṫ"), "t", "transliterates `Ṫ` as `t`");
-  equal(slugify("Ẁ"), "w", "transliterates `Ẁ` as `w`");
-  equal(slugify("Ẃ"), "w", "transliterates `Ẃ` as `w`");
-  equal(slugify("Ẅ"), "w", "transliterates `Ẅ` as `w`");
-  equal(slugify("Ỳ"), "y", "transliterates `Ỳ` as `y`");
-  end();
+test("standard-slugify with Latin Extended Additional (Uppercase) from ISO-8859-14", () => {
+  expect(slugify("Ḃ")).toBe("b");
+  expect(slugify("Ḋ")).toBe("d");
+  expect(slugify("Ḟ")).toBe("f");
+  expect(slugify("Ṁ")).toBe("m");
+  expect(slugify("Ṗ")).toBe("p");
+  expect(slugify("Ṡ")).toBe("s");
+  expect(slugify("Ṫ")).toBe("t");
+  expect(slugify("Ẁ")).toBe("w");
+  expect(slugify("Ẃ")).toBe("w");
+  expect(slugify("Ẅ")).toBe("w");
+  expect(slugify("Ỳ")).toBe("y");
 });
 
-test("standard-slugify with Latin Extended Additional (Lowercase) from ISO-8859-14", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("ḃ"), "b", "transliterates `ḃ` as `b`");
-  equal(slugify("ḋ"), "d", "transliterates `ḋ` as `d`");
-  equal(slugify("ḟ"), "f", "transliterates `ḟ` as `f`");
-  equal(slugify("ṁ"), "m", "transliterates `ṁ` as `m`");
-  equal(slugify("ṗ"), "p", "transliterates `ṗ` as `p`");
-  equal(slugify("ṡ"), "s", "transliterates `ṡ` as `s`");
-  equal(slugify("ṫ"), "t", "transliterates `ṫ` as `t`");
-  equal(slugify("ẁ"), "w", "transliterates `ẁ` as `w`");
-  equal(slugify("ẃ"), "w", "transliterates `ẃ` as `w`");
-  equal(slugify("ẅ"), "w", "transliterates `ẅ` as `w`");
-  equal(slugify("ỳ"), "y", "transliterates `ỳ` as `y`");
-  end();
+test("standard-slugify with Latin Extended Additional (Lowercase) from ISO-8859-14", () => {
+  expect(slugify("ḃ")).toBe("b");
+  expect(slugify("ḋ")).toBe("d");
+  expect(slugify("ḟ")).toBe("f");
+  expect(slugify("ṁ")).toBe("m");
+  expect(slugify("ṗ")).toBe("p");
+  expect(slugify("ṡ")).toBe("s");
+  expect(slugify("ṫ")).toBe("t");
+  expect(slugify("ẁ")).toBe("w");
+  expect(slugify("ẃ")).toBe("w");
+  expect(slugify("ẅ")).toBe("w");
+  expect(slugify("ỳ")).toBe("y");
 });
 
-test("standard-slugify with Alphabetic Presentation Forms from WGL4", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("ﬁ"), "fi", "transliterates `ﬁ` as `fi`");
-  equal(slugify("ﬂ"), "fl", "transliterates `ﬂ` as `fl`");
-  end();
+test("standard-slugify with Alphabetic Presentation Forms from WGL4", () => {
+  expect(slugify("ﬁ")).toBe("fi");
+  expect(slugify("ﬂ")).toBe("fl");
 });
 
 // See White_Space in https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
-test("standard-slugify with non-control White_Space characters", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("a\u0020b"), "a-b", "converts SPACE to `-`");
-  equal(slugify("a\u00A0b"), "a-b", "converts NO-BREAK SPACE to `-`");
-  equal(slugify("a\u1680b"), "a-b", "converts OGHAM SPACE MARK to `-`");
-  equal(slugify("a\u2000b"), "a-b", "converts EN QUAD to `-`");
-  equal(slugify("a\u2001b"), "a-b", "converts EM QUAD to `-`");
-  equal(slugify("a\u2002b"), "a-b", "converts EN SPACE to `-`");
-  equal(slugify("a\u2003b"), "a-b", "converts EM SPACE to `-`");
-  equal(slugify("a\u2004b"), "a-b", "converts THREE-PER-EM SPACE to `-`");
-  equal(slugify("a\u2005b"), "a-b", "converts FOUR-PER-EM SPACE to `-`");
-  equal(slugify("a\u2006b"), "a-b", "converts SIX-PER-EM SPACE to `-`");
-  equal(slugify("a\u2007b"), "a-b", "converts FIGURE SPACE to `-`");
-  equal(slugify("a\u2008b"), "a-b", "converts PUNCTUATION SPACE to `-`");
-  equal(slugify("a\u2009b"), "a-b", "converts THIN SPACE to `-`");
-  equal(slugify("a\u200Ab"), "a-b", "converts HAIR SPACE to `-`");
-  equal(slugify("a\u2028b"), "a-b", "converts LINE SEPARATOR to `-`");
-  equal(slugify("a\u2029b"), "a-b", "converts PARAGRAPH SEPARATOR to `-`");
-  equal(slugify("a\u202Fb"), "a-b", "converts NARROW NO-BREAK SPACE to `-`");
-  equal(
-    slugify("a\u205Fb"),
-    "a-b",
-    "converts MEDIUM MATHEMATICAL SPACE to `-`"
-  );
-  equal(slugify("a\u3000b"), "a-b", "converts IDEOGRAPHIC SPACE to `-`");
-  equal(
-    slugify("a\u0020\u0020b"),
-    "a-b",
-    "converts many SPACE characters to just one `-`"
-  );
-  end();
+test("standard-slugify with White_Space characters (except C0 and C1)", () => {
+  expect.assertions(19);
+  expect(slugify("a\u0020b")).toBe("a-b");
+  expect(slugify("a\u00A0b")).toBe("a-b");
+  expect(slugify("a\u1680b")).toBe("a-b");
+  expect(slugify("a\u2000b")).toBe("a-b");
+  expect(slugify("a\u2001b")).toBe("a-b");
+  expect(slugify("a\u2002b")).toBe("a-b");
+  expect(slugify("a\u2003b")).toBe("a-b");
+  expect(slugify("a\u2004b")).toBe("a-b");
+  expect(slugify("a\u2005b")).toBe("a-b");
+  expect(slugify("a\u2006b")).toBe("a-b");
+  expect(slugify("a\u2007b")).toBe("a-b");
+  expect(slugify("a\u2008b")).toBe("a-b");
+  expect(slugify("a\u2009b")).toBe("a-b");
+  expect(slugify("a\u200Ab")).toBe("a-b");
+  expect(slugify("a\u2028b")).toBe("a-b");
+  expect(slugify("a\u2029b")).toBe("a-b");
+  expect(slugify("a\u202Fb")).toBe("a-b");
+  expect(slugify("a\u205Fb")).toBe("a-b");
+  expect(slugify("a\u3000b")).toBe("a-b");
 });
 
-test("standard-slugify with leading and trailing white space", ({
-  equal,
-  end,
-}) => {
-  equal(slugify("\u0020a"), "a", "removes a leading SPACE");
-  equal(slugify("a\u0020"), "a", "removes a trailing SPACE");
-  equal(
-    slugify("\u0020\u0020a⁠"),
-    "a",
-    "removes many leading SPACE characters"
-  );
-  equal(
-    slugify("a\u0020\u0020"),
-    "a",
-    "removes many trailing SPACE characters"
-  );
-  equal(slugify("\na"), "a", "removes a leading LF characters");
-  equal(slugify("a\n"), "a", "removes a trailing LF characters");
-  equal(slugify("\n\na"), "a", "removes many leading LF characters");
-  equal(slugify("a\n\n"), "a", "removes many trailing LF characters");
-  equal(slugify("\ta"), "a", "removes a leading HT characters");
-  equal(slugify("a\t"), "a", "removes a trailing HT characters");
-  equal(slugify("\t\ta"), "a", "removes many leading HT characters");
-  equal(slugify("a\t\t"), "a", "removes many trailing HT characters");
-  end();
+test("standard-slugify with White_Space characters (consecutive)", () => {
+  expect(slugify("a\u0020\u0020b")).toBe("a-b");
+});
+
+test("standard-slugify with leading white space", () => {
+  expect(slugify("\u0020a")).toBe("a");
+  expect(slugify("\u0020\u0020a⁠")).toBe("a");
+  expect(slugify("\na")).toBe("a");
+  expect(slugify("\n\na")).toBe("a");
+  expect(slugify("\ta")).toBe("a");
+  expect(slugify("\t\ta")).toBe("a");
+});
+
+test("standard-slugify with trailing white space", () => {
+  expect(slugify("a\u0020")).toBe("a");
+  expect(slugify("a\u0020\u0020")).toBe("a");
+  expect(slugify("a\n")).toBe("a");
+  expect(slugify("a\n\n")).toBe("a");
+  expect(slugify("a\t")).toBe("a");
+  expect(slugify("a\t\t")).toBe("a");
 });
 
 // See # Pd in https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt
-test("standard-slugify with Dash characters", ({ equal, end }) => {
-  equal(slugify("a-b"), "a-b", "keeps `-` as is");
-  equal(slugify("a\u058Ab"), "a-b", "converts ARMENIAN HYPHEN to `-`");
-  equal(slugify("a\u05BEb"), "a-b", "converts HEBREW PUNCTUATION MAQAF to `-`");
-  equal(
-    slugify("a\u1400b"),
-    "a-b",
-    "converts CANADIAN SYLLABICS HYPHEN to `-`"
-  );
-  equal(
-    slugify("a\u1806b"),
-    "a-b",
-    "converts MONGOLIAN TODO SOFT HYPHEN to `-`"
-  );
-  equal(slugify("a\u2010b"), "a-b", "converts HYPHEN to `-`");
-  equal(slugify("a\u2011b"), "a-b", "converts NON-BREAKING HYPHEN to `-`");
-  equal(slugify("a\u2012b"), "a-b", "converts FIGURE DASH to `-`");
-  equal(slugify("a\u2013b"), "a-b", "converts EN DASH to `-`");
-  equal(slugify("a\u2014b"), "a-b", "converts EM DASH to `-`");
-  equal(slugify("a\u2015b"), "a-b", "converts HORIZONTAL BAR to `-`");
-  equal(slugify("a\u2E17b"), "a-b", "converts DOUBLE OBLIQUE HYPHEN to `-`");
-  equal(slugify("a\u2E1Ab"), "a-b", "converts HYPHEN WITH DIAERESIS to `-`");
-  equal(slugify("a\u2E3Ab"), "a-b", "converts TWO-EM DASH to `-`");
-  equal(slugify("a\u2E3Bb"), "a-b", "converts THREE-EM DASH to `-`");
-  equal(slugify("a\u2E40b"), "a-b", "converts DOUBLE HYPHEN to `-`");
-  equal(slugify("a\u301Cb"), "a-b", "converts WAVE DASH to `-`");
-  equal(slugify("a\u3030b"), "a-b", "converts WAVY DASH to `-`");
-  equal(
-    slugify("a\u30A0b"),
-    "a-b",
-    "converts KATAKANA-HIRAGANA DOUBLE HYPHEN to `-`"
-  );
-  equal(
-    slugify("a\uFE31b"),
-    "a-b",
-    "converts PRESENTATION FORM FOR VERTICAL EM DASH to `-`"
-  );
-  equal(
-    slugify("a\uFE32b"),
-    "a-b",
-    "converts PRESENTATION FORM FOR VERTICAL EN DASH to `-`"
-  );
-  equal(slugify("a\uFE58b"), "a-b", "converts SMALL EM DASH to `-`");
-  equal(slugify("a\uFE63b"), "a-b", "converts SMALL HYPHEN-MINUS to `-`");
-  equal(slugify("a\uFF0Db"), "a-b", "converts FULLWIDTH HYPHEN-MINUS to `-`");
-  equal(slugify("a--b"), "a-b", "converts many `-` characters to just one `-`");
-  end();
+test("standard-slugify with Dash characters", () => {
+  expect.assertions(24);
+  expect(slugify("a-b")).toBe("a-b");
+  expect(slugify("a\u058Ab")).toBe("a-b");
+  expect(slugify("a\u05BEb")).toBe("a-b");
+  expect(slugify("a\u1400b")).toBe("a-b");
+  expect(slugify("a\u1806b")).toBe("a-b");
+  expect(slugify("a\u2010b")).toBe("a-b");
+  expect(slugify("a\u2011b")).toBe("a-b");
+  expect(slugify("a\u2012b")).toBe("a-b");
+  expect(slugify("a\u2013b")).toBe("a-b");
+  expect(slugify("a\u2014b")).toBe("a-b");
+  expect(slugify("a\u2015b")).toBe("a-b");
+  expect(slugify("a\u2E17b")).toBe("a-b");
+  expect(slugify("a\u2E1Ab")).toBe("a-b");
+  expect(slugify("a\u2E3Ab")).toBe("a-b");
+  expect(slugify("a\u2E3Bb")).toBe("a-b");
+  expect(slugify("a\u2E40b")).toBe("a-b");
+  expect(slugify("a\u301Cb")).toBe("a-b");
+  expect(slugify("a\u3030b")).toBe("a-b");
+  expect(slugify("a\u30A0b")).toBe("a-b");
+  expect(slugify("a\uFE31b")).toBe("a-b");
+  expect(slugify("a\uFE32b")).toBe("a-b");
+  expect(slugify("a\uFE58b")).toBe("a-b");
+  expect(slugify("a\uFE63b")).toBe("a-b");
+  expect(slugify("a\uFF0Db")).toBe("a-b");
 });
 
-test("standard-slugify with keepCase", ({ equal, end }) => {
-  equal(slugify("a", { keepCase: true }), "a", "keeps case with shape x");
-  equal(slugify("A", { keepCase: true }), "A", "keeps case with shape X");
-  equal(slugify("A_", { keepCase: true }), "A_", "keeps case with shape X_");
-  equal(slugify("AA", { keepCase: true }), "AA", "keeps case with shape XX");
-  equal(slugify("Aa", { keepCase: true }), "Aa", "keeps case with shape Xx");
-  equal(slugify("aa", { keepCase: true }), "aa", "keeps case with shape xx");
-  equal(slugify("aA", { keepCase: true }), "aA", "keeps case with shape xX");
-  equal(slugify("AaA", { keepCase: true }), "AaA", "keeps case with shape XxX");
-  equal(slugify("aAa", { keepCase: true }), "aAa", "keeps case with shape xXx");
-  equal(
-    slugify("Æ", { keepCase: true }),
-    "AE",
-    "keeps case with shape X (ligature)"
-  );
-  equal(
-    slugify("Æ_", { keepCase: true }),
-    "AE_",
-    "keeps case with shape X_ (ligature)"
-  );
-  equal(
-    slugify("ÆA", { keepCase: true }),
-    "AEA",
-    "keeps case with shape XX (ligature)"
-  );
-  equal(
-    slugify("Æa", { keepCase: true }),
-    "Aea",
-    "keeps case with shape Xx (ligature)"
-  );
-  end();
+test("standard-slugify with Dash characters (consecutive)", () => {
+  expect(slugify("a--b")).toBe("a-b");
 });
 
-test("standard-slugify with replacements", ({ equal, end }) => {
-  equal(
+test("standard-slugify with keepCase", () => {
+  expect(slugify("a", { keepCase: true })).toBe("a");
+  expect(slugify("A", { keepCase: true })).toBe("A");
+  expect(slugify("A_", { keepCase: true })).toBe("A_");
+  expect(slugify("AA", { keepCase: true })).toBe("AA");
+  expect(slugify("Aa", { keepCase: true })).toBe("Aa");
+  expect(slugify("aa", { keepCase: true })).toBe("aa");
+  expect(slugify("aA", { keepCase: true })).toBe("aA");
+  expect(slugify("AaA", { keepCase: true })).toBe("AaA");
+  expect(slugify("aAa", { keepCase: true })).toBe("aAa");
+  expect(slugify("Æ", { keepCase: true })).toBe("AE");
+  expect(slugify("Æ_", { keepCase: true })).toBe("AE_");
+  expect(slugify("ÆA", { keepCase: true })).toBe("AEA");
+  expect(slugify("Æa", { keepCase: true })).toBe("Aea");
+});
+
+test("standard-slugify with replacements", () => {
+  expect(
     slugify("₿ raising, € falling", {
       replacements: [
         ["€", "eur"], // EURO SIGN
         ["₿", "xbt"], // BITCOIN SIGN
       ],
-    }),
-    "xbt-raising-eur-falling",
-    "uses the given custom replacements"
-  );
-  end();
+    })
+  ).toBe("xbt-raising-eur-falling");
 });
 
-test("standard-slugify with keepCase and replacements", ({ equal, end }) => {
-  equal(
+test("standard-slugify with keepCase and replacements", () => {
+  expect(
     slugify("Єгипет, Їжак, Йорданія, Югославія, Ямайка", {
       keepCase: true,
       replacements: [
@@ -884,11 +758,9 @@ test("standard-slugify with keepCase and replacements", ({ equal, end }) => {
         [/(?<=^|\P{L})Ю/, "YU"],
         [/(?<=^|\P{L})Я/, "YA"],
       ],
-    }),
-    "Yehypet-Yizhak-Yordaniia-Yuhoslaviia-Yamaika",
-    "keeps case of custom replacements and original string"
-  );
-  equal(
+    })
+  ).toBe("Yehypet-Yizhak-Yordaniia-Yuhoslaviia-Yamaika");
+  expect(
     slugify("Єгипет, Їжак, Йорданія, Югославія, Ямайка", {
       replacements: [
         [/(?<=^|\P{L})Є/, "YE"],
@@ -899,9 +771,6 @@ test("standard-slugify with keepCase and replacements", ({ equal, end }) => {
         [/(?<=^|\P{L})Ю/, "YU"],
         [/(?<=^|\P{L})Я/, "YA"],
       ],
-    }),
-    "yehypet-yizhak-yordaniia-yuhoslaviia-yamaika",
-    "lowercases custom replacements and original string"
-  );
-  end();
+    })
+  ).toBe("yehypet-yizhak-yordaniia-yuhoslaviia-yamaika");
 });
