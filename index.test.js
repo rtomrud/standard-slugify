@@ -739,10 +739,10 @@ test("standard-slugify with replacements", () => {
     slugify("₿ raising, € falling", {
       replacements: [
         ["€", "eur"], // EURO SIGN
-        ["₿", "xbt"], // BITCOIN SIGN
+        ["₿", "btc"], // BITCOIN SIGN
       ],
     })
-  ).toBe("xbt-raising-eur-falling");
+  ).toBe("btc-raising-eur-falling");
 });
 
 test("standard-slugify with keepCase and replacements", () => {

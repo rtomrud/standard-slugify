@@ -47,10 +47,10 @@ import standardSlugify from "standard-slugify";
 standardSlugify("₿ raising, € falling", {
   replacements: [
     ["€", "eur"], // EURO SIGN
-    ["₿", "xbt"], // BITCOIN SIGN
+    ["₿", "btc"], // BITCOIN SIGN
   ],
 });
-// => "xbt-raising-eur-falling"
+// => "btc-raising-eur-falling"
 
 // Replacements can be matched with regular expressions,
 // e.g., transliterating Ukrainian according to ISO/IEC 7501-3
