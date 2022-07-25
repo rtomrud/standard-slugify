@@ -1,6 +1,6 @@
 # standard-slugify
 
-[![build status](https://github.com/rtomrud/standard-slugify/workflows/build/badge.svg)](https://github.com/rtomrud/standard-slugify/actions?query=branch%3Amaster+workflow%3Abuild)
+[![build status](https://github.com/rtomrud/standard-slugify/workflows/ci/badge.svg)](https://github.com/rtomrud/standard-slugify/actions?query=branch%3Amaster+workflow%3Aci)
 [![npm version](https://badgen.net/npm/v/standard-slugify)](https://www.npmjs.com/package/standard-slugify)
 [![bundle size](https://badgen.net/bundlephobia/minzip/standard-slugify)](https://bundlephobia.com/result?p=standard-slugify)
 
