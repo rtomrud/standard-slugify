@@ -80,7 +80,3 @@ The slug is created by replacing characters according to the following rules and
 4. [Characters with the White_Space property or in the Dash_Punctuation (Pd) General Category of Unicode](https://www.unicode.org/Public/UCD/latest/ucd/PropList.txt) and [Control Codes with semantics in Unicode (§ 23.1), such as HT (`\t`) and LF (`\n`)](https://www.unicode.org/versions/Unicode13.0.0/ch23.pdf), are converted to [HYPHEN-MINUS](https://en.wikipedia.org/wiki/Hyphen-minus) (`-`)
 5. Characters than are not an ASCII letter (`[A-Za-z]`), a number (`[0-9]`), a LOWLINE (`_`) or a HYPHEN-MINUS (`-`) are removed
 6. Leading, trailing and duplicate HYPHEN-MINUS (`-`) characters are removed
-
-## License
-
-[MIT](./LICENSE)
