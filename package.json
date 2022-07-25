@@ -1,6 +1,6 @@
 {
   "name": "standard-slugify",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Converts a string into a slug safe for URLs and filenames. Supports Latin, Greek and Cyrillic scripts.",
   "keywords": [
     "filename",
