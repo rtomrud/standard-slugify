@@ -76,17 +76,9 @@ const replaceKeepingCase = (string, [regExp, replacement]) =>
           replacement.substring(1).toLowerCase();
   });
 
-/**
- * Returns a slug of the given `string`.
- *
- * The result is in lowercase, unless the `keepCase` option is set to `true`.
- *
- * To specify custom replacements, pass as the `replacements` option an array
- * of `[regexp, replacement]` pairs.
- */
 export default function (
   string = "",
-  { keepCase = false, replacements = [] } = {}
+  { keepCase = false, replacements = [] } = {},
 ) {
   const replacer = keepCase ? replaceKeepingCase : replaceLoweringCase;
   return defaultReplacements
