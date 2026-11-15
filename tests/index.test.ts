@@ -279,7 +279,7 @@ test("standard-slugify with Latin Extended-A (Uppercase)", () => {
   expect(slugify("Ī")).toBe("i");
   expect(slugify("Ĭ")).toBe("i");
   expect(slugify("Į")).toBe("i");
-  expect(slugify("I")).toBe("i");
+  expect(slugify("İ")).toBe("i");
   expect(slugify("Ĳ")).toBe("ij");
   expect(slugify("Ĵ")).toBe("j");
   expect(slugify("Ķ")).toBe("k");
@@ -720,6 +720,8 @@ test("standard-slugify with keepCase", () => {
   expect(slugify("Æ_", { keepCase: true })).toBe("AE_");
   expect(slugify("ÆA", { keepCase: true })).toBe("AEA");
   expect(slugify("Æa", { keepCase: true })).toBe("Aea");
+  expect(slugify("İstanbul", { keepCase: true })).toBe("Istanbul");
+  expect(slugify("İZMİR", { keepCase: true })).toBe("IZMIR");
 });
 
 test("standard-slugify with replacements", () => {
