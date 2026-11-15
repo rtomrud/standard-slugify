@@ -52,13 +52,13 @@ standardSlugify("₿ raising, € falling", {
 // e.g., transliterating Ukrainian according to ISO/IEC 7501-3
 standardSlugify("Єгипет, Їжак, Йорданія, Югославія, Ямайка", {
   replacements: [
-    [/(?<=^|\P{L})Є/, "YE"], // Є as the first letter of a word
-    [/(?<=^|\P{L})Ї/, "YI"], // Ї as the first letter of a word
+    [/(?<=^|\P{L})Є/u, "YE"], // Є as the first letter of a word
+    [/(?<=^|\P{L})Ї/u, "YI"], // Ї as the first letter of a word
     ["Г", "H"], // Г in any position
     ["И", "Y"], // И in any position
-    [/(?<=^|\P{L})Й/, "Y"], // Й as the first letter of a word
-    [/(?<=^|\P{L})Ю/, "YU"], // Ю as the first letter of a word
-    [/(?<=^|\P{L})Я/, "YA"], // Я as the first letter of a word
+    [/(?<=^|\P{L})Й/u, "Y"], // Й as the first letter of a word
+    [/(?<=^|\P{L})Ю/u, "YU"], // Ю as the first letter of a word
+    [/(?<=^|\P{L})Я/u, "YA"], // Я as the first letter of a word
   ],
 });
 // => "yehypet-yizhak-yordaniia-yuhoslaviia-yamaika"

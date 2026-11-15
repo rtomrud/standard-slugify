@@ -5,7 +5,7 @@
  * See the transliteration map of Latin and Cyrillic on pages 38 to 42 of
  * https://www.icao.int/publications/Documents/9303_p3_cons_en.pdf
  */
-const defaultReplacements = [
+const defaultReplacements: ReadonlyArray<readonly [string, string]> = [
   ["[aàáâãäåāăąǻάαа]", "a"],
   ["[bбḃ]", "b"],
   ["[cçćĉċčћ]", "c"],
@@ -60,11 +60,27 @@ const defaultReplacements = [
   ],
 ];
 
-const replaceLoweringCase = (string, [regExp, replacement]) =>
+/**
+ * Options for generating slugs.
+ */
+export interface SlugifyOptions {
+  /**
+   * Flag indicating whether to keep the case of characters in the string (false by default).
+   */
+  keepCase?: boolean;
+  /**
+   * Custom replacements specified as an array of `[regexp, replacement]` pairs.
+   */
+  replacements?: ReadonlyArray<readonly [RegExp | string, string]>;
+}
+
+type Replacer = (string: string, replacement: readonly [RegExp | string, string]) => string;
+
+const replaceLoweringCase: Replacer = (string, [regExp, replacement]) =>
   string.replace(RegExp(regExp, "giu"), replacement);
 
-const replaceKeepingCase = (string, [regExp, replacement]) =>
-  string.replace(RegExp(regExp, "giu"), (match, offset) => {
+const replaceKeepingCase: Replacer = (string, [regExp, replacement]) =>
+  string.replace(RegExp(regExp, "giu"), (match: string, offset: number) => {
     if (match.toLowerCase() === match) {
       return replacement.toLowerCase();
     }
@@ -72,14 +88,19 @@ const replaceKeepingCase = (string, [regExp, replacement]) =>
     const nextChar = string.charAt(offset + 1);
     return !nextChar || nextChar.toUpperCase() === nextChar
       ? replacement.toUpperCase()
-      : replacement.charAt().toUpperCase() +
-          replacement.substring(1).toLowerCase();
+      : replacement.charAt(0).toUpperCase() + replacement.substring(1).toLowerCase();
   });
 
-export default function (
+/**
+ * Returns a slug of the given `string`.
+ * @param string The string to generate a slug from.
+ * @param options Options for generating the slug.
+ * @returns The generated slug.
+ */
+export default function standardSlugify(
   string = "",
-  { keepCase = false, replacements = [] } = {},
-) {
+  { keepCase = false, replacements = [] }: SlugifyOptions = {},
+): string {
   const replacer = keepCase ? replaceKeepingCase : replaceLoweringCase;
   return defaultReplacements
     .reduce(replacer, replacements.reduce(replacer, string))
